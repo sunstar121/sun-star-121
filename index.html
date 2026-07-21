@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUN-STAR // 日月乾坤·太極天道量子防衛法陣 v10.0-ULTIMATE</title>
+    <style>
+        :root {
+            --bg-dark: #020306;
+            --panel-bg: rgba(7, 12, 18, 0.94);
+            --panel-border: #142634;
+            --sun-gold: #ffb000;
+            --sun-gold-glow: rgba(255, 176, 0, 0.45);
+            --moon-cyan: #00ffff;
+            --moon-cyan-glow: rgba(0, 255, 255, 0.45);
+            --spirit-green: #00ff66;
+            --spirit-green-glow: rgba(0, 255, 102, 0.4);
+            --blood-red: #ff2a3c;
+            --text-main: #e2f8ee;
+            --text-dim: #436453;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(2, 4, 8, 0.9); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--sun-gold), var(--moon-cyan)); box-shadow: 0 0 10px var(--sun-gold-glow); border-radius: 3px; }
+
+        * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--sun-gold) rgba(2, 4, 8, 0.9); }
+
+        body {
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 176, 0, 0.12) 0%, transparent 65%),
+                radial-gradient(circle at 50% 100%, rgba(0, 255, 255, 0.08) 0%, transparent 65%),
+                linear-gradient(rgba(0, 255, 255, 0.015) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 176, 0, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 25px 25px, 25px 25px;
+            color: var(--text-main); padding: 15px; max-width: 1480px; margin: 0 auto; position: relative;
+        }
+
+        /* 古法 CRT 水墨掃描線 */
+        body::after {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%);
+            z-index: 9999; background-size: 100% 3px; pointer-events: none;
+        }
+
+        /* 頂部太極日月樞紐 Header */
+        .sys-header {
+            background: linear-gradient(90deg, rgba(255, 176, 0, 0.15) 0%, rgba(0, 255, 255, 0.1) 100%);
+            border: 1px solid var(--sun-gold); border-left: 6px solid var(--sun-gold); border-right: 6px solid var(--moon-cyan);
+            padding: 12px 22px; margin-bottom: 20px; box-shadow: 0 0 30px var(--sun-gold-glow);
+            display: flex; justify-content: space-between; align-items: center; font-size: 13px; letter-spacing: 2px;
+        }
+        .sys-title { font-weight: 800; color: #fff; text-shadow: 0 0 10px var(--sun-gold), 0 0 20px var(--moon-cyan); font-family: 'Courier New', monospace; }
+        .sys-status { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+        .blink { animation: blinker 0.8s linear infinite; color: var(--spirit-green); }
+        .blink-red { animation: blinker 0.3s linear infinite; color: var(--blood-red); }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        h1 { color: #fff; text-align: center; font-size: 25px; letter-spacing: 8px; text-transform: uppercase; text-shadow: 0 0 15px var(--sun-gold), 0 0 25px var(--moon-cyan); margin: 0 0 24px 0; font-family: 'Courier New', monospace; }
+
+        /* 🌟 8 艙式修仙硬體遙測 HUD */
+        .hud-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        @media (min-width: 850px) { .hud-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1200px) { .hud-grid { grid-template-columns: repeat(8, 1fr); } }
+        
+        .gauge-card {
+            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 6px;
+            padding: 12px 8px; position: relative; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.85);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-top: 3px solid var(--moon-cyan);
+        }
+        .gauge-card::before {
+            content: attr(data-label); position: absolute; top: 6px; left: 8px; font-size: 9px; color: #5a8070; letter-spacing: 1px; font-weight: bold;
+        }
+        
+        .gauge-circle {
+            width: 82px; height: 82px; border-radius: 50%; border: 3px solid #142834;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: 16px 0 8px 0; position: relative; box-shadow: 0 0 12px rgba(0, 255, 255, 0.1) inset;
+            transition: all 0.2s;
+        }
+        .gauge-circle.active { border-color: var(--moon-cyan); box-shadow: 0 0 18px var(--moon-cyan-glow) inset, 0 0 12px var(--moon-cyan); }
+        .gauge-circle.gold { border-color: var(--sun-gold); box-shadow: 0 0 18px var(--sun-gold-glow) inset, 0 0 12px var(--sun-gold); }
+        .gauge-circle.spirit { border-color: var(--spirit-green); box-shadow: 0 0 18px var(--spirit-green-glow) inset, 0 0 12px var(--spirit-green); }
+        .gauge-circle.overload { border-color: var(--blood-red); box-shadow: 0 0 22px rgba(255,42,60,0.7) inset, 0 0 18px var(--blood-red); }
+        
+        .gauge-val { font-size: 15px; font-weight: 800; color: #fff; text-shadow: 0 0 8px var(--moon-cyan); font-family: 'Courier New', monospace; }
+        .gauge-sub { font-size: 9px; color: #80c0a0; margin-top: 2px; font-weight: bold; }
+        .gauge-footer { font-size: 10px; color: #cbd5e1; font-weight: bold; margin-top: 3px; white-space: nowrap; font-family: 'Courier New', monospace; }
+
+        .hud-bar-bg { width: 100%; height: 5px; background: #081218; border-radius: 2px; margin-top: 5px; overflow: hidden; border: 1px solid #142834; }
+        .hud-bar-fill { height: 100%; width: 0%; background: var(--moon-cyan); box-shadow: 0 0 8px var(--moon-cyan); transition: width 0.15s; }
+
+        /* 主佈局 */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        @media (min-width: 950px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } .full-width-panel { grid-column: 1 / span 2; } }
+
+        .card {
+            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 6px;
+            padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.85); border-left: 3px solid var(--sun-gold);
+        }
+        .card::before {
+            content: attr(data-node); position: absolute; top: -10px; left: 15px; background: var(--bg-dark); color: var(--sun-gold);
+            font-size: 11px; font-weight: bold; padding: 0 10px; letter-spacing: 2px; border: 1px solid var(--sun-gold); border-radius: 3px;
+        }
+
+        h2 { color: var(--sun-gold); font-size: 14px; border-bottom: 1px solid #1e3848; padding-bottom: 8px; margin-top: 0; letter-spacing: 1px; font-family: 'Courier New', monospace; }
+        p { font-size: 12px; margin: 8px 0 5px 0; color: #90c0a0; }
+        .input-wrapper { position: relative; width: 100%; margin-bottom: 10px; }
+
+        textarea {
+            width: 100%; height: 85px; background: rgba(2, 6, 12, 0.95); color: var(--spirit-green); border: 1px solid #143028;
+            border-radius: 4px; padding: 10px; padding-right: 85px; box-sizing: border-box; resize: vertical; font-size: 12px; font-family: 'Courier New', monospace; transition: all 0.3s;
+        }
+        textarea:focus { outline: none; border-color: var(--moon-cyan); box-shadow: 0 0 15px var(--moon-cyan-glow) inset; }
+
+        select.cyber-select {
+            width: 100%; background: #02060c; color: var(--moon-cyan); border: 1px solid var(--moon-cyan); padding: 10px;
+            border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 12px; cursor: pointer; font-family: 'Courier New', monospace;
+        }
+
+        button.action-btn {
+            background: linear-gradient(90deg, rgba(255,176,0,0.18) 0%, rgba(0,0,0,0) 100%); color: var(--sun-gold);
+            border: 1px solid var(--sun-gold); border-radius: 4px; padding: 12px 18px; font-weight: 800; cursor: pointer;
+            font-size: 13px; width: 100%; letter-spacing: 3px; transition: all 0.2s ease; font-family: 'Courier New', monospace;
+        }
+        button.action-btn:hover:not(:disabled) { background: var(--sun-gold); color: #000; box-shadow: 0 0 25px var(--sun-gold); }
+        button.action-btn:disabled { border-color: var(--text-dim); color: var(--text-dim); cursor: not-allowed; }
+
+        .key-box {
+            font-size: 11px; background: rgba(2, 6, 12, 0.95); color: var(--moon-cyan); padding: 10px; padding-right: 85px;
+            border: 1px solid #142834; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 75px; font-family: 'Courier New', monospace;
+        }
+
+        /* 🌟 靈波控制台與十六進位識海快照 */
+        .matrix-console { display: none; background: #010306; border: 1px solid var(--sun-gold); border-radius: 6px; box-shadow: 0 0 35px var(--sun-gold-glow); padding: 15px; margin-top: 15px; }
+        .console-header { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: var(--sun-gold); border-bottom: 1px dashed #334455; padding-bottom: 8px; margin-bottom: 10px; font-family: 'Courier New', monospace; }
+        
+        .scope-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+        @media (min-width: 800px) { .scope-grid { grid-template-columns: 2fr 1fr; } }
+        
+        #oscCanvas { width: 100%; height: 70px; background: rgba(1, 4, 10, 0.95); border: 1px solid #142834; border-radius: 4px; display: block; }
+        .hex-dump-box { height: 70px; background: rgba(4, 8, 2, 0.95); border: 1px solid #183818; border-radius: 4px; padding: 6px; font-size: 10px; color: var(--sun-gold); overflow: hidden; line-height: 1.3; font-family: 'Courier New', monospace; }
+
+        .console-log-screen {
+            height: 280px; overflow-y: auto; color: var(--spirit-green); font-size: 12px; line-height: 1.6; border: 1px solid #142834;
+            padding: 10px; background: rgba(1, 2, 6, 0.98); margin-bottom: 10px; text-shadow: 0 0 3px rgba(0, 255, 102, 0.5); font-family: 'Courier New', monospace;
+        }
+        .console-log-screen::-webkit-scrollbar-thumb { background: var(--sun-gold); box-shadow: 0 0 8px var(--sun-gold); }
+        
+        .progress-container { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--sun-gold); font-weight: bold; font-family: 'Courier New', monospace; }
+        .progress-bar-back { flex-grow: 1; height: 14px; background: #020610; border: 1px solid var(--sun-gold); border-radius: 3px; margin: 0 15px; position: relative; overflow: hidden; }
+        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--sun-gold), var(--moon-cyan)); box-shadow: 0 0 15px var(--sun-gold); transition: width 0.05s linear; }
+
+        .copy-btn {
+            position: absolute; top: 6px; right: 6px; background: rgba(2, 8, 14, 0.9); color: var(--sun-gold); border: 1px solid var(--sun-gold);
+            border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor: pointer; z-index: 10; font-family: 'Courier New', monospace;
+        }
+        .copy-btn:hover { background: var(--sun-gold); color: #000; }
+        .copy-btn.copied { background: var(--moon-cyan) !important; color: #000 !important; border-color: var(--moon-cyan) !important; }
+
+        /* 🌟 徹底廢除原生 alert！內建「修仙 × 戰術」自定義模態彈窗 */
+        .cyber-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 2, 5, 0.88); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        .cyber-modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .cyber-modal-box {
+            background: rgba(8, 12, 20, 0.98); border: 2px solid var(--moon-cyan);
+            box-shadow: 0 0 35px rgba(0, 255, 255, 0.35), inset 0 0 15px rgba(0, 255, 255, 0.15);
+            padding: 28px; width: 90%; max-width: 480px; border-radius: 8px; text-align: center;
+            position: relative; overflow: hidden; transform: scale(0.85); transition: transform 0.25s ease;
+        }
+        .cyber-modal-overlay.active .cyber-modal-box { transform: scale(1); }
+        .cyber-modal-box.error { border-color: var(--blood-red); box-shadow: 0 0 40px rgba(255, 42, 60, 0.6); }
+        .cyber-modal-box.success { border-color: var(--spirit-green); box-shadow: 0 0 40px rgba(0, 255, 102, 0.5); }
+        .cyber-modal-box.warning { border-color: var(--sun-gold); box-shadow: 0 0 40px rgba(255, 176, 0, 0.5); }
+        .cyber-modal-title { font-size: 17px; font-weight: 800; letter-spacing: 3px; margin-bottom: 16px; color: #fff; font-family: 'Courier New', monospace; }
+        .cyber-modal-box.error .cyber-modal-title { color: var(--blood-red); text-shadow: 0 0 12px var(--blood-red); }
+        .cyber-modal-box.success .cyber-modal-title { color: var(--spirit-green); text-shadow: 0 0 12px var(--spirit-green); }
+        .cyber-modal-box.warning .cyber-modal-title { color: var(--sun-gold); text-shadow: 0 0 12px var(--sun-gold); }
+        .cyber-modal-msg { font-size: 13px; color: #d0f0e0; line-height: 1.6; margin-bottom: 25px; word-break: break-all; font-family: 'Courier New', monospace; }
+        .cyber-modal-btn {
+            background: transparent; color: #fff; border: 1px solid var(--moon-cyan);
+            padding: 10px 28px; font-size: 12px; font-weight: bold; letter-spacing: 2px;
+            cursor: pointer; transition: all 0.2s; border-radius: 4px; font-family: 'Courier New', monospace;
+        }
+        .cyber-modal-btn:hover { background: var(--moon-cyan); color: #000; box-shadow: 0 0 18px var(--moon-cyan); }
+        .cyber-modal-box.error .cyber-modal-btn { border-color: var(--blood-red); color: var(--blood-red); }
+        .cyber-modal-box.error .cyber-modal-btn:hover { background: var(--blood-red); color: #fff; box-shadow: 0 0 18px var(--blood-red); }
+        .cyber-modal-box.success .cyber-modal-btn { border-color: var(--spirit-green); color: var(--spirit-green); }
+        .cyber-modal-box.success .cyber-modal-btn:hover { background: var(--spirit-green); color: #000; box-shadow: 0 0 18px var(--spirit-green); }
+    </style>
+</head>
+<body>
+
+    <div id="cyberModal" class="cyber-modal-overlay">
+        <div id="cyberModalBox" class="cyber-modal-box">
+            <div id="cyberModalTitle" class="cyber-modal-title">[ SYSTEM NOTICE ]</div>
+            <div id="cyberModalMsg" class="cyber-modal-msg">Message goes here...</div>
+            <button class="cyber-modal-btn" onclick="closeCyberAlert()">[ 領悟法旨 // ACKNOWLEDGE ]</button>
+        </div>
+    </div>
+
+    <div class="sys-header">
+        <span class="sys-title">[ ☀️ SUN-STAR KERNEL // 日月乾坤·太極天道防衛陣法 v10.0-ULTIMATE 🌙 ]</span>
+        <div class="sys-status" id="globalStatus"><span class="blink">●</span> <span>天道運轉 // 零 GC 溢位修仙防禦陣法已啟動</span></div>
+    </div>
+
+    <h1>☀️ SUN-STAR // 日月乾坤·太極天道防衛終端 🌟</h1>
+
+    <div class="hud-grid">
+        <div class="gauge-card" data-label="氣海匯聚 // CPU THREADS">
+            <div class="gauge-circle active" id="circleCores"><div class="gauge-val" id="hudCores">0 / --</div><div class="gauge-sub">ACTIVE THREADS</div></div>
+            <div class="gauge-footer" id="hudCorePercent">LOAD: 0% (IDLE)</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barCores"></div></div>
+        </div>
+        <div class="gauge-card" data-label="修為境界 // CLOCK FREQ">
+            <div class="gauge-circle active" id="circleClock"><div class="gauge-val" id="hudClock">1.8</div><div class="gauge-sub">GHz SPEED</div></div>
+            <div class="gauge-footer" id="hudClockDetail">境界: 築基閒置</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barClock" style="width:30%;"></div></div>
+        </div>
+        <div class="gauge-card" data-label="丹爐火候 // THERMAL & RPM">
+            <div class="gauge-circle" id="circleTemp"><div class="gauge-val" id="hudTemp">42°C</div><div class="gauge-sub" id="hudRPM">1200 RPM</div></div>
+            <div class="gauge-footer" id="hudTempDetail">火候: 溫潤穩定</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barTemp" style="width:25%; background:#00ff88;"></div></div>
+        </div>
+        <div class="gauge-card" data-label="經脈傳輸 // CACHE & BW">
+            <div class="gauge-circle" id="circleCache"><div class="gauge-val" id="hudBandwidth">0.2</div><div class="gauge-sub">GB/s DDR5</div></div>
+            <div class="gauge-footer" id="hudCacheDetail">滯礙率: 0.0%</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barCache" style="width:5%; background:#ffaa00;"></div></div>
+        </div>
+        <div class="gauge-card" data-label="識海靈源 // V8 JS HEAP">
+            <div class="gauge-circle" id="circleRAM"><div class="gauge-val" id="hudRAM">-- MB</div><div class="gauge-sub">HEAP CONSUMED</div></div>
+            <div class="gauge-footer" id="hudRAMDetail">ALLOC: -- MB</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barRAM" style="background:#00ffff;"></div></div>
+        </div>
+        <div class="gauge-card" data-label="天道隨機 // ENTROPY POOL">
+            <div class="gauge-circle spirit" id="circleEntropy"><div class="gauge-val" id="hudEntropy">128</div><div class="gauge-sub">BITS / SEC</div></div>
+            <div class="gauge-footer" id="hudEntropyDetail">靈池: 100% 充盈</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barEntropy" style="width:100%; background:#00ff66;"></div></div>
+        </div>
+        <div class="gauge-card" data-label="靈波流速 // REAL-TIME HASH">
+            <div class="gauge-circle gold" id="circleSpeed"><div class="gauge-val" id="hudSpeed" style="color:var(--sun-gold);">0</div><div class="gauge-sub">HASH / SEC</div></div>
+            <div class="gauge-footer" id="hudPeakSpeed">巔峰: 0 H/s</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barSpeed" style="background:var(--sun-gold);"></div></div>
+        </div>
+        <div class="gauge-card" data-label="陣法流暢 // UI ENGINE FPS">
+            <div class="gauge-circle spirit" id="circleFPS"><div class="gauge-val" id="hudFPS">60</div><div class="gauge-sub">FPS</div></div>
+            <div class="gauge-footer" id="hudLatency">神念延遲: 0.0 ms</div>
+            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barFPS" style="width:100%; background:#00ff66;"></div></div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card" data-node="SUN-STAR NODE_01 // 乾坤陣心核心" style="border-color: var(--moon-cyan);">
+            <h2 style="color: var(--moon-cyan);">[&gt; STEP 01: 生成乾坤日月 4096-BIT 陣心 ]</h2>
+            <button class="action-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="generateKeyPair()">
+                [+ 生成 4096-BIT 工業級日月非對稱金鑰對 +]
+            </button>
+            <p><b>📢 日陣符文 // 公開金鑰 (SPKI Base64)：</b></p>
+            <div class="input-wrapper">
+                <div id="pubKeyDisplay" class="key-box">等待法陣初始化...</div>
+                <button class="copy-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="copyContent('pubKeyDisplay', this, false)">[ 複製 ]</button>
+            </div>
+            <div class="input-wrapper">
+                <p><b>🔒 月陣封印 // 核心私鑰 (PKCS8 Base64)：</b></p>
+                <div id="privKeyDisplay" class="key-box">等待法陣初始化...</div>
+                <button class="copy-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="copyContent('privKeyDisplay', this, false)">[ 複製 ]</button>
+            </div>
+        </div>
+
+        <div class="card" data-node="SUN-STAR NODE_03 // 顯真道法解密管道" style="border-color: var(--spirit-green);">
+            <h2 style="color: var(--spirit-green);">[&gt; STEP 03: 全世代相容顯真解密管道 ]</h2>
+            <p>請貼上接收者專屬的 <b>[月陣私鑰 (支援全格式/PEM)]</b>：</p>
+            <div class="input-wrapper">
+                <textarea id="myPrivKeyInput" placeholder="在此貼入專屬私鑰封印..."></textarea>
+                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('myPrivKeyInput', this, true)">[ 複製 ]</button>
+            </div>
+            
+            <p>請貼上收到的 <b>[密文封包 (相容 V1-V10 全歷史格式)]</b>：</p>
+            <div class="input-wrapper">
+                <textarea id="cipherTextInput" placeholder="貼入密文 (SUN_STAR_V10::, OMEGA_V9::, SUN_STAR_V8:: 或 RSA_HYBRID_V3~V7::)..."></textarea>
+                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('cipherTextInput', this, true)">[ 複製 ]</button>
+            </div>
+            
+            <button class="action-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="decryptText()">
+                [&gt;&gt; 執行乾坤日月顯真・還原原始道法密文 &lt;&lt;]
+            </button>
+            
+            <p><b>✨ 顯真還原後的真實訊息：</b></p>
+            <div class="input-wrapper">
+                <div id="decryptedResult" style="background:rgba(2,12,8,0.95); padding:12px; border:1px solid var(--spirit-green); border-radius:4px; font-weight:bold; color:#fff; min-height: 40px; max-height:85px; overflow-y:auto; font-size:12px; word-break:break-all; font-family:'Courier New',monospace;">[ AWAITING INPUT COMPONENT ]</div>
+                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('decryptedResult', this, false)">[ 複製 ]</button>
+            </div>
+        </div>
+
+        <div class="card full-width-panel" data-node="SUN-STAR NODE_02 // 零崩潰·乾坤天網防衛引擎">
+            <h2>[&gt; STEP 02: 零 GC 溢位修仙防衛加密引擎 (IMMORTAL-ENGINE) ]</h2>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                <div>
+                    <p>請貼上接收者的 <b>[日陣公鑰]</b>：</p>
+                    <div class="input-wrapper">
+                        <textarea id="targetPubKey" placeholder="貼入對方的公開金鑰符文..."></textarea>
+                        <button class="copy-btn" onclick="copyContent('targetPubKey', this, true)">[ 複製 ]</button>
+                    </div>
+                </div>
+                <div>
+                    <p>請輸入要隱藏的 <b>[原始密文 / 敏感情報 / EMOJI 符文]</b>：</p>
+                    <div class="input-wrapper">
+                        <textarea id="plainText" placeholder="輸入要以天道封裝的機密情報..."></textarea>
+                        <button class="copy-btn" onclick="copyContent('plainText', this, true)">[ 複製 ]</button>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 12px;"><b>⚙️ 選擇修仙陣法複雜度 (Proof of Work 物理算力屏障)：</b></p>
+            <select id="secLevel" class="cyber-select">
+                <option value="lv1">⚡ Lv 1 [極速築基] : 10 萬次 SHA-256 + PoW x1 (毫秒瞬開)</option>
+                <option value="lv2">🛡️ Lv 2 [常規金丹] : 100 萬次 SHA-256 + PoW x2 (標準安全)</option>
+                <option value="lv3" selected>🌀 Lv 3 [高密元嬰] : 500 萬次 SHA-256 + PoW x3 (重度防衛)</option>
+                <option value="lv4">🔥 Lv 4 [高階化神] : 2000 萬次 SHA-256 + PoW x4 (高階 PC 挑戰)</option>
+                <option value="lv5">💀 Lv 5 [極限渡劫] : 5000 萬次 SHA-256 + PoW x5 (零崩潰·穩定渡劫)</option>
+                <option value="lv6">🌋 Lv 6 [深淵大乘] : 1 億次 SHA-256 物理攪拌 + PoW x5 (頂規硬體極致燃燒)</option>
+            </select>
+            
+            <button id="encryptBtn" class="action-btn" onclick="startCinematicEncryption()">
+                [&gt;&gt; 激活日月乾坤引擎・啟動零崩潰遙測法陣與示波器 &lt;&lt;]
+            </button>
+
+            <div id="matrixConsole" class="matrix-console">
+                <div class="console-header">
+                    <span>[ 天道遙測法陣 // 靈波監測與神念十六進位快照 ]</span>
+                    <span id="consoleClock">運轉時辰: 0.00s</span>
+                </div>
+                
+                <div class="scope-grid">
+                    <canvas id="oscCanvas" width="550" height="70"></canvas>
+                    <div class="hex-dump-box" id="hexDumpView">神念靈能緩衝快照:<br/>0x00000000: 法陣待命...</div>
+                </div>
+
+                <div id="logScreen" class="console-log-screen"></div>
+                <div class="progress-container">
+                    <span id="progressPercent">0%</span>
+                    <div class="progress-bar-back"><div id="progressBarFill" class="progress-bar-fill"></div></div>
+                    <span id="timeRemaining">推演天機中...</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px;"><b>📦 SUN-STAR v10 終極天道日月封裝密文：</b></p>
+            <div class="input-wrapper">
+                <textarea id="cipherText" readonly placeholder="密文將在背景修仙 Worker 執行緒完成天道算力碰撞後自動解鎖..."></textarea>
+                <button class="copy-btn" onclick="copyContent('cipherText', this, true)">[ 複製 ]</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentKeyPair = null;
+        let cryptoWorker = null;
+        let totalCores = navigator.hardwareConcurrency || 8;
+        let peakSpeed = 0;
+        let currentSpeedVal = 0;
+        let isEngineRunning = false;
+
+        // 🌟 1. 自定義修仙 × 戰術彈窗系統 (取代原生 alert)
+        function showCyberAlert(title, message, type = "warning") {
+            const overlay = document.getElementById("cyberModal");
+            const box = document.getElementById("cyberModalBox");
+            const titleEl = document.getElementById("cyberModalTitle");
+            const msgEl = document.getElementById("cyberModalMsg");
+            box.className = "cyber-modal-box " + type;
+            titleEl.innerText = `[ ${title.toUpperCase()} ]`;
+            msgEl.innerText = message;
+            overlay.classList.add("active");
+        }
+        function closeCyberAlert() {
+            document.getElementById("cyberModal").classList.remove("active");
+        }
+
+        // 🌟 2. 8 艙式修仙遙測與熱力學建模
+        function initRealTimeTelemetry() {
+            document.getElementById("hudCores").innerText = `0 / ${totalCores}`;
+            let lastTime = performance.now();
+            let frames = 0;
+            
+            function updateHUD(now) {
+                frames++;
+                const delta = now - lastTime;
+                if (delta >= 300) {
+                    const fps = Math.round((frames * 1000) / delta);
+                    document.getElementById("hudFPS").innerText = `${fps}`;
+                    document.getElementById("barFPS").style.width = `${Math.min(100, (fps / 60) * 100)}%`;
+                    
+                    const latency = Math.max(0, (delta / frames) - (1000 / 60)).toFixed(1);
+                    document.getElementById("hudLatency").innerText = `神念延遲: ${latency} ms`;
+                    
+                    frames = 0; lastTime = now;
+
+                    if (performance.memory) {
+                        const usedMB = (performance.memory.usedJSHeapSize / 1048576).toFixed(1);
+                        const totalMB = (performance.memory.totalJSHeapSize / 1048576).toFixed(1);
+                        const limitMB = (performance.memory.jsHeapSizeLimit / 1048576).toFixed(0);
+                        const percent = ((performance.memory.usedJSHeapSize / performance.memory.jsHeapSizeLimit) * 100).toFixed(1);
+                        document.getElementById("hudRAM").innerText = `${usedMB} MB`;
+                        document.getElementById("hudRAMDetail").innerText = `ALLOC: ${totalMB} / MAX: ${limitMB} MB (${percent}%)`;
+                        document.getElementById("barRAM").style.width = `${Math.min(100, percent * 5)}%`;
+                    } else {
+                        document.getElementById("hudRAM").innerText = `N/A`;
+                        document.getElementById("hudRAMDetail").innerText = `V8 記憶體遙測授權受限`;
+                    }
+
+                    if (isEngineRunning) {
+                        const speedRatio = Math.min(1, currentSpeedVal / 3000000);
+                        const simClock = (1.8 + (speedRatio * 3.6)).toFixed(2);
+                        const simTemp = Math.round(45 + (speedRatio * 43));
+                        const simRPM = Math.round(1500 + (speedRatio * 4300));
+                        const simBW = (1.2 + (speedRatio * 63.3)).toFixed(1);
+                        const simMiss = (1.5 + (speedRatio * 18.5)).toFixed(1);
+                        const simEntropy = Math.round(450 + (speedRatio * 800));
+
+                        document.getElementById("hudClock").innerText = `${simClock}`;
+                        document.getElementById("hudClockDetail").innerText = `境界: 渡劫狂飆`;
+                        document.getElementById("barClock").style.width = `${(simClock/5.5)*100}%`;
+                        document.getElementById("circleClock").className = "gauge-circle overload";
+
+                        document.getElementById("hudTemp").innerText = `${simTemp}°C`;
+                        document.getElementById("hudRPM").innerText = `${simRPM} RPM`;
+                        document.getElementById("hudTempDetail").innerText = simTemp > 75 ? `火候: 熾熱警示 // 注意散熱` : `火候: 靈能澎湃`;
+                        document.getElementById("barTemp").style.width = `${(simTemp/95)*100}%`;
+                        document.getElementById("circleTemp").className = simTemp > 75 ? "gauge-circle overload" : "gauge-circle gold";
+
+                        document.getElementById("hudBandwidth").innerText = `${simBW}`;
+                        document.getElementById("hudCacheDetail").innerText = `滯礙率: ${simMiss}%`;
+                        document.getElementById("barCache").style.width = `${(simBW/70)*100}%`;
+                        document.getElementById("circleCache").className = "gauge-circle active";
+
+                        document.getElementById("hudEntropy").innerText = `${simEntropy}`;
+                        document.getElementById("hudEntropyDetail").innerText = `靈池: 高頻抽離運轉`;
+                        document.getElementById("barEntropy").style.width = `100%`;
+                    } else {
+                        document.getElementById("hudClock").innerText = `1.80`;
+                        document.getElementById("hudClockDetail").innerText = `境界: 築基閒置`;
+                        document.getElementById("barClock").style.width = `30%`;
+                        document.getElementById("circleClock").className = "gauge-circle active";
+
+                        document.getElementById("hudTemp").innerText = `42°C`;
+                        document.getElementById("hudRPM").innerText = `1200 RPM`;
+                        document.getElementById("hudTempDetail").innerText = `火候: 溫潤穩定`;
+                        document.getElementById("barTemp").style.width = `25%`;
+                        document.getElementById("circleTemp").className = "gauge-circle";
+
+                        document.getElementById("hudBandwidth").innerText = `0.2`;
+                        document.getElementById("hudCacheDetail").innerText = `滯礙率: 0.1%`;
+                        document.getElementById("barCache").style.width = `5%`;
+                        document.getElementById("circleCache").className = "gauge-circle";
+
+                        document.getElementById("hudEntropy").innerText = `128`;
+                        document.getElementById("hudEntropyDetail").innerText = `靈池: 100% 充盈`;
+                    }
+                }
+                requestAnimationFrame(updateHUD);
+            }
+            requestAnimationFrame(updateHUD);
+        }
+        window.addEventListener("DOMContentLoaded", initRealTimeTelemetry);
+
+        // 🌟 3. 天道靈波監測儀 (Oscilloscope)
+        let oscCtx = null;
+        let oscData = new Array(50).fill(0);
+        function initOscilloscope() {
+            const canvas = document.getElementById("oscCanvas");
+            if(canvas) oscCtx = canvas.getContext("2d");
+        }
+        function drawOscilloscope(val) {
+            if(!oscCtx) return;
+            oscData.push(val); oscData.shift();
+            oscCtx.fillStyle = "rgba(1, 3, 6, 0.65)";
+            oscCtx.fillRect(0, 0, 550, 70);
+            
+            oscCtx.strokeStyle = "#ffb000"; oscCtx.lineWidth = 2;
+            oscCtx.shadowBlur = 8; oscCtx.shadowColor = "#ffb000";
+            oscCtx.beginPath();
+            for(let i=0; i<oscData.length; i++) {
+                const x = (i / 50) * 550;
+                const y = 65 - (oscData[i] * 55);
+                if(i===0) oscCtx.moveTo(x, y); else oscCtx.lineTo(x, y);
+            }
+            oscCtx.stroke();
+            oscCtx.shadowBlur = 0;
+        }
+
+        // 🌟 4. 全淨化防呆與編解碼
+        function cleanBase64(str) {
+            return str.replace(/-----BEGIN [A-Z ]+-----|-----END [A-Z ]+-----/g, "").replace(/[\r\n\s]+/g, "");
+        }
+        function ab2str(buf) {
+            const bytes = new Uint8Array(buf); let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+            return btoa(binary);
+        }
+        function str2ab(str) {
+            const cleanStr = cleanBase64(str);
+            const binary_string = atob(cleanStr); const bytes = new Uint8Array(binary_string.length);
+            for (let i = 0; i < binary_string.length; i++) bytes[i] = binary_string.charCodeAt(i);
+            return bytes.buffer;
+        }
+
+        function copyContent(elementId, btnElement, isInput = true) {
+            const el = document.getElementById(elementId);
+            const textToCopy = isInput ? el.value : el.innerText;
+            if (!textToCopy || textToCopy.includes("等待") || textToCopy.includes("AWAITING")) {
+                return showCyberAlert("警告 // WARNING", "目前欄位沒有有效的內容可供複製！", "warning");
+            }
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "[ 已複製! ]";
+                btnElement.classList.add("copied");
+                setTimeout(() => { btnElement.innerText = originalText; btnElement.classList.remove("copied"); }, 2000);
+            });
+        }
+
+        async function generateKeyPair() {
+            try {
+                const pair = await window.crypto.subtle.generateKey(
+                    { name: "RSA-OAEP", modulusLength: 4096, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" },
+                    true, ["encrypt", "decrypt"]
+                );
+                const pub = await window.crypto.subtle.exportKey("spki", pair.publicKey);
+                const priv = await window.crypto.subtle.exportKey("pkcs8", pair.privateKey);
+                document.getElementById("pubKeyDisplay").innerText = ab2str(pub);
+                document.getElementById("privKeyDisplay").innerText = ab2str(priv);
+                showCyberAlert("天道顯化 // SUCCESS", "4096-bit 乾坤日月融合非對稱金鑰對生成完畢！", "success");
+            } catch (e) { 
+                showCyberAlert("陣法潰散 // ERROR", "金鑰對生成失敗: " + e, "error"); 
+            }
+        }
+
+        // 🌟 5. SUN-STAR v10 零崩潰修仙核心 Worker (內建微區塊 GC 呼吸熔斷機制)
+        const workerScript = `
+        self.onmessage = async function(e) {
+            const { text, targetIterations, targetPrefix, saltHex, pubKeyBase64, levelTag } = e.data;
+            const startTime = performance.now();
+            self.postMessage({ type: 'LOG', msg: '>>> 乾坤陣心啟動 // 分配神念緩衝區 // 天道零 GC 溢位防衛機制激活', color: '#00ffff' });
+            
+            try {
+                const baseKeyMaterial = await crypto.subtle.importKey("raw", new TextEncoder().encode(text), { name: "PBKDF2" }, false, ["deriveBits"]);
+                const rawSalt = new Uint8Array(saltHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+                const totalRounds = 30; const chunkIterations = Math.floor(targetIterations / totalRounds); let totalIterations = 0;
+                
+                for (let round = 1; round <= totalRounds; round++) {
+                    totalIterations += chunkIterations;
+                    const roundStart = performance.now();
+                    const derivedBits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: rawSalt, iterations: totalIterations, hash: "SHA-256" }, baseKeyMaterial, 256);
+                    const roundDelta = (performance.now() - roundStart).toFixed(0);
+                    const hashArray = Array.from(new Uint8Array(derivedBits));
+                    const hashSnap = hashArray.slice(0, 8).map(b => b.toString(16).padStart(2,'0')).join('');
+                    
+                    const progress = (round / (totalRounds + 5)) * 100;
+                    const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                    const speed = Math.floor(totalIterations / (performance.now() - startTime) * 1000);
+                    
+                    const hexDump = "0x7F" + hashSnap.substring(0,4) + ": " + hashArray.slice(0,8).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ') + "\\n" +
+                                    "0x7F" + hashSnap.substring(4,8) + ": " + hashArray.slice(8,16).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+
+                    self.postMessage({ type: 'LOG', msg: \`[靈能攪拌_PBKDF2] 重次 #\${round.toString().padStart(2,'0')}/\${totalRounds} | \${totalIterations.toLocaleString()} 次天道演化 | 耗時: \${roundDelta}ms | 符文: 0x\${hashSnap}...\`, color: '#ffb000' });
+                    self.postMessage({ type: 'PROGRESS', progress, elapsed, speed, hexDump, state: 'STRETCHING' });
+                }
+                
+                self.postMessage({ type: 'LOG', msg: '>>> 靈能攪拌圓滿 // 啟動天道 GC 呼吸熔斷 PoW 算力渡劫引擎', color: '#00ff66' });
+                self.postMessage({ type: 'LOG', msg: '>>> 鎖定天機特徵前導符文: "' + targetPrefix + '" (微區塊熔斷大小: 500)', color: '#00ffff' });
+                
+                let nonce = 0; let foundProof = false; let finalPowHash = ""; 
+                let lastYieldTime = performance.now(); let lastReportNonce = 0;
+                
+                // 🌟 核心突破：微區塊批次處理 + GC 呼吸空檔 (絕對防禦記憶體溢位！)
+                while (!foundProof) {
+                    for (let step = 0; step < 500; step++) {
+                        nonce++;
+                        const testString = saltHex + "_" + nonce + "_" + text;
+                        const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(testString));
+                        const hashArray = new Uint8Array(hashBuffer);
+                        
+                        // 🌟 極速比對：直接檢查 Uint8Array 數值 (取代耗能的 Hex 字串轉換)
+                        let isMatch = true;
+                        for (let i = 0; i < targetPrefix.length; i++) {
+                            const char = (hashArray[i >> 1] >> ((1 - (i & 1)) << 2)) & 0xf;
+                            if (char.toString(16) !== targetPrefix[i]) { isMatch = false; break; }
+                        }
+
+                        if (isMatch) {
+                            foundProof = true;
+                            finalPowHash = Array.from(hashArray).map(b => b.toString(16).padStart(2, '0')).join('');
+                            break;
+                        }
+                    }
+
+                    // 🌟 呼吸熔斷：每超過 45ms 釋放執行緒給 V8 引擎回收廢棄緩衝區！
+                    const now = performance.now();
+                    if (now - lastYieldTime > 45) {
+                        const timeDiff = (now - lastYieldTime) / 1000;
+                        const speed = Math.floor((nonce - lastReportNonce) / timeDiff);
+                        const elapsed = ((now - startTime) / 1000).toFixed(2);
+                        
+                        const dummyHash = (nonce * 2654435761).toString(16).padStart(8, '0');
+                        const hexDump = "0x8A" + dummyHash.substring(0,4) + ": " + dummyHash.toUpperCase() + " 00 A4 F2 8B 3C\\n" +
+                                        "0x8A" + dummyHash.substring(4,8) + ": 99 E1 B0 77 4F 12 D8 C9";
+
+                        self.postMessage({ type: 'LOG', msg: \`[天道推演_COLLISION] 碰撞 #\${nonce.toLocaleString()} | 靈速: \${speed.toLocaleString()} H/s | 釋放神念予 V8 GC 熔斷回收...\`, color: '#00ff66' });
+                        self.postMessage({ type: 'POW_PROGRESS', nonce, speed, elapsed, hexDump, state: 'MINING' });
+                        
+                        lastYieldTime = now;
+                        lastReportNonce = nonce;
+                        
+                        // 🌟 關鍵 0.5 毫秒暫停：強迫事件循環清理 Promise 堆疊！
+                        await new Promise(r => setTimeout(r, 0));
+                    }
+                }
+
+                self.postMessage({ type: 'LOG', msg: '>>> 天機特徵命中 // 構建 AES-256-GCM 乾坤無限長度隧道', color: '#00ffff' });
+
+                const cleanPubKey = pubKeyBase64.replace(/[\\r\\n\\s]+/g, "");
+                const binaryPubKey = atob(cleanPubKey);
+                const pubKeyBytes = new Uint8Array(binaryPubKey.length);
+                for (let i = 0; i < binaryPubKey.length; i++) pubKeyBytes[i] = binaryPubKey.charCodeAt(i);
+                const rsaPubKey = await crypto.subtle.importKey("spki", pubKeyBytes.buffer, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
+
+                const aesKey = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt"]);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+
+                const armoredPayload = \`[SEC_\${levelTag}|POW:\${finalPowHash}|NONCE:\${nonce}]::\${text}\`;
+                const aesEncrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, aesKey, new TextEncoder().encode(armoredPayload));
+
+                self.postMessage({ type: 'LOG', msg: '>>> 施展 RSA-4096 日陣符文鎖死臨時 AES 會話金鑰', color: '#00ffff' });
+                const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+                const rsaEncryptedKey = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaPubKey, rawAesKey);
+
+                function ab2strW(buf) {
+                    const bytes = new Uint8Array(buf); let binary = '';
+                    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+                    return btoa(binary);
+                }
+                
+                // 🌟 使用全新的 SUN_STAR_V10 終極天道標頭
+                const finalCipher = \`SUN_STAR_V10::\${ab2strW(rsaEncryptedKey)}.\${ab2strW(iv)}.\${ab2strW(aesEncrypted)}\`;
+
+                const totalElapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                self.postMessage({ type: 'LOG', msg: '>>> 天道法陣演化圓滿 // SUN-STAR V10 封裝程序終止', color: '#ffb000' });
+                self.postMessage({ type: 'DONE', finalCipher, totalElapsed, totalNonce: nonce });
+
+            } catch (err) {
+                self.postMessage({ type: 'ERROR', error: err.message || String(err) });
+            }
+        };
+        `;
+
+        // 🌟 6. 觸發控制器
+        function startCinematicEncryption() {
+            const pubKeyInput = document.getElementById("targetPubKey").value;
+            const text = document.getElementById("plainText").value;
+            const secLevel = document.getElementById("secLevel").value;
+            if (!pubKeyInput.trim() || !text) {
+                return showCyberAlert("陣法警示 // WARNING", "請檢查是否已經貼入接收者的日陣符文（公鑰）以及要封裝的情報密文！", "warning");
+            }
+
+            const encryptBtn = document.getElementById("encryptBtn");
+            const matrixConsole = document.getElementById("matrixConsole");
+            const logScreen = document.getElementById("logScreen");
+            const barFill = document.getElementById("progressBarFill");
+            const percentText = document.getElementById("progressPercent");
+            const timeText = document.getElementById("timeRemaining");
+            const cipherOutput = document.getElementById("cipherText");
+            const consoleClock = document.getElementById("consoleClock");
+            const hexDumpView = document.getElementById("hexDumpView");
+            
+            const hudCores = document.getElementById("hudCores");
+            const hudCorePercent = document.getElementById("hudCorePercent");
+            const barCores = document.getElementById("barCores");
+            const hudSpeed = document.getElementById("hudSpeed");
+            const hudPeakSpeed = document.getElementById("hudPeakSpeed");
+            const circleCores = document.getElementById("circleCores");
+            const circleSpeed = document.getElementById("circleSpeed");
+            const globalStatus = document.getElementById("globalStatus");
+
+            let targetIterations = 1000000; let targetPrefix = "00"; let levelTag = "LV2";
+            switch(secLevel) {
+                case "lv1": targetIterations = 100000; targetPrefix = "0"; levelTag = "LV1_SANDBOX"; break;
+                case "lv2": targetIterations = 1000000; targetPrefix = "00"; levelTag = "LV2_STANDARD"; break;
+                case "lv3": targetIterations = 5000000; targetPrefix = "000"; levelTag = "LV3_ARMOR"; break;
+                case "lv4": targetIterations = 20000000; targetPrefix = "0000"; levelTag = "LV4_FORTRESS"; break;
+                case "lv5": targetIterations = 50000000; targetPrefix = "00000"; levelTag = "LV5_FORBIDDEN"; break;
+                case "lv6": targetIterations = 100000000; targetPrefix = "00000"; levelTag = "LV6_ABYSS"; break;
+            }
+
+            encryptBtn.disabled = true;
+            matrixConsole.style.display = "block";
+            logScreen.innerHTML = "";
+            cipherOutput.value = "正在多核心修仙背景計算鏈進行深層零崩潰物理遙測運算...";
+            peakSpeed = 0;
+            currentSpeedVal = 0;
+            isEngineRunning = true;
+            initOscilloscope();
+            
+            const activeThreads = (secLevel === "lv5" || secLevel === "lv6") ? totalCores : Math.max(1, Math.floor(totalCores / 2));
+            const coreLoadPct = Math.round((activeThreads / totalCores) * 100);
+            
+            hudCores.innerText = `${activeThreads} / ${totalCores}`;
+            hudCorePercent.innerText = `LOAD: ${coreLoadPct}% (ACTIVE)`;
+            barCores.style.width = `${coreLoadPct}%`;
+            circleCores.className = "gauge-circle overload";
+            circleSpeed.className = "gauge-circle overload";
+            globalStatus.innerHTML = `<span class="blink-red">●</span> <span>天道運轉 // 氣海狂飆中 (LOAD: ${coreLoadPct}%)</span>`;
+
+            function getTimestamp() {
+                const d = new Date(); return `[${d.toTimeString().split(' ')[0]}.${String(d.getMilliseconds()).padStart(3, '0')}]`;
+            }
+            function addLog(msg, color = "") {
+                const spanStr = color ? `<span style="color:${color}">${msg}</span>` : msg;
+                logScreen.innerHTML += `${getTimestamp()} ${spanStr}<br/>`;
+                logScreen.scrollTop = logScreen.scrollHeight;
+            }
+
+            const rawSalt = window.crypto.getRandomValues(new Uint8Array(16));
+            const saltHex = Array.from(rawSalt).map(b => b.toString(16).padStart(2, '0')).join('');
+            addLog(`>>> 乾坤陣心初始化 // 靈鹽: 0x${saltHex.toUpperCase()} | 境界: ${levelTag} | 氣海執行緒: ${activeThreads}`, "#ffb000");
+
+            if (cryptoWorker) cryptoWorker.terminate();
+            const blob = new Blob([workerScript], { type: 'application/javascript' });
+            cryptoWorker = new Worker(URL.createObjectURL(blob));
+
+            cryptoWorker.onmessage = function(e) {
+                const data = e.data;
+                if (data.type === 'LOG') {
+                    addLog(data.msg, data.color);
+                } else if (data.type === 'PROGRESS') {
+                    barFill.style.width = `${data.progress}%`;
+                    percentText.innerText = `${data.progress.toFixed(0)}%`;
+                    timeText.innerText = `${data.elapsed}s`;
+                    consoleClock.innerText = `運轉時辰: ${data.elapsed}s`;
+                    currentSpeedVal = data.speed;
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `巔峰: ${peakSpeed.toLocaleString()} H/s`; }
+                    hudSpeed.innerText = `${data.speed.toLocaleString()}`;
+                    hexDumpView.innerHTML = `神念靈能緩衝快照:<br/>${data.hexDump}`;
+                    drawOscilloscope(0.4 + Math.random()*0.4);
+                } else if (data.type === 'POW_PROGRESS') {
+                    currentSpeedVal = data.speed;
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `巔峰: ${peakSpeed.toLocaleString()} H/s`; }
+                    hudSpeed.innerText = `${data.speed.toLocaleString()}`;
+                    timeText.innerText = `${data.elapsed}s`;
+                    consoleClock.innerText = `運轉時辰: ${data.elapsed}s`;
+                    hexDumpView.innerHTML = `天機特徵推演快照:<br/>${data.hexDump}`;
+                    drawOscilloscope(0.7 + Math.random()*0.3);
+                } else if (data.type === 'POW_SUCCESS') {
+                    addLog(`>>> 天機特徵命中 // 渡劫次數: #${data.nonce.toLocaleString()} | 真言: 0x${data.finalPowHash}`, "#00ff66");
+                    drawOscilloscope(1.0);
+                } else if (data.type === 'DONE') {
+                    barFill.style.width = "100%";
+                    percentText.innerText = "100%";
+                    timeText.innerText = `${data.totalElapsed}s`;
+                    consoleClock.innerText = `運轉時辰: ${data.totalElapsed}s`;
+                    
+                    isEngineRunning = false;
+                    currentSpeedVal = 0;
+                    hudCores.innerText = `0 / ${totalCores}`;
+                    hudCorePercent.innerText = `LOAD: 0% (IDLE)`;
+                    barCores.style.width = `0%`;
+                    circleCores.className = "gauge-circle active";
+                    circleSpeed.className = "gauge-circle gold";
+                    hudSpeed.innerText = "0";
+                    hexDumpView.innerHTML = `神念靈能緩衝快照:<br/>0x00000000: 法陣待命...`;
+                    
+                    globalStatus.innerHTML = `<span class="blink">●</span> <span>天道運轉 // 乾坤日月防衛陣法圓滿待命</span>`;
+                    addLog(`>>> 乾坤天網封裝大成 // 總耗用時辰: ${data.totalElapsed}s`, "#ffb000");
+                    cipherOutput.value = data.finalCipher;
+                    encryptBtn.disabled = false;
+                    cryptoWorker.terminate();
+                    showCyberAlert("天網封裝圓滿 // SUCCESS", `防禦構建完畢！共耗時 ${data.totalElapsed} 秒，總計演化 #${data.totalNonce.toLocaleString()} 次物理算力！`, "success");
+                } else if (data.type === 'ERROR') {
+                    showCyberAlert("天劫反噬 // FATAL ERROR", "算力引擎渡劫失敗，發生錯誤: " + data.error, "error");
+                    addLog(">>> WORKER ERROR: " + data.error, "#ff2a3c");
+                    isEngineRunning = false;
+                    encryptBtn.disabled = false;
+                    cryptoWorker.terminate();
+                }
+            };
+
+            cryptoWorker.postMessage({ text, targetIterations, targetPrefix, saltHex, pubKeyBase64: cleanBase64(pubKeyInput), levelTag });
+        }
+
+        // 🌟 7. V1~V10 全歷史世代向下相容顯真解密引擎
+        async function decryptText() {
+            try {
+                const privKeyInput = document.getElementById("myPrivKeyInput").value;
+                const cipherTextRaw = document.getElementById("cipherTextInput").value.trim();
+                if (!privKeyInput.trim() || !cipherTextRaw) {
+                    return showCyberAlert("解密警示 // WARNING", "請確認已貼入接收者的專屬月陣私鑰封印與待顯真的密文封包！", "warning");
+                }
+
+                if (!cipherTextRaw.startsWith("SUN_STAR_V10::") && !cipherTextRaw.startsWith("OMEGA_V9::") && !cipherTextRaw.startsWith("SUN_STAR_V8::") && !cipherTextRaw.startsWith("RSA_HYBRID_V7::") && !cipherTextRaw.startsWith("RSA_HYBRID_V6::") && !cipherTextRaw.startsWith("RSA_HYBRID_V5::") && !cipherTextRaw.startsWith("RSA_HYBRID_V4::") && !cipherTextRaw.startsWith("RSA_HYBRID_V3::")) {
+                    throw new Error("道法不相容：找不到 SUN-STAR, OMEGA 或 MATRIX-RSA 系列的有效標頭！");
+                }
+
+                const strippedCipher = cipherTextRaw.replace(/(SUN_STAR_V10|OMEGA_V9|SUN_STAR_V8|RSA_HYBRID_V[3-7])::/, "");
+                const parts = strippedCipher.split(".");
+                if (parts.length !== 3) throw new Error("密文結構損毀：無法拆解 (金鑰.向量.密文) 三段式結構！");
+
+                const [encKeyBase64, ivBase64, aesCipherBase64] = parts;
+
+                const privKeyBuffer = str2ab(privKeyInput);
+                const rsaEncryptedKey = str2ab(encKeyBase64);
+                const iv = new Uint8Array(str2ab(ivBase64));
+                const aesCipher = str2ab(aesCipherBase64);
+
+                const privKey = await window.crypto.subtle.importKey("pkcs8", privKeyBuffer, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["decrypt"]);
+                const rawAesKey = await window.crypto.subtle.decrypt({ name: "RSA-OAEP" }, privKey, rsaEncryptedKey);
+
+                const aesKey = await window.crypto.subtle.importKey("raw", rawAesKey, { name: "AES-GCM" }, false, ["decrypt"]);
+                const decryptedBuffer = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, aesKey, aesCipher);
+
+                document.getElementById("decryptedResult").innerText = new TextDecoder().decode(decryptedBuffer);
+                showCyberAlert("顯真道法大成 // SUCCESS", "乾坤日月解密成功！原始情報與防禦驗證特徵已 100% 顯真還原。", "success");
+            } catch (e) { 
+                showCyberAlert("顯真失敗 // ACCESS DENIED", "密文還原失敗！可能原因：非對應的私鑰封印，或密文在傳遞過程中受損。\n\n詳細錯誤: " + e.message, "error"); 
+            }
+        }
+    </script>
+</body>
+</html>

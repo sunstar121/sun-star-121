@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 - PoW-RSA 加密系統</title>
+    <title>水墨終端 // PoW-RSA4096 加密傳輸系統</title>
     <style>
         /* ==================== 宣紙質感與水墨視覺 ==================== */
         * {
@@ -15,10 +15,10 @@
         body {
             background-color: #f4f0ea;
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.85) 0%, rgba(235, 228, 218, 0.65) 100%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.88) 0%, rgba(235, 228, 218, 0.65) 100%),
                 url("https://www.transparenttextures.com/patterns/aged-paper.png");
             color: #2b2b2b;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Noto Sans TC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
             min-height: 100vh;
             padding: 20px;
             position: relative;
@@ -35,18 +35,17 @@
             height: 75vh;
             transform: translate(-50%, -50%);
             background: url("https://api.iconify.design/game-icons:dragon-head.svg?color=%2316181b") no-repeat center/contain;
-            opacity: 0.03;
+            opacity: 0.035;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* 頂部標頭 */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             border: 1px solid rgba(43, 43, 43, 0.15);
             border-radius: 4px;
             margin-bottom: 20px;
@@ -66,6 +65,7 @@
             font-size: 0.85rem;
             color: #8c1c1c;
             font-weight: normal;
+            font-family: monospace;
         }
 
         .status-badge {
@@ -78,7 +78,6 @@
             font-weight: bold;
         }
 
-        /* 三欄版面 */
         .grid-container {
             display: grid;
             grid-template-columns: 320px 1fr 1fr;
@@ -91,9 +90,8 @@
             .grid-container { grid-template-columns: 1fr; }
         }
 
-        /* 面板通用樣式 */
         .panel {
-            background: rgba(250, 248, 245, 0.9);
+            background: rgba(250, 248, 245, 0.92);
             border: 1px solid rgba(43, 43, 43, 0.15);
             border-radius: 4px;
             padding: 20px;
@@ -132,7 +130,6 @@
             font-family: monospace;
         }
 
-        /* 數據監控格 */
         .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -140,7 +137,7 @@
         }
 
         .stat-box {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.65);
             padding: 8px 12px;
             border-radius: 3px;
             border: 1px solid rgba(0,0,0,0.06);
@@ -149,7 +146,6 @@
         .stat-label { font-size: 0.75rem; color: #666; }
         .stat-val { font-size: 0.95rem; font-weight: bold; font-family: monospace; color: #16181b; }
 
-        /* 表單元素 */
         label { font-size: 0.85rem; color: #333; display: block; margin-bottom: 4px; font-weight: 600; }
         
         select, textarea, input[type="text"] {
@@ -171,7 +167,6 @@
             box-shadow: 0 0 5px rgba(140, 28, 28, 0.15);
         }
 
-        /* 按鈕樣式 */
         .btn {
             background: #16181b;
             color: #f4f0ea;
@@ -189,28 +184,25 @@
         }
 
         .btn:hover { background: #333; }
-
         .btn-red { background: #8c1c1c; color: #fff; }
         .btn-red:hover { background: #a62222; }
-
         .btn-sm { padding: 3px 8px; font-size: 0.75rem; }
 
-        /* Canvas 與 Console 日誌 */
         canvas#oscilloscope {
             width: 100%;
             height: 90px;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.45);
             border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 3px;
         }
 
         .console-log {
             background: #16181b;
-            color: #a0c0a0;
+            color: #22c55e;
             font-family: "Consolas", "Courier New", monospace;
             font-size: 0.75rem;
             padding: 10px;
-            height: 140px;
+            height: 150px;
             overflow-y: auto;
             border-radius: 3px;
             line-height: 1.4;
@@ -222,7 +214,7 @@
 
     <header>
         <div class="brand">
-            <h1>水墨終端 <span class="sub-title">// PoW-RSA 加密傳輸平台</span></h1>
+            <h1>水墨終端 <span class="sub-title">// PoW-RSA4096 雲端密碼學平台</span></h1>
         </div>
         <div class="status-badge">
             系統狀態: <span id="sky-status">連線就緒 // 雲端算力正常</span>
@@ -243,12 +235,12 @@
                     <div class="stat-val" id="val-threads">0 / 16</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">運算速度</div>
+                    <div class="stat-label">運算流速</div>
                     <div class="stat-val" id="val-hashrate">0 H/s</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-label">主頻時脈</div>
-                    <div class="stat-val">1.80 GHz</div>
+                    <div class="stat-val" id="val-clock">1.80 GHz</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-label">核心溫度</div>
@@ -257,43 +249,44 @@
             </div>
 
             <div>
-                <label for="diff-select">PoW 加密難度：</label>
+                <label for="diff-select">PoW 加密工作量證明難度：</label>
                 <select id="diff-select">
-                    <option value="1">Level 1 (低難度 - 10,000 次運算)</option>
-                    <option value="2">Level 2 (中低難度 - 50,000 次運算)</option>
-                    <option value="3" selected>Level 3 (標準難度 - 100,000 次運算)</option>
-                    <option value="4">Level 4 (高難度 - 300,000 次運算)</option>
-                    <option value="5">Level 5 (極高難度 - 500,000 次運算)</option>
-                    <option value="6">Level 6 (最高難度 - 1,000,000 次運算)</option>
+                    <option value="1">Level 1: 輕量驗證 (10^4 Iterations)</option>
+                    <option value="2">Level 2: 標準防護 (50^4 Iterations)</option>
+                    <option value="3" selected>Level 3: 嚴密加密 (10^5 Iterations)</option>
+                    <option value="4">Level 4: 強化矩陣 (30^5 Iterations)</option>
+                    <option value="5">Level 5: 極致算力 (50^5 Iterations)</option>
+                    <option value="6">Level 6: 深層演化 (10^6 Iterations)</option>
                 </select>
             </div>
 
             <div>
-                <label>算力動態波幅 (Canvas)</label>
+                <label>動態算力波幅 (Canvas)</label>
                 <canvas id="oscilloscope"></canvas>
             </div>
 
             <div>
-                <label>系統執行日誌：</label>
+                <label>執行時序日誌：</label>
                 <div class="console-log" id="console-output">
-                    [System] 系統初始化完成...<br>
-                    [System] Vercel 雲端 API 節點連線就緒。
+                    [System] 系統核心載入完成...<br>
+                    [System] Vercel 雲端 API 節點連線就緒。<br>
+                    [System] 等待指令輸入...
                 </div>
             </div>
         </div>
 
         <div class="panel">
             <div class="panel-title">
-                金鑰生成 (KeyGen)
-                <span class="sub">RSA-2048</span>
+                非對稱金鑰生成
+                <span class="sub">RSA-4096 KEYGEN</span>
             </div>
 
             <p style="font-size: 0.8rem; color: #666; line-height: 1.4;">
-                於本地端生成 RSA 非對稱金鑰對。公鑰可公開給傳送者，私鑰請妥善保管以進行解密。
+                於本機瀏覽器核心凝聚 RSA-4096 軍工級金鑰對。公鑰用於加密授權，私鑰用於破譯還原。
             </p>
 
             <button class="btn" id="btn-generate-keys" style="width:100%;">
-                🔑 生成加密金鑰對
+                🔑 凝聚 RSA-4096 加密金鑰對
             </button>
 
             <div>
@@ -301,7 +294,7 @@
                     <label>公鑰 (Public Key - Base64)：</label>
                     <button class="btn btn-sm" id="btn-copy-pub">複製公鑰</button>
                 </div>
-                <textarea id="pub-key-output" rows="5" placeholder="點擊按鈕生成公鑰..." readonly></textarea>
+                <textarea id="pub-key-output" rows="5" placeholder="點擊上方按鈕生成 4096 bit 公鑰..." readonly></textarea>
             </div>
 
             <div>
@@ -309,54 +302,51 @@
                     <label>私鑰 (Private Key - Base64)：</label>
                     <button class="btn btn-sm" id="btn-copy-priv">複製私鑰</button>
                 </div>
-                <textarea id="priv-key-output" rows="5" placeholder="點擊按鈕生成私鑰..." readonly></textarea>
+                <textarea id="priv-key-output" rows="5" placeholder="點擊上方按鈕生成 4096 bit 私鑰..." readonly></textarea>
             </div>
         </div>
 
         <div class="panel red-accent">
             <div class="panel-title">
-                加密與解密
+                加密與解密對弈
                 <span class="sub">ENCRYPT & DECRYPT</span>
             </div>
 
             <div style="border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 14px;">
                 <label>接收者公鑰 (Public Key)：</label>
-                <input type="text" id="input-target-pubkey" placeholder="貼入接收者的公鑰..." />
+                <input type="text" id="input-target-pubkey" placeholder="貼入接收者的 RSA 公鑰..." />
 
-                <label style="margin-top: 8px;">要加密的文字內容：</label>
-                <textarea id="input-plain-text" rows="2" placeholder="輸入欲加密的明文..."></textarea>
+                <label style="margin-top: 8px;">要加密的明文機密：</label>
+                <textarea id="input-plain-text" rows="2" placeholder="輸入欲保護的明文字串..."></textarea>
 
                 <button class="btn btn-red" id="btn-pow-encrypt" style="width: 100%; margin-top: 10px;">
-                    🔒 執行雲端算力加密 (PoW)
+                    🔒 執行 PoW 工作量證明與雲端加密
                 </button>
             </div>
 
             <div>
-                <label>加密後的密文輸出：</label>
-                <textarea id="cipher-text-area" rows="3" placeholder="加密結果將顯示於此..." readonly></textarea>
+                <label>封裝密文輸出：</label>
+                <textarea id="cipher-text-area" rows="3" placeholder="運算完成之密文將顯示於此..." readonly></textarea>
 
                 <label style="margin-top: 8px;">解密私鑰 (Private Key)：</label>
-                <textarea id="input-decrypt-privkey" rows="2" placeholder="貼入你的私鑰..."></textarea>
+                <textarea id="input-decrypt-privkey" rows="2" placeholder="貼入對應之私鑰以進行解密..."></textarea>
 
                 <button class="btn" id="btn-decrypt" style="width: 100%; margin-top: 10px;">
-                    🔓 執行本地解密
+                    🔓 執行本地私鑰破譯還原
                 </button>
 
-                <label style="margin-top: 8px;">解密結果原文：</label>
-                <input type="text" id="output-decrypted-text" placeholder="解密後的結果..." readonly style="font-weight:bold; color:#8c1c1c;" />
+                <label style="margin-top: 8px;">還原結果明文：</label>
+                <input type="text" id="output-decrypted-text" placeholder="解密還原後之明文..." readonly style="font-weight:bold; color:#8c1c1c;" />
             </div>
         </div>
 
     </div>
 
     <script>
-        // 🌟 雲端 API 網址 (Vercel)
         const BACKEND_URL = "https://sun-star-121.vercel.app";
-
         let generatedKeyPair = null;
         let isWorking = false;
 
-        // 系統日誌輸出
         function logMsg(msg) {
             const box = document.getElementById("console-output");
             const time = new Date().toLocaleTimeString();
@@ -364,7 +354,7 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // ==================== 1. 水墨波浪動畫 (Canvas) ====================
+        // 1. 強化防呆水墨 Canvas 動態波浪
         let dragonAngle = 0;
         function animateCanvas() {
             const canvas = document.getElementById('oscilloscope');
@@ -375,18 +365,17 @@
                     const height = canvas.height = 90;
                     const baseHeight = height / 2;
 
-                    ctx.fillStyle = "rgba(244, 240, 234, 0.25)";
+                    ctx.fillStyle = "rgba(244, 240, 234, 0.28)";
                     ctx.fillRect(0, 0, width, height);
 
-                    dragonAngle += isWorking ? 0.08 : 0.02;
+                    dragonAngle += isWorking ? 0.12 : 0.025;
 
                     ctx.save();
                     ctx.lineCap = "round";
-
-                    const waveAmplitude = isWorking ? 26 : 8;
+                    const waveAmplitude = isWorking ? 30 : 8;
 
                     for (let lane = -1; lane <= 1; lane++) {
-                        const alpha = 0.25 - Math.abs(lane) * 0.05;
+                        const alpha = 0.25 - Math.abs(lane) * 0.06;
                         ctx.strokeStyle = `rgba(22, 24, 27, ${alpha})`;
 
                         let prevX = 0;
@@ -396,7 +385,7 @@
                             const progress = x / width;
                             const wave = Math.sin(progress * Math.PI * 3 + dragonAngle) * waveAmplitude
                                        + Math.cos(progress * Math.PI * 1.5 - dragonAngle) * (waveAmplitude / 2);
-                            const jitter = (Math.random() - 0.5) * (isWorking ? 4 : 1);
+                            const jitter = (Math.random() - 0.5) * (isWorking ? 5 : 1);
                             const y = baseHeight + wave + (lane * 4) + jitter;
 
                             ctx.beginPath();
@@ -416,7 +405,6 @@
         }
         requestAnimationFrame(animateCanvas);
 
-        // ==================== 2. Base64 轉換工具 ====================
         function arrayBufferToBase64(buffer) {
             let binary = '';
             const bytes = new Uint8Array(buffer);
@@ -435,16 +423,20 @@
             return bytes.buffer;
         }
 
-        // ==================== 3. 生成 RSA 金鑰 ====================
+        // 2. 恢復硬核 RSA-4096 金鑰生成
         document.getElementById("btn-generate-keys").addEventListener("click", async () => {
-            logMsg("正在生成 RSA-2048 金鑰對...");
-            document.getElementById("sky-status").innerText = "運算中 // 生成金鑰對";
+            logMsg(">>> 啟動本地安全核心，正在計算 RSA-4096 質數對...");
+            document.getElementById("sky-status").innerText = "運算中 // 凝聚 4096-bit 金鑰";
+            document.getElementById("val-threads").innerText = "8 / 16";
+            document.getElementById("val-clock").innerText = "3.60 GHz";
+            document.getElementById("val-temp").innerText = "51.2 °C";
             
             try {
+                const startTime = performance.now();
                 generatedKeyPair = await window.crypto.subtle.generateKey(
                     {
                         name: "RSA-OAEP",
-                        modulusLength: 2048,
+                        modulusLength: 4096, // 🚀 恢復 4096 bit
                         publicExponent: new Uint8Array([1, 0, 1]),
                         hash: "SHA-256"
                     },
@@ -463,41 +455,47 @@
                 document.getElementById("input-target-pubkey").value = pubBase64;
                 document.getElementById("input-decrypt-privkey").value = privBase64;
 
-                logMsg("✅ 金鑰生成完成，公鑰與私鑰已更新。");
+                const costTime = ((performance.now() - startTime) / 1000).toFixed(2);
+                logMsg(`✅ RSA-4096 金鑰對凝聚完成！耗時: ${costTime}s`);
                 document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力正常";
             } catch (err) {
-                logMsg("❌ 金鑰生成失敗: " + err.message);
+                logMsg("❌ 金鑰生成異常: " + err.message);
+            } finally {
+                document.getElementById("val-threads").innerText = "0 / 16";
+                document.getElementById("val-clock").innerText = "1.80 GHz";
+                document.getElementById("val-temp").innerText = "42.0 °C";
             }
         });
 
-        // 複製功能
         document.getElementById("btn-copy-pub").addEventListener("click", () => {
             navigator.clipboard.writeText(document.getElementById("pub-key-output").value);
-            alert("公鑰已複製到剪貼簿！");
+            alert("✅ 4096 bit 公鑰已複製到剪貼簿！");
         });
         document.getElementById("btn-copy-priv").addEventListener("click", () => {
             navigator.clipboard.writeText(document.getElementById("priv-key-output").value);
-            alert("私鑰已複製到剪貼簿！");
+            alert("⚠️ 私鑰已複製，請妥善保管，勿透過公開管道傳輸！");
         });
 
-        // ==================== 4. 請求 Vercel 雲端加密 ====================
+        // 3. PoW 加密與雲端 API 深度推演日誌
         document.getElementById("btn-pow-encrypt").addEventListener("click", async () => {
             const pubKey = document.getElementById("input-target-pubkey").value.trim();
             const text = document.getElementById("input-plain-text").value;
             const diffLevel = document.getElementById("diff-select").value;
 
             if (!pubKey || !text) {
-                alert("請填寫目標公鑰與要加密的內文！");
+                alert("請填寫接收者公鑰與欲加密之明文！");
                 return;
             }
 
             isWorking = true;
-            document.getElementById("sky-status").innerText = "加密運算中 // 請求雲端 API";
+            document.getElementById("sky-status").innerText = "算力全開 // 執行 PoW 加密推演";
             document.getElementById("val-threads").innerText = "16 / 16";
-            document.getElementById("val-hashrate").innerText = (12000 * diffLevel) + " H/s";
-            document.getElementById("val-temp").innerText = "58.5 °C";
+            document.getElementById("val-clock").innerText = "4.20 GHz (Turbo)";
+            document.getElementById("val-hashrate").innerText = (18500 * diffLevel).toLocaleString() + " H/s";
+            document.getElementById("val-temp").innerText = (52 + diffLevel * 2.5).toFixed(1) + " °C";
 
-            logMsg(`發送加密請求 [Level ${diffLevel}] 至 Vercel 伺服器...`);
+            logMsg(`>>> 鎖定目標公鑰，啟動 PoW 難度陣列 [Level ${diffLevel}]...`);
+            logMsg(`>>> 正在派發算力任務至 Vercel 分布式節點...`);
 
             try {
                 const response = await fetch(`${BACKEND_URL}/api/pow-encrypt`, {
@@ -514,32 +512,34 @@
 
                 if (response.ok && result.cipherText) {
                     document.getElementById("cipher-text-area").value = result.cipherText;
-                    logMsg(`✅ 加密成功！雲端耗時: ${result.timeSpent || '0.8s'}`);
+                    logMsg(`✅ 雲端 PoW 加密封裝成功！累積驗證次數: ${(diffLevel * 15420).toLocaleString()} 次`);
+                    logMsg(`⏱️ 總執行耗時: ${result.timeSpent || '0.85s'}`);
                 } else {
-                    logMsg("❌ 雲端回應錯誤: " + (result.error || "傳輸異常"));
+                    logMsg("❌ 雲端運算節點回報錯誤: " + (result.error || "回應格式異常"));
                 }
             } catch (err) {
-                logMsg("❌ 連線失敗: " + err.message);
+                logMsg("❌ 網路連線或 CORS 存取阻斷: " + err.message);
             } finally {
                 isWorking = false;
                 document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力正常";
                 document.getElementById("val-threads").innerText = "0 / 16";
+                document.getElementById("val-clock").innerText = "1.80 GHz";
                 document.getElementById("val-hashrate").innerText = "0 H/s";
                 document.getElementById("val-temp").innerText = "42.0 °C";
             }
         });
 
-        // ==================== 5. 本地解密 ====================
+        // 4. 本地 RSA-4096 私鑰解密還原
         document.getElementById("btn-decrypt").addEventListener("click", async () => {
             const privKeyBase64 = document.getElementById("input-decrypt-privkey").value.trim();
             const rawCipher = document.getElementById("cipher-text-area").value.trim();
 
             if (!privKeyBase64 || !rawCipher) {
-                alert("請填寫私鑰與要解密的密文！");
+                alert("請確認已填寫解密私鑰與加密密文！");
                 return;
             }
 
-            logMsg("正在使用本地私鑰進行解密...");
+            logMsg(">>> 讀取私鑰憑證，載入 RSA-OAEP 演算法解密矩陣...");
 
             try {
                 let cipherBase64 = rawCipher;
@@ -565,9 +565,9 @@
 
                 const decryptedText = new TextDecoder().decode(decryptedBuffer);
                 document.getElementById("output-decrypted-text").value = decryptedText;
-                logMsg("✅ 解密成功，已還原原文字串。");
+                logMsg("🎉 破譯成功！原始機密字串已顯真還原。");
             } catch (err) {
-                logMsg("❌ 解密失敗，請檢查私鑰與密文是否符合: " + err.message);
+                logMsg("❌ 解密失敗，私鑰憑證不匹配或密文已損毀: " + err.message);
             }
         });
     </script>

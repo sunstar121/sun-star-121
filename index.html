@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 v4.0 // 頂級架構密碼學對弈平台</title>
+    <title>水墨終端 v4.1 // 頂級架構密碼學對弈平台</title>
     <style>
         /* ==========================================================================
            1. 全局宣紙質感與東方美學樣式
            ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: #f4f0ea;
             background-image: 
@@ -21,247 +16,73 @@
                 url("https://www.transparenttextures.com/patterns/aged-paper.png");
             color: #2b2b2b;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
-            min-height: 100vh;
-            padding: 24px;
-            position: relative;
-            overflow-x: hidden;
+            min-height: 100vh; padding: 24px; position: relative; overflow-x: hidden;
         }
-
-        /* 水墨龍隱約背景圖騰 */
         body::before {
-            content: "";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 75vw;
-            height: 75vh;
+            content: ""; position: fixed; top: 50%; left: 50%; width: 75vw; height: 75vh;
             transform: translate(-50%, -50%);
             background: url("https://api.iconify.design/game-icons:dragon-head.svg?color=%2316181b") no-repeat center/contain;
-            opacity: 0.035;
-            z-index: -1;
-            pointer-events: none;
+            opacity: 0.035; z-index: -1; pointer-events: none;
         }
-
-        /* 頂部標題區域 */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 30px;
-            background: rgba(255, 255, 255, 0.82);
-            border: 1px solid rgba(43, 43, 43, 0.15);
-            border-radius: 6px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            display: flex; justify-content: space-between; align-items: center; padding: 18px 30px;
+            background: rgba(255, 255, 255, 0.82); border: 1px solid rgba(43, 43, 43, 0.15);
+            border-radius: 6px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
-
-        .brand h1 {
-            font-size: 1.6rem;
-            color: #16181b;
-            letter-spacing: 1.5px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand span.sub-title {
-            font-size: 0.85rem;
-            color: #8c1c1c;
-            font-weight: normal;
-            font-family: monospace;
-        }
-
-        .status-badge {
-            font-size: 0.88rem;
-            color: #555;
-        }
-
-        .status-badge span {
-            color: #2b7a4b;
-            font-weight: bold;
-        }
-
-        /* 主要三欄版面配置 */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 340px 1fr 1fr;
-            gap: 24px;
-            max-width: 1500px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 1150px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 獨立卡片面板樣式 */
+        .brand h1 { font-size: 1.6rem; color: #16181b; letter-spacing: 1.5px; display: flex; align-items: center; gap: 12px; }
+        .brand span.sub-title { font-size: 0.85rem; color: #8c1c1c; font-weight: normal; font-family: monospace; }
+        .status-badge { font-size: 0.88rem; color: #555; }
+        .status-badge span { color: #2b7a4b; font-weight: bold; }
+        
+        .grid-container { display: grid; grid-template-columns: 340px 1fr 1fr; gap: 24px; max-width: 1500px; margin: 0 auto; }
+        @media (max-width: 1150px) { .grid-container { grid-template-columns: 1fr; } }
+        
         .panel {
-            background: rgba(250, 248, 245, 0.94);
-            border: 1px solid rgba(43, 43, 43, 0.16);
-            border-radius: 6px;
-            padding: 22px;
-            position: relative;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.025);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            background: rgba(250, 248, 245, 0.94); border: 1px solid rgba(43, 43, 43, 0.16);
+            border-radius: 6px; padding: 22px; position: relative; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.025);
+            display: flex; flex-direction: column; gap: 16px;
         }
-
-        .panel::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: #16181b;
-            border-radius: 6px 0 0 6px;
-        }
-
-        .panel.red-accent::before {
-            background: #8c1c1c;
-        }
-
+        .panel::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #16181b; border-radius: 6px 0 0 6px; }
+        .panel.red-accent::before { background: #8c1c1c; }
+        
         .panel-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #16181b;
-            border-bottom: 1px dashed rgba(43, 43, 43, 0.22);
-            padding-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 1.1rem; font-weight: bold; color: #16181b; border-bottom: 1px dashed rgba(43, 43, 43, 0.22);
+            padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
         }
-
-        .panel-title .sub {
-            font-size: 0.75rem;
-            color: #777;
-            font-weight: normal;
-            font-family: monospace;
-        }
-
-        /* 系統數據監控格 */
-        .stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .stat-box {
-            background: rgba(255, 255, 255, 0.75);
-            padding: 10px 14px;
-            border-radius: 4px;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #666;
-            margin-bottom: 2px;
-        }
-
-        .stat-val {
-            font-size: 1rem;
-            font-weight: bold;
-            font-family: monospace;
-            color: #16181b;
-        }
-
-        /* 表單元件 */
-        label {
-            font-size: 0.85rem;
-            color: #333;
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
+        .panel-title .sub { font-size: 0.75rem; color: #777; font-weight: normal; font-family: monospace; }
+        
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-box { background: rgba(255, 255, 255, 0.75); padding: 10px 14px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.06); }
+        .stat-label { font-size: 0.75rem; color: #666; margin-bottom: 2px; }
+        .stat-val { font-size: 1rem; font-weight: bold; font-family: monospace; color: #16181b; }
+        
+        label { font-size: 0.85rem; color: #333; display: block; margin-bottom: 5px; font-weight: 600; }
         select, textarea, input[type="text"] {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(43, 43, 43, 0.22);
-            border-radius: 4px;
-            padding: 10px;
-            font-family: "Consolas", "Courier New", monospace;
-            font-size: 0.85rem;
-            color: #16181b;
-            transition: all 0.2s;
+            width: 100%; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(43, 43, 43, 0.22);
+            border-radius: 4px; padding: 10px; font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.85rem; color: #16181b; transition: all 0.2s;
         }
-
         select:focus, textarea:focus, input[type="text"]:focus {
-            outline: none;
-            border-color: #8c1c1c;
-            background: #ffffff;
-            box-shadow: 0 0 6px rgba(140, 28, 28, 0.18);
+            outline: none; border-color: #8c1c1c; background: #ffffff; box-shadow: 0 0 6px rgba(140, 28, 28, 0.18);
         }
-
-        /* 按鈕視覺樣式 */
+        
         .btn {
-            background: #16181b;
-            color: #f4f0ea;
-            border: none;
-            padding: 12px 18px;
-            font-size: 0.88rem;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
+            background: #16181b; color: #f4f0ea; border: none; padding: 12px 18px; font-size: 0.88rem;
+            letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; transition: all 0.2s;
+            display: inline-flex; justify-content: center; align-items: center; gap: 8px; font-weight: 600;
         }
-
-        .btn:hover {
-            background: #333333;
-            transform: translateY(-1px);
-        }
-
-        .btn-red {
-            background: #8c1c1c;
-            color: #ffffff;
-        }
-
-        .btn-red:hover {
-            background: #a62222;
-        }
-
-        .btn-sm {
-            padding: 4px 10px;
-            font-size: 0.75rem;
-        }
-
-        .btn:disabled {
-            background: #cccccc;
-            color: #666666;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* 畫布與終端控制台 */
-        canvas#oscilloscope {
-            width: 100%;
-            height: 95px;
-            background: rgba(255, 255, 255, 0.55);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 4px;
-        }
-
+        .btn:hover { background: #333333; transform: translateY(-1px); }
+        .btn-red { background: #8c1c1c; color: #ffffff; }
+        .btn-red:hover { background: #a62222; }
+        .btn-sm { padding: 4px 10px; font-size: 0.75rem; }
+        .btn:disabled { background: #cccccc; color: #666666; cursor: not-allowed; transform: none; }
+        
+        canvas#oscilloscope { width: 100%; height: 95px; background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 4px; }
+        
         .console-log {
-            background: #16181b;
-            color: #22c55e;
-            font-family: "Consolas", "Courier New", monospace;
-            font-size: 0.75rem;
-            padding: 12px;
-            height: 170px;
-            overflow-y: auto;
-            border-radius: 4px;
-            line-height: 1.5;
-            border-left: 3px solid #8c1c1c;
-            word-break: break-all;
+            background: #16181b; color: #22c55e; font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.75rem; padding: 12px; height: 170px; overflow-y: auto; border-radius: 4px;
+            line-height: 1.5; border-left: 3px solid #8c1c1c; word-break: break-all;
         }
     </style>
 </head>
@@ -269,7 +90,7 @@
 
     <header>
         <div class="brand">
-            <h1>水墨終端 <span class="sub-title">// v4.0 完全體重構架構</span></h1>
+            <h1>水墨終端 <span class="sub-title">// v4.1 穩定除錯完全體</span></h1>
         </div>
         <div class="status-badge">
             系統狀態: <span id="sky-status">連線就緒 // 雲端算力待命</span>
@@ -323,7 +144,7 @@
             <div>
                 <label>執行時序日誌：</label>
                 <div class="console-log" id="console-output">
-                    [System] 密碼學模組 v4.0 完全體載入完成...<br>
+                    [System] 密碼學模組 v4.1 穩定除錯完全體載入完成...<br>
                     [System] Vercel API 雲端節點連線就緒。<br>
                     [System] 等待指令操作...
                 </div>
@@ -398,9 +219,6 @@
     </div>
 
     <script>
-        /**
-         * 全域配置 (CONFIG) & 系統狀態 (STATE)
-         */
         const CONFIG = {
             API_URL: "https://sun-star-121.vercel.app/api/pow-encrypt",
             RSA_MODULUS: 4096,
@@ -413,9 +231,6 @@
             currentKeyPair: null
         };
 
-        /**
-         * 1. 介面與日誌控制器 (UIController)
-         */
         const UI = {
             log(msg) {
                 const box = document.getElementById("console-output");
@@ -440,7 +255,8 @@
         };
 
         /**
-         * 2. 安全編解碼引擎 (CodecEngine)
+         * 安全編解碼引擎 (CodecEngine)
+         * 增強型錯誤捕捉與位元檢查，確保進出 API 皆無損
          */
         const Codec = {
             bufferToBase64(buffer) {
@@ -452,18 +268,20 @@
                 return window.btoa(binary);
             },
             base64ToBuffer(rawBase64) {
-                if (!rawBase64) throw new Error("輸入字串不可為空");
+                if (!rawBase64 || typeof rawBase64 !== "string") {
+                    throw new Error("輸入密文不可為空！");
+                }
                 
                 // 1. 如果包含自訂前綴標籤 (例如 INK_V2.4::)，切開只取 Base64 部分
                 let clean = rawBase64.includes("::") ? rawBase64.split("::").pop() : rawBase64;
                 
-                // 2. 正確將 URL 安全位元 (- 和 _) 替換為標準 (+ 和 /) [修復了此處語法]
+                // 2. 將 Base64URL 格式的安全符號 (- 和 _) 轉換回標準 Base64 (+ 和 /)
                 clean = clean.replace(/-/g, '+').replace(/_/g, '/');
                 
                 // 3. 安全過濾所有非 Base64 字元 (包含隱形換行符 \n, \r, 空格)
                 clean = clean.replace(/[^A-Za-z0-9+/=]/g, '');
                 
-                // 4. 補齊長度使其符合 4 的倍數，確保數學長度對齊
+                // 4. 自動檢查並補齊 = 結尾填充，確保數學長度對齊
                 while (clean.length % 4 !== 0) {
                     clean += '=';
                 }
@@ -474,16 +292,14 @@
                     for (let i = 0; i < binaryString.length; i++) {
                         bytes[i] = binaryString.charCodeAt(i);
                     }
+                    if (bytes.byteLength === 0) throw new Error("轉換結果無效");
                     return bytes.buffer;
                 } catch (e) {
-                    throw new Error("Base64 編碼格式損毀，無法還原為二進位 ArrayBuffer");
+                    throw new Error("Base64 編碼格式損毀，請檢查輸入是否為完整的 RSA 密文或私鑰。");
                 }
             }
         };
 
-        /**
-         * 3. 密碼學核心引擎 (CryptoEngine)
-         */
         const CryptoEngine = {
             async generateKeyPair() {
                 UI.log(`>>> 啟動 Web Crypto API，正在運算 RSA-${CONFIG.RSA_MODULUS} 質數矩陣...`);
@@ -553,9 +369,6 @@
             }
         };
 
-        /**
-         * 4. 非阻塞 PoW 算力對弈引擎 (PoWEngine)
-         */
         const PoWEngine = {
             fastHash(str) {
                 let h1 = 0xdeadbeef ^ str.length, h2 = 0x41c6ce57 ^ str.length;
@@ -623,9 +436,6 @@
             }
         };
 
-        /**
-         * 5. 雲端 API 介面 (CloudConnector)
-         */
         const CloudConnector = {
             async encrypt({ text, pubKeyBase64, difficulty, nonce, proofHash }) {
                 UI.log(`>>> 攜帶 PoW 憑證 [Hash: ${proofHash}] 請求 Vercel 雲端引擎加密...`);
@@ -650,9 +460,6 @@
             }
         };
 
-        /**
-         * 6. 水墨畫布渲染引擎 (VisualEngine)
-         */
         const VisualEngine = {
             angle: 0,
             init() {
@@ -711,9 +518,6 @@
             }
         };
 
-        /**
-         * 7. 全域事件監聽與初始化 (App Lifecycle)
-         */
         document.addEventListener("DOMContentLoaded", () => {
             VisualEngine.init();
 

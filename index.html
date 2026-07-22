@@ -415,7 +415,6 @@
 
         /**
          * 1. 介面與日誌控制器 (UIController)
-         * 負責 UI 控制、監視器狀態更新與終端日誌滾動
          */
         const UI = {
             log(msg) {
@@ -442,7 +441,6 @@
 
         /**
          * 2. 安全編解碼引擎 (CodecEngine)
-         * 採用標準 Uint8Array 與正確 Base64 轉換機制，徹底防止 atob 崩潰
          */
         const Codec = {
             bufferToBase64(buffer) {
@@ -459,8 +457,8 @@
                 // 1. 如果包含自訂前綴標籤 (例如 INK_V2.4::)，切開只取 Base64 部分
                 let clean = rawBase64.includes("::") ? rawBase64.split("::").pop() : rawBase64;
                 
-                // 2. 正確將 URL 安全位元 (- 和 _) 替換為標準 (+ 和 /)
-                clean = clean.replace/-/g, '+').replace(/_/g, '/');
+                // 2. 正確將 URL 安全位元 (- 和 _) 替換為標準 (+ 和 /) [修復了此處語法]
+                clean = clean.replace(/-/g, '+').replace(/_/g, '/');
                 
                 // 3. 安全過濾所有非 Base64 字元 (包含隱形換行符 \n, \r, 空格)
                 clean = clean.replace(/[^A-Za-z0-9+/=]/g, '');
@@ -485,7 +483,6 @@
 
         /**
          * 3. 密碼學核心引擎 (CryptoEngine)
-         * 負責本機 Web Crypto API 調用：RSA-4096 金鑰生成與私鑰破譯
          */
         const CryptoEngine = {
             async generateKeyPair() {
@@ -558,7 +555,6 @@
 
         /**
          * 4. 非阻塞 PoW 算力對弈引擎 (PoWEngine)
-         * 採用時間切片（Time-Slicing）探勘演算法，保護 UI 順暢，計算實時 H/s
          */
         const PoWEngine = {
             fastHash(str) {
@@ -588,7 +584,6 @@
                         let found = false;
                         let currentHash = "";
 
-                        // 每幀限制密集運算 16ms，釋放主執行緒給瀏覽器渲染
                         while (performance.now() - sliceStart < 16) {
                             nonce++;
                             totalHashes++;
@@ -657,7 +652,6 @@
 
         /**
          * 6. 水墨畫布渲染引擎 (VisualEngine)
-         * 具備動態 ResizeObserver，獨立運作，響應算力波浪
          */
         const VisualEngine = {
             angle: 0,
@@ -666,7 +660,6 @@
                 if (!this.canvas) return;
                 this.ctx = this.canvas.getContext("2d");
 
-                // 自動防呆監聽父容器寬度變動
                 const resizeObserver = new ResizeObserver(() => {
                     this.width = this.canvas.width = this.canvas.parentElement.clientWidth || 280;
                     this.height = this.canvas.height = 95;
@@ -722,10 +715,8 @@
          * 7. 全域事件監聽與初始化 (App Lifecycle)
          */
         document.addEventListener("DOMContentLoaded", () => {
-            // 啟動視覺動畫引擎
             VisualEngine.init();
 
-            // 生成金鑰對按鈕
             document.getElementById("btn-generate-keys").addEventListener("click", () => {
                 UI.setButtonsDisabled(true);
                 CryptoEngine.generateKeyPair()
@@ -733,7 +724,6 @@
                     .finally(() => UI.setButtonsDisabled(false));
             });
 
-            // 複製公鑰 / 私鑰按鈕
             document.getElementById("btn-copy-pub").addEventListener("click", () => {
                 const val = document.getElementById("pub-key-output").value;
                 if (!val) return alert("請先生成公鑰！");
@@ -748,7 +738,6 @@
                 alert("⚠️ 私鑰已複製！請妥善保存，切勿公開洩漏！");
             });
 
-            // 啟動 PoW 加密流程按鈕
             document.getElementById("btn-pow-encrypt").addEventListener("click", async () => {
                 const pubKey = document.getElementById("input-target-pubkey").value.trim();
                 const text = document.getElementById("input-plain-text").value;
@@ -786,7 +775,6 @@
                 }
             });
 
-            // 本地私鑰解密按鈕
             document.getElementById("btn-decrypt").addEventListener("click", async () => {
                 const privKey = document.getElementById("input-decrypt-privkey").value;
                 const cipherText = document.getElementById("cipher-text-area").value;

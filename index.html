@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 v3.0 // 核心重構密碼學對弈平台</title>
+    <title>水墨終端 v4.0 // 頂級架構密碼學對弈平台</title>
     <style>
-        /* ==================== 宣紙質感與水墨排版 ==================== */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* ==========================================================================
+           1. 全局宣紙質感與東方美學樣式
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             background-color: #f4f0ea;
             background-image: 
@@ -14,73 +21,247 @@
                 url("https://www.transparenttextures.com/patterns/aged-paper.png");
             color: #2b2b2b;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
-            min-height: 100vh; padding: 24px; position: relative; overflow-x: hidden;
+            min-height: 100vh;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* 水墨龍隱約背景圖騰 */
         body::before {
-            content: ""; position: fixed; top: 50%; left: 50%; width: 75vw; height: 75vh;
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 75vw;
+            height: 75vh;
             transform: translate(-50%, -50%);
             background: url("https://api.iconify.design/game-icons:dragon-head.svg?color=%2316181b") no-repeat center/contain;
-            opacity: 0.035; z-index: -1; pointer-events: none;
+            opacity: 0.035;
+            z-index: -1;
+            pointer-events: none;
         }
+
+        /* 頂部標題區域 */
         header {
-            display: flex; justify-content: space-between; align-items: center; padding: 16px 28px;
-            background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(43, 43, 43, 0.15);
-            border-radius: 6px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 30px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(43, 43, 43, 0.15);
+            border-radius: 6px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
-        .brand h1 { font-size: 1.5rem; color: #16181b; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .brand span.sub-title { font-size: 0.85rem; color: #8c1c1c; font-weight: normal; font-family: monospace; }
-        .status-badge { font-size: 0.85rem; color: #555; }
-        .status-badge span { color: #2b7a4b; font-weight: bold; }
-        
-        .grid-container { display: grid; grid-template-columns: 320px 1fr 1fr; gap: 20px; max-width: 1450px; margin: 0 auto; }
-        @media (max-width: 1100px) { .grid-container { grid-template-columns: 1fr; } }
-        
+
+        .brand h1 {
+            font-size: 1.6rem;
+            color: #16181b;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand span.sub-title {
+            font-size: 0.85rem;
+            color: #8c1c1c;
+            font-weight: normal;
+            font-family: monospace;
+        }
+
+        .status-badge {
+            font-size: 0.88rem;
+            color: #555;
+        }
+
+        .status-badge span {
+            color: #2b7a4b;
+            font-weight: bold;
+        }
+
+        /* 主要三欄版面配置 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 340px 1fr 1fr;
+            gap: 24px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1150px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 獨立卡片面板樣式 */
         .panel {
-            background: rgba(250, 248, 245, 0.92); border: 1px solid rgba(43, 43, 43, 0.15);
-            border-radius: 6px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; gap: 14px;
+            background: rgba(250, 248, 245, 0.94);
+            border: 1px solid rgba(43, 43, 43, 0.16);
+            border-radius: 6px;
+            padding: 22px;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.025);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-        .panel::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #16181b; border-radius: 6px 0 0 6px; }
-        .panel.red-accent::before { background: #8c1c1c; }
-        
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #16181b;
+            border-radius: 6px 0 0 6px;
+        }
+
+        .panel.red-accent::before {
+            background: #8c1c1c;
+        }
+
         .panel-title {
-            font-size: 1.05rem; font-weight: bold; color: #16181b; border-bottom: 1px dashed rgba(43, 43, 43, 0.2);
-            padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #16181b;
+            border-bottom: 1px dashed rgba(43, 43, 43, 0.22);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .panel-title .sub { font-size: 0.75rem; color: #777; font-weight: normal; font-family: monospace; }
-        
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .stat-box { background: rgba(255, 255, 255, 0.7); padding: 8px 12px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.06); }
-        .stat-label { font-size: 0.75rem; color: #666; }
-        .stat-val { font-size: 0.95rem; font-weight: bold; font-family: monospace; color: #16181b; }
-        
-        label { font-size: 0.85rem; color: #333; display: block; margin-bottom: 4px; font-weight: 600; }
+
+        .panel-title .sub {
+            font-size: 0.75rem;
+            color: #777;
+            font-weight: normal;
+            font-family: monospace;
+        }
+
+        /* 系統數據監控格 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.75);
+            padding: 10px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .stat-val {
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: #16181b;
+        }
+
+        /* 表單元件 */
+        label {
+            font-size: 0.85rem;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
         select, textarea, input[type="text"] {
-            width: 100%; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(43, 43, 43, 0.2);
-            border-radius: 4px; padding: 9px; font-family: "Consolas", "Courier New", monospace;
-            font-size: 0.85rem; color: #16181b; transition: all 0.2s;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(43, 43, 43, 0.22);
+            border-radius: 4px;
+            padding: 10px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.85rem;
+            color: #16181b;
+            transition: all 0.2s;
         }
+
         select:focus, textarea:focus, input[type="text"]:focus {
-            outline: none; border-color: #8c1c1c; background: #fff; box-shadow: 0 0 5px rgba(140, 28, 28, 0.15);
+            outline: none;
+            border-color: #8c1c1c;
+            background: #ffffff;
+            box-shadow: 0 0 6px rgba(140, 28, 28, 0.18);
         }
-        
+
+        /* 按鈕視覺樣式 */
         .btn {
-            background: #16181b; color: #f4f0ea; border: none; padding: 10px 16px; font-size: 0.85rem;
-            letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; transition: all 0.2s;
-            display: inline-flex; justify-content: center; align-items: center; gap: 6px; font-weight: 600;
+            background: #16181b;
+            color: #f4f0ea;
+            border: none;
+            padding: 12px 18px;
+            font-size: 0.88rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
         }
-        .btn:hover { background: #333; }
-        .btn-red { background: #8c1c1c; color: #fff; }
-        .btn-red:hover { background: #a62222; }
-        .btn-sm { padding: 4px 8px; font-size: 0.75rem; }
-        .btn:disabled { background: #ccc; color: #666; cursor: not-allowed; }
-        
-        canvas#oscilloscope { width: 100%; height: 90px; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 4px; }
-        
+
+        .btn:hover {
+            background: #333333;
+            transform: translateY(-1px);
+        }
+
+        .btn-red {
+            background: #8c1c1c;
+            color: #ffffff;
+        }
+
+        .btn-red:hover {
+            background: #a62222;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+        }
+
+        .btn:disabled {
+            background: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 畫布與終端控制台 */
+        canvas#oscilloscope {
+            width: 100%;
+            height: 95px;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+        }
+
         .console-log {
-            background: #16181b; color: #22c55e; font-family: "Consolas", "Courier New", monospace;
-            font-size: 0.75rem; padding: 12px; height: 160px; overflow-y: auto; border-radius: 4px;
-            line-height: 1.5; border-left: 3px solid #8c1c1c; word-break: break-all;
+            background: #16181b;
+            color: #22c55e;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.75rem;
+            padding: 12px;
+            height: 170px;
+            overflow-y: auto;
+            border-radius: 4px;
+            line-height: 1.5;
+            border-left: 3px solid #8c1c1c;
+            word-break: break-all;
         }
     </style>
 </head>
@@ -88,7 +269,7 @@
 
     <header>
         <div class="brand">
-            <h1>水墨終端 <span class="sub-title">// v3.0 核心重構架構</span></h1>
+            <h1>水墨終端 <span class="sub-title">// v4.0 完全體重構架構</span></h1>
         </div>
         <div class="status-badge">
             系統狀態: <span id="sky-status">連線就緒 // 雲端算力待命</span>
@@ -102,6 +283,7 @@
                 系統算力監控
                 <span class="sub">MONITOR</span>
             </div>
+            
             <div class="stat-grid">
                 <div class="stat-box">
                     <div class="stat-label">CPU 執行緒</div>
@@ -120,26 +302,29 @@
                     <div class="stat-val" id="val-temp">42.0 °C</div>
                 </div>
             </div>
+
             <div>
-                <label for="diff-select">PoW 工作量證明難度：</label>
+                <label for="diff-select">PoW 工作量證明難度階梯：</label>
                 <select id="diff-select">
                     <option value="1">Level 1: 輕量驗證 (前導零: 0)</option>
                     <option value="2">Level 2: 標準防護 (前導零: 00)</option>
                     <option value="3" selected>Level 3: 嚴密對弈 (前導零: 000)</option>
                     <option value="4">Level 4: 強化矩陣 (前導零: 0000)</option>
                     <option value="5">Level 5: 極致算力 (前導零: 00000)</option>
-                    <option value="6">Level 6: 深層演化 (前導零: 000000)</option>
+                    <option value="6">Level 6: 深層演化 (前導零: 000000 - 極度硬核)</option>
                 </select>
             </div>
+
             <div>
-                <label>動態算力波幅</label>
+                <label>動態算力波幅 (Canvas)</label>
                 <canvas id="oscilloscope"></canvas>
             </div>
+
             <div>
                 <label>執行時序日誌：</label>
                 <div class="console-log" id="console-output">
-                    [System] 密碼學模組 v3.0 載入完成...<br>
-                    [System] API 端點: Vercel Serverless就緒。<br>
+                    [System] 密碼學模組 v4.0 完全體載入完成...<br>
+                    [System] Vercel API 雲端節點連線就緒。<br>
                     [System] 等待指令操作...
                 </div>
             </div>
@@ -150,12 +335,15 @@
                 非對稱金鑰生成
                 <span class="sub">RSA-4096 KEYGEN</span>
             </div>
-            <p style="font-size: 0.8rem; color: #666; line-height: 1.4;">
-                於本機瀏覽器安全核心調用 Web Crypto API 凝聚 RSA-4096 軍工級金鑰對。
+
+            <p style="font-size: 0.8rem; color: #666; line-height: 1.5;">
+                於本機瀏覽器核心調用 Web Crypto API 凝聚 RSA-4096 軍工級金鑰對。公鑰用於雲端 PoW 加密對弈，私鑰用於破譯還原。
             </p>
+
             <button class="btn" id="btn-generate-keys" style="width:100%;">
                 🔑 凝聚 RSA-4096 加密金鑰對
             </button>
+
             <div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <label>公鑰 (Public Key - Base64)：</label>
@@ -163,6 +351,7 @@
                 </div>
                 <textarea id="pub-key-output" rows="5" placeholder="點擊按鈕生成 4096 bit 公鑰..." readonly></textarea>
             </div>
+
             <div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <label>私鑰 (Private Key - Base64)：</label>
@@ -177,24 +366,31 @@
                 加密與解密對弈
                 <span class="sub">ENCRYPT & DECRYPT</span>
             </div>
-            <div style="border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 14px;">
+
+            <div style="border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 16px;">
                 <label>接收者公鑰 (Public Key)：</label>
                 <input type="text" id="input-target-pubkey" placeholder="貼入接收者的 RSA 公鑰..." />
-                <label style="margin-top: 8px;">要加密的明文機密：</label>
+
+                <label style="margin-top: 10px;">要加密的明文機密：</label>
                 <textarea id="input-plain-text" rows="2" placeholder="輸入欲保護的明文字串..."></textarea>
-                <button class="btn btn-red" id="btn-pow-encrypt" style="width: 100%; margin-top: 10px;">
+
+                <button class="btn btn-red" id="btn-pow-encrypt" style="width: 100%; margin-top: 12px;">
                     🔒 啟動 PoW 算力對弈 & 雲端加密
                 </button>
             </div>
+
             <div>
                 <label>封裝密文輸出：</label>
                 <textarea id="cipher-text-area" rows="3" placeholder="對弈成功之密文將呈顯於此..." readonly></textarea>
-                <label style="margin-top: 8px;">解密私鑰 (Private Key)：</label>
+
+                <label style="margin-top: 10px;">解密私鑰 (Private Key)：</label>
                 <textarea id="input-decrypt-privkey" rows="2" placeholder="貼入對應之私鑰以進行破譯..."></textarea>
-                <button class="btn" id="btn-decrypt" style="width: 100%; margin-top: 10px;">
+
+                <button class="btn" id="btn-decrypt" style="width: 100%; margin-top: 12px;">
                     🔓 執行本地私鑰破譯還原
                 </button>
-                <label style="margin-top: 8px;">還原結果明文：</label>
+
+                <label style="margin-top: 10px;">還原結果明文：</label>
                 <input type="text" id="output-decrypted-text" placeholder="破譯還原後之明文..." readonly style="font-weight:bold; color:#8c1c1c;" />
             </div>
         </div>
@@ -203,22 +399,23 @@
 
     <script>
         /**
-         * 系統配置與全域狀態
+         * 全域配置 (CONFIG) & 系統狀態 (STATE)
          */
         const CONFIG = {
             API_URL: "https://sun-star-121.vercel.app/api/pow-encrypt",
-            KEY_SIZE: 4096,
+            RSA_MODULUS: 4096,
             HASH_ALGO: "SHA-256",
             CRYPTO_ALGO: "RSA-OAEP"
         };
 
         const STATE = {
             isWorking: false,
-            keyPair: null
+            currentKeyPair: null
         };
 
         /**
-         * 1. UI 與日誌控制器 (UIController)
+         * 1. 介面與日誌控制器 (UIController)
+         * 負責 UI 控制、監視器狀態更新與終端日誌滾動
          */
         const UI = {
             log(msg) {
@@ -235,12 +432,17 @@
                 document.getElementById("val-hashrate").innerText = hashrate;
                 document.getElementById("val-clock").innerText = clock;
                 document.getElementById("val-temp").innerText = temp;
+            },
+            setButtonsDisabled(disabled) {
+                document.getElementById("btn-pow-encrypt").disabled = disabled;
+                document.getElementById("btn-generate-keys").disabled = disabled;
+                document.getElementById("btn-decrypt").disabled = disabled;
             }
         };
 
         /**
-         * 2. 資料編解碼引擎 (CodecEngine)
-         * 使用最乾淨的原生轉換，不做多餘字串過濾，杜絕 atob 報錯
+         * 2. 安全編解碼引擎 (CodecEngine)
+         * 採用標準 Uint8Array 與正確 Base64 轉換機制，徹底防止 atob 崩潰
          */
         const Codec = {
             bufferToBase64(buffer) {
@@ -251,24 +453,43 @@
                 }
                 return window.btoa(binary);
             },
-            base64ToBuffer(base64Str) {
-                // 自動剝離自訂前綴標籤 (如有)，並清除前後端多餘換行
-                const cleanStr = base64Str.includes("::") ? base64Str.split("::").pop().trim() : base64Str.trim();
-                const binaryString = window.atob(cleanStr);
-                const bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
+            base64ToBuffer(rawBase64) {
+                if (!rawBase64) throw new Error("輸入字串不可為空");
+                
+                // 1. 如果包含自訂前綴標籤 (例如 INK_V2.4::)，切開只取 Base64 部分
+                let clean = rawBase64.includes("::") ? rawBase64.split("::").pop() : rawBase64;
+                
+                // 2. 正確將 URL 安全位元 (- 和 _) 替換為標準 (+ 和 /)
+                clean = clean.replace/-/g, '+').replace(/_/g, '/');
+                
+                // 3. 安全過濾所有非 Base64 字元 (包含隱形換行符 \n, \r, 空格)
+                clean = clean.replace(/[^A-Za-z0-9+/=]/g, '');
+                
+                // 4. 補齊長度使其符合 4 的倍數，確保數學長度對齊
+                while (clean.length % 4 !== 0) {
+                    clean += '=';
                 }
-                return bytes.buffer;
+
+                try {
+                    const binaryString = window.atob(clean);
+                    const bytes = new Uint8Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                        bytes[i] = binaryString.charCodeAt(i);
+                    }
+                    return bytes.buffer;
+                } catch (e) {
+                    throw new Error("Base64 編碼格式損毀，無法還原為二進位 ArrayBuffer");
+                }
             }
         };
 
         /**
-         * 3. 密碼學運算引擎 (CryptoEngine)
+         * 3. 密碼學核心引擎 (CryptoEngine)
+         * 負責本機 Web Crypto API 調用：RSA-4096 金鑰生成與私鑰破譯
          */
         const CryptoEngine = {
             async generateKeyPair() {
-                UI.log(`>>> 啟動 Web Crypto API，正在運算 RSA-${CONFIG.KEY_SIZE} 質數矩陣...`);
+                UI.log(`>>> 啟動 Web Crypto API，正在運算 RSA-${CONFIG.RSA_MODULUS} 質數矩陣...`);
                 UI.setStatus("運算中 // 凝聚 4096-bit 金鑰");
                 UI.updateMonitor({ threads: "8 / 16 (GenKey)", clock: "3.80 GHz", temp: "52.4 °C" });
 
@@ -277,13 +498,15 @@
                     const keyPair = await window.crypto.subtle.generateKey(
                         {
                             name: CONFIG.CRYPTO_ALGO,
-                            modulusLength: CONFIG.KEY_SIZE,
+                            modulusLength: CONFIG.RSA_MODULUS,
                             publicExponent: new Uint8Array([1, 0, 1]),
                             hash: CONFIG.HASH_ALGO
                         },
                         true,
                         ["encrypt", "decrypt"]
                     );
+
+                    STATE.currentKeyPair = keyPair;
 
                     const pubBuffer = await window.crypto.subtle.exportKey("spki", keyPair.publicKey);
                     const privBuffer = await window.crypto.subtle.exportKey("pkcs8", keyPair.privateKey);
@@ -297,9 +520,9 @@
                     document.getElementById("input-decrypt-privkey").value = privBase64;
 
                     const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
-                    UI.log(`✅ RSA-${CONFIG.KEY_SIZE} 金鑰對凝聚完成！耗時: ${elapsed} 秒`);
+                    UI.log(`✅ RSA-${CONFIG.RSA_MODULUS} 金鑰對凝聚完成！耗時: ${elapsed} 秒`);
                 } catch (err) {
-                    UI.log(`❌ 金鑰生成失敗: ${err.message}`);
+                    UI.log(`❌ 金鑰生成異常: ${err.message}`);
                     throw err;
                 } finally {
                     UI.setStatus("連線就緒 // 雲端算力待命");
@@ -328,13 +551,14 @@
 
                     return new TextDecoder().decode(decryptedBuffer);
                 } catch (err) {
-                    throw new Error(`RSA 破譯失敗，請確認私鑰憑證與密文匹配度 (${err.message})`);
+                    throw new Error(`RSA 破譯失敗：${err.message}`);
                 }
             }
         };
 
         /**
-         * 4. 非阻塞 PoW 算力引擎 (PoWEngine)
+         * 4. 非阻塞 PoW 算力對弈引擎 (PoWEngine)
+         * 採用時間切片（Time-Slicing）探勘演算法，保護 UI 順暢，計算實時 H/s
          */
         const PoWEngine = {
             fastHash(str) {
@@ -358,13 +582,13 @@
                     let lastUIUpdate = startTime;
 
                     UI.log(`>>> 啟動 PoW 算力陣列 [難度 Level ${difficulty}: 前導零 "${targetPrefix}"]...`);
-                    
+
                     function mineSlice() {
                         const sliceStart = performance.now();
                         let found = false;
                         let currentHash = "";
 
-                        // 每幀分配 16ms 密集算力尋找 Nonce，保持 UI 不卡死
+                        // 每幀限制密集運算 16ms，釋放主執行緒給瀏覽器渲染
                         while (performance.now() - sliceStart < 16) {
                             nonce++;
                             totalHashes++;
@@ -376,24 +600,24 @@
                         }
 
                         const now = performance.now();
-                        const elapsed = (now - startTime) / 1000;
-                        const hashrate = Math.round(totalHashes / (elapsed || 0.001));
+                        const elapsedSeconds = (now - startTime) / 1000;
+                        const hashrate = Math.round(totalHashes / (elapsedSeconds || 0.001));
 
                         if (now - lastUIUpdate > 150 || found) {
-                            const tempSim = Math.min(78.5, 48 + Math.sqrt(elapsed) * 8).toFixed(1);
+                            const tempSim = Math.min(78.5, 48 + Math.sqrt(elapsedSeconds) * 8).toFixed(1);
                             UI.updateMonitor({
                                 threads: "16 / 16 (Full Load)",
                                 hashrate: `${hashrate.toLocaleString()} H/s`,
                                 clock: "4.20 GHz (Turbo)",
                                 temp: `${tempSim} °C`
                             });
-                            UI.log(`[PoW 探勘中] Nonce: ${nonce.toLocaleString()} | Hash: ${currentHash.substring(0,10)}... | 流速: ${hashrate.toLocaleString()} H/s`);
+                            UI.log(`[PoW 探勘中] Nonce: ${nonce.toLocaleString()} | Hash: ${currentHash.substring(0, 10)}... | 流速: ${hashrate.toLocaleString()} H/s`);
                             lastUIUpdate = now;
                         }
 
                         if (found) {
                             UI.log(`🔥 破除陣法！合格 Nonce: ${nonce.toLocaleString()} | 總試驗: ${totalHashes.toLocaleString()} 次 | 最終流速: ${hashrate.toLocaleString()} H/s`);
-                            resolve({ nonce, proofHash: currentHash, elapsed });
+                            resolve({ nonce, proofHash: currentHash, elapsed: elapsedSeconds });
                         } else {
                             setTimeout(mineSlice, 0);
                         }
@@ -405,15 +629,22 @@
         };
 
         /**
-         * 5. 雲端 API 傳輸介面 (CloudConnector)
+         * 5. 雲端 API 介面 (CloudConnector)
          */
         const CloudConnector = {
             async encrypt({ text, pubKeyBase64, difficulty, nonce, proofHash }) {
                 UI.log(`>>> 攜帶 PoW 憑證 [Hash: ${proofHash}] 請求 Vercel 雲端引擎加密...`);
+                
                 const response = await fetch(CONFIG.API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ text, pubKeyBase64, difficulty, nonce, proofHash })
+                    body: JSON.stringify({
+                        text,
+                        pubKeyBase64: Codec.base64ToBuffer ? pubKeyBase64.trim() : pubKeyBase64,
+                        difficulty,
+                        nonce,
+                        proofHash
+                    })
                 });
 
                 const data = await response.json();
@@ -426,6 +657,7 @@
 
         /**
          * 6. 水墨畫布渲染引擎 (VisualEngine)
+         * 具備動態 ResizeObserver，獨立運作，響應算力波浪
          */
         const VisualEngine = {
             angle: 0,
@@ -433,12 +665,20 @@
                 this.canvas = document.getElementById("oscilloscope");
                 if (!this.canvas) return;
                 this.ctx = this.canvas.getContext("2d");
+
+                // 自動防呆監聽父容器寬度變動
+                const resizeObserver = new ResizeObserver(() => {
+                    this.width = this.canvas.width = this.canvas.parentElement.clientWidth || 280;
+                    this.height = this.canvas.height = 95;
+                });
+                resizeObserver.observe(this.canvas.parentElement);
+
                 this.render();
             },
             render() {
                 if (!this.canvas || !this.ctx) return;
-                const width = this.canvas.width = this.canvas.parentElement.clientWidth || 280;
-                const height = this.canvas.height = 90;
+                const width = this.canvas.width;
+                const height = this.canvas.height;
                 const baseHeight = height / 2;
 
                 this.ctx.fillStyle = "rgba(244, 240, 234, 0.28)";
@@ -469,7 +709,8 @@
                         this.ctx.lineTo(x, y);
                         this.ctx.stroke();
 
-                        prevX = x; prevY = y;
+                        prevX = x; 
+                        prevY = y;
                     }
                 }
                 this.ctx.restore();
@@ -478,27 +719,36 @@
         };
 
         /**
-         * 7. 事件監聽與流程綁定
+         * 7. 全域事件監聽與初始化 (App Lifecycle)
          */
         document.addEventListener("DOMContentLoaded", () => {
+            // 啟動視覺動畫引擎
             VisualEngine.init();
 
-            // 生成金鑰
+            // 生成金鑰對按鈕
             document.getElementById("btn-generate-keys").addEventListener("click", () => {
-                CryptoEngine.generateKeyPair().catch(err => alert(err.message));
+                UI.setButtonsDisabled(true);
+                CryptoEngine.generateKeyPair()
+                    .catch(err => alert(err.message))
+                    .finally(() => UI.setButtonsDisabled(false));
             });
 
-            // 複製按鈕
+            // 複製公鑰 / 私鑰按鈕
             document.getElementById("btn-copy-pub").addEventListener("click", () => {
-                navigator.clipboard.writeText(document.getElementById("pub-key-output").value);
-                alert("✅ 4096 bit 公鑰已複製！");
-            });
-            document.getElementById("btn-copy-priv").addEventListener("click", () => {
-                navigator.clipboard.writeText(document.getElementById("priv-key-output").value);
-                alert("⚠️ 私鑰已複製！請妥善保存，切勿洩漏！");
+                const val = document.getElementById("pub-key-output").value;
+                if (!val) return alert("請先生成公鑰！");
+                navigator.clipboard.writeText(val);
+                alert("✅ 4096 bit 公鑰已複製到剪貼簿！");
             });
 
-            // PoW 加密流程
+            document.getElementById("btn-copy-priv").addEventListener("click", () => {
+                const val = document.getElementById("priv-key-output").value;
+                if (!val) return alert("請先生成私鑰！");
+                navigator.clipboard.writeText(val);
+                alert("⚠️ 私鑰已複製！請妥善保存，切勿公開洩漏！");
+            });
+
+            // 啟動 PoW 加密流程按鈕
             document.getElementById("btn-pow-encrypt").addEventListener("click", async () => {
                 const pubKey = document.getElementById("input-target-pubkey").value.trim();
                 const text = document.getElementById("input-plain-text").value;
@@ -510,7 +760,7 @@
                 }
 
                 STATE.isWorking = true;
-                document.getElementById("btn-pow-encrypt").disabled = true;
+                UI.setButtonsDisabled(true);
                 UI.setStatus(`算力全開 // PoW [Lv.${diffLevel}] 狂飆對弈中`);
 
                 try {
@@ -524,27 +774,29 @@
                     });
 
                     document.getElementById("cipher-text-area").value = cloudResult.cipherText;
-                    UI.log(`✅ 雲端算力對弈完勝！對稱密文封裝完成。總耗時: ${powResult.elapsed.toFixed(2)} 秒`);
+                    UI.log(`✅ 雲端算力對弈完勝！密文封裝完成。總耗時: ${powResult.elapsed.toFixed(2)} 秒`);
                 } catch (err) {
-                    UI.log(`❌ 運算或連線失敗: ${err.message}`);
+                    UI.log(`❌ 加密對弈失敗: ${err.message}`);
+                    alert(`加密過程出錯: ${err.message}`);
                 } finally {
                     STATE.isWorking = false;
-                    document.getElementById("btn-pow-encrypt").disabled = false;
+                    UI.setButtonsDisabled(false);
                     UI.setStatus("連線就緒 // 雲端算力待命");
                     UI.updateMonitor({});
                 }
             });
 
-            // 本地解密流程
+            // 本地私鑰解密按鈕
             document.getElementById("btn-decrypt").addEventListener("click", async () => {
                 const privKey = document.getElementById("input-decrypt-privkey").value;
                 const cipherText = document.getElementById("cipher-text-area").value;
 
                 if (!privKey || !cipherText) {
                     alert("請填寫解密對應之 RSA 私鑰與加密密文！");
-                return;
+                    return;
                 }
 
+                UI.setButtonsDisabled(true);
                 try {
                     const decryptedText = await CryptoEngine.decrypt(privKey, cipherText);
                     document.getElementById("output-decrypted-text").value = decryptedText;
@@ -552,6 +804,8 @@
                 } catch (err) {
                     UI.log(`❌ ${err.message}`);
                     alert(err.message);
+                } finally {
+                    UI.setButtonsDisabled(false);
                 }
             });
         });

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 // PoW-RSA4096 加密傳輸系統</title>
+    <title>水墨終端 // PoW-RSA4096 密碼學對弈平台</title>
     <style>
-        /* ==================== 宣紙質感與水墨視覺 ==================== */
+        /* ==================== 宣紙質感與東方水墨視覺 ==================== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* 淡雅水墨背景紋理 */
+        /* 隱墨遊龍底紋 */
         body::before {
             content: "";
             position: fixed;
@@ -187,6 +187,7 @@
         .btn-red { background: #8c1c1c; color: #fff; }
         .btn-red:hover { background: #a62222; }
         .btn-sm { padding: 3px 8px; font-size: 0.75rem; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
 
         canvas#oscilloscope {
             width: 100%;
@@ -202,7 +203,7 @@
             font-family: "Consolas", "Courier New", monospace;
             font-size: 0.75rem;
             padding: 10px;
-            height: 150px;
+            height: 160px;
             overflow-y: auto;
             border-radius: 3px;
             line-height: 1.4;
@@ -214,10 +215,10 @@
 
     <header>
         <div class="brand">
-            <h1>水墨終端 <span class="sub-title">// PoW-RSA4096 雲端密碼學平台</span></h1>
+            <h1>水墨終端 <span class="sub-title">// PoW-RSA4096 雲端密碼學對弈平台</span></h1>
         </div>
         <div class="status-badge">
-            系統狀態: <span id="sky-status">連線就緒 // 雲端算力正常</span>
+            系統狀態: <span id="sky-status">連線就緒 // 雲端算力節點待命</span>
         </div>
     </header>
 
@@ -235,7 +236,7 @@
                     <div class="stat-val" id="val-threads">0 / 16</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">運算流速</div>
+                    <div class="stat-label">實時算力流速</div>
                     <div class="stat-val" id="val-hashrate">0 H/s</div>
                 </div>
                 <div class="stat-box">
@@ -249,14 +250,14 @@
             </div>
 
             <div>
-                <label for="diff-select">PoW 加密工作量證明難度：</label>
+                <label for="diff-select">PoW 工作量證明難度階梯：</label>
                 <select id="diff-select">
-                    <option value="1">Level 1: 輕量驗證 (10^4 Iterations)</option>
-                    <option value="2">Level 2: 標準防護 (50^4 Iterations)</option>
-                    <option value="3" selected>Level 3: 嚴密加密 (10^5 Iterations)</option>
-                    <option value="4">Level 4: 強化矩陣 (30^5 Iterations)</option>
-                    <option value="5">Level 5: 極致算力 (50^5 Iterations)</option>
-                    <option value="6">Level 6: 深層演化 (10^6 Iterations)</option>
+                    <option value="1">Level 1: 輕量驗證 (前導零: 0)</option>
+                    <option value="2">Level 2: 標準防護 (前導零: 00)</option>
+                    <option value="3" selected>Level 3: 嚴密對弈 (前導零: 000)</option>
+                    <option value="4">Level 4: 強化矩陣 (前導零: 0000)</option>
+                    <option value="5">Level 5: 極致算力 (前導零: 00000)</option>
+                    <option value="6">Level 6: 深層演化 (前導零: 000000 - 極度硬核)</option>
                 </select>
             </div>
 
@@ -268,7 +269,7 @@
             <div>
                 <label>執行時序日誌：</label>
                 <div class="console-log" id="console-output">
-                    [System] 系統核心載入完成...<br>
+                    [System] 密碼學終端初始化完成...<br>
                     [System] Vercel 雲端 API 節點連線就緒。<br>
                     [System] 等待指令輸入...
                 </div>
@@ -282,7 +283,7 @@
             </div>
 
             <p style="font-size: 0.8rem; color: #666; line-height: 1.4;">
-                於本機瀏覽器核心凝聚 RSA-4096 軍工級金鑰對。公鑰用於加密授權，私鑰用於破譯還原。
+                於本機瀏覽器核心凝聚 RSA-4096 軍工級金鑰對。公鑰用於雲端 PoW 加密對弈，私鑰用於破譯還原。
             </p>
 
             <button class="btn" id="btn-generate-keys" style="width:100%;">
@@ -320,23 +321,23 @@
                 <textarea id="input-plain-text" rows="2" placeholder="輸入欲保護的明文字串..."></textarea>
 
                 <button class="btn btn-red" id="btn-pow-encrypt" style="width: 100%; margin-top: 10px;">
-                    🔒 執行 PoW 工作量證明與雲端加密
+                    🔒 啟動 PoW 算力對弈 & 雲端加密
                 </button>
             </div>
 
             <div>
                 <label>封裝密文輸出：</label>
-                <textarea id="cipher-text-area" rows="3" placeholder="運算完成之密文將顯示於此..." readonly></textarea>
+                <textarea id="cipher-text-area" rows="3" placeholder="對弈成功之密文將呈顯於此..." readonly></textarea>
 
                 <label style="margin-top: 8px;">解密私鑰 (Private Key)：</label>
-                <textarea id="input-decrypt-privkey" rows="2" placeholder="貼入對應之私鑰以進行解密..."></textarea>
+                <textarea id="input-decrypt-privkey" rows="2" placeholder="貼入對應之私鑰以進行破譯..."></textarea>
 
                 <button class="btn" id="btn-decrypt" style="width: 100%; margin-top: 10px;">
                     🔓 執行本地私鑰破譯還原
                 </button>
 
                 <label style="margin-top: 8px;">還原結果明文：</label>
-                <input type="text" id="output-decrypted-text" placeholder="解密還原後之明文..." readonly style="font-weight:bold; color:#8c1c1c;" />
+                <input type="text" id="output-decrypted-text" placeholder="破譯還原後之明文..." readonly style="font-weight:bold; color:#8c1c1c;" />
             </div>
         </div>
 
@@ -354,7 +355,7 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // 1. 強化防呆水墨 Canvas 動態波浪
+        // 1. 防呆水墨 Canvas 動態波浪 (隨著 CPU 運算負載改變波幅)
         let dragonAngle = 0;
         function animateCanvas() {
             const canvas = document.getElementById('oscilloscope');
@@ -368,11 +369,11 @@
                     ctx.fillStyle = "rgba(244, 240, 234, 0.28)";
                     ctx.fillRect(0, 0, width, height);
 
-                    dragonAngle += isWorking ? 0.12 : 0.025;
+                    dragonAngle += isWorking ? 0.15 : 0.025; // 算力全開時劇烈波動
 
                     ctx.save();
                     ctx.lineCap = "round";
-                    const waveAmplitude = isWorking ? 30 : 8;
+                    const waveAmplitude = isWorking ? 32 : 8;
 
                     for (let lane = -1; lane <= 1; lane++) {
                         const alpha = 0.25 - Math.abs(lane) * 0.06;
@@ -423,20 +424,20 @@
             return bytes.buffer;
         }
 
-        // 2. 恢復硬核 RSA-4096 金鑰生成
+        // 2. 滿血 RSA-4096 軍工級金鑰生成
         document.getElementById("btn-generate-keys").addEventListener("click", async () => {
-            logMsg(">>> 啟動本地安全核心，正在計算 RSA-4096 質數對...");
+            logMsg(">>> 啟動底層密碼學核心，正在尋找 RSA-4096 質數對...");
             document.getElementById("sky-status").innerText = "運算中 // 凝聚 4096-bit 金鑰";
-            document.getElementById("val-threads").innerText = "8 / 16";
-            document.getElementById("val-clock").innerText = "3.60 GHz";
-            document.getElementById("val-temp").innerText = "51.2 °C";
+            document.getElementById("val-threads").innerText = "8 / 16 (GenKey)";
+            document.getElementById("val-clock").innerText = "3.80 GHz";
+            document.getElementById("val-temp").innerText = "52.4 °C";
             
             try {
                 const startTime = performance.now();
                 generatedKeyPair = await window.crypto.subtle.generateKey(
                     {
                         name: "RSA-OAEP",
-                        modulusLength: 4096, // 🚀 恢復 4096 bit
+                        modulusLength: 4096, // 🚀 100% 真實 4096 bit
                         publicExponent: new Uint8Array([1, 0, 1]),
                         hash: "SHA-256"
                     },
@@ -456,8 +457,8 @@
                 document.getElementById("input-decrypt-privkey").value = privBase64;
 
                 const costTime = ((performance.now() - startTime) / 1000).toFixed(2);
-                logMsg(`✅ RSA-4096 金鑰對凝聚完成！耗時: ${costTime}s`);
-                document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力正常";
+                logMsg(`✅ RSA-4096 金鑰對凝聚完成！真實耗時: ${costTime} 秒`);
+                document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力節點待命";
             } catch (err) {
                 logMsg("❌ 金鑰生成異常: " + err.message);
             } finally {
@@ -473,14 +474,26 @@
         });
         document.getElementById("btn-copy-priv").addEventListener("click", () => {
             navigator.clipboard.writeText(document.getElementById("priv-key-output").value);
-            alert("⚠️ 私鑰已複製，請妥善保管，勿透過公開管道傳輸！");
+            alert("⚠️ 私鑰已複製！請妥善保存，切勿公開洩漏！");
         });
 
-        // 3. PoW 加密與雲端 API 深度推演日誌
+        // 3. 🚀 真實 PoW 算力對弈引擎 (Non-blocking Time-Slicing Hash Mining)
+        function fastHash(str) {
+            let h1 = 0xdeadbeef ^ str.length, h2 = 0x41c6ce57 ^ str.length;
+            for (let i = 0, ch; i < str.length; i++) {
+                ch = str.charCodeAt(i);
+                h1 = Math.imul(h1 ^ ch, 2654435761);
+                h2 = Math.imul(h2 ^ ch, 1597334677);
+            }
+            h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+            h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+            return (Math.abs(h1 >>> 0).toString(16).padStart(8, '0') + Math.abs(h2 >>> 0).toString(16).padStart(8, '0'));
+        }
+
         document.getElementById("btn-pow-encrypt").addEventListener("click", async () => {
             const pubKey = document.getElementById("input-target-pubkey").value.trim();
             const text = document.getElementById("input-plain-text").value;
-            const diffLevel = document.getElementById("diff-select").value;
+            const diffLevel = parseInt(document.getElementById("diff-select").value);
 
             if (!pubKey || !text) {
                 alert("請填寫接收者公鑰與欲加密之明文！");
@@ -488,48 +501,99 @@
             }
 
             isWorking = true;
-            document.getElementById("sky-status").innerText = "算力全開 // 執行 PoW 加密推演";
-            document.getElementById("val-threads").innerText = "16 / 16";
+            document.getElementById("btn-pow-encrypt").disabled = true;
+            document.getElementById("sky-status").innerText = `算力全開 // PoW [Lv.${diffLevel}] 狂飆對弈中`;
+            document.getElementById("val-threads").innerText = "16 / 16 (Full Load)";
             document.getElementById("val-clock").innerText = "4.20 GHz (Turbo)";
-            document.getElementById("val-hashrate").innerText = (18500 * diffLevel).toLocaleString() + " H/s";
-            document.getElementById("val-temp").innerText = (52 + diffLevel * 2.5).toFixed(1) + " °C";
 
-            logMsg(`>>> 鎖定目標公鑰，啟動 PoW 難度陣列 [Level ${diffLevel}]...`);
-            logMsg(`>>> 正在派發算力任務至 Vercel 分布式節點...`);
+            const targetPrefix = "0".repeat(diffLevel);
+            logMsg(`>>> 啟動 PoW 工作量證明矩陣 [難度 Level ${diffLevel}: 前導零 "${targetPrefix}"]...`);
+            logMsg(`>>> 執行緒全開！正在搜尋有效 Nonce 隨機數...`);
 
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/pow-encrypt`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        text: text,
-                        pubKeyBase64: pubKey,
-                        difficulty: diffLevel
-                    })
-                });
+            let nonce = 0;
+            const startTime = performance.now();
+            let lastUIUpdate = startTime;
+            let totalHashes = 0;
 
-                const result = await response.json();
+            // 採用切片異步挖礦迴圈，避免 UI 卡死
+            function mineChunk() {
+                const chunkStart = performance.now();
+                let found = false;
+                let currentHash = "";
 
-                if (response.ok && result.cipherText) {
-                    document.getElementById("cipher-text-area").value = result.cipherText;
-                    logMsg(`✅ 雲端 PoW 加密封裝成功！累積驗證次數: ${(diffLevel * 15420).toLocaleString()} 次`);
-                    logMsg(`⏱️ 總執行耗時: ${result.timeSpent || '0.85s'}`);
-                } else {
-                    logMsg("❌ 雲端運算節點回報錯誤: " + (result.error || "回應格式異常"));
+                // 每一幀分配 18ms 的密集 CPU 算力尋找 Nonce
+                while (performance.now() - chunkStart < 18) {
+                    nonce++;
+                    totalHashes++;
+                    currentHash = fastHash(text + "::" + nonce);
+                    if (currentHash.startsWith(targetPrefix)) {
+                        found = true;
+                        break;
+                    }
                 }
-            } catch (err) {
-                logMsg("❌ 網路連線或 CORS 存取阻斷: " + err.message);
-            } finally {
-                isWorking = false;
-                document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力正常";
-                document.getElementById("val-threads").innerText = "0 / 16";
-                document.getElementById("val-clock").innerText = "1.80 GHz";
-                document.getElementById("val-hashrate").innerText = "0 H/s";
-                document.getElementById("val-temp").innerText = "42.0 °C";
+
+                const now = performance.now();
+                const elapsedSeconds = (now - startTime) / 1000;
+                const hashrate = Math.round(totalHashes / (elapsedSeconds || 0.001));
+
+                // 每 150ms 更新一次 UI 和算力流速
+                if (now - lastUIUpdate > 150 || found) {
+                    document.getElementById("val-hashrate").innerText = hashrate.toLocaleString() + " H/s";
+                    document.getElementById("val-temp").innerText = Math.min(78.5, (48 + Math.sqrt(elapsedSeconds) * 8)).toFixed(1) + " °C";
+                    logMsg(`[PoW 探勘中] Nonce: ${nonce.toLocaleString()} | Hash: ${currentHash.substring(0,10)}... | 流速: ${hashrate.toLocaleString()} H/s`);
+                    lastUIUpdate = now;
+                }
+
+                if (found) {
+                    onPoWSuccess(nonce, currentHash, totalHashes, elapsedSeconds, hashrate);
+                } else {
+                    setTimeout(mineChunk, 0); // 繼續下一幀探勘
+                }
             }
+
+            // 當成功算出合格 Nonce 後，傳送至 Vercel 進行對弈
+            async function onPoWSuccess(validNonce, validHash, totalIter, timeSpent, finalHps) {
+                logMsg(`🔥 破除陣法！成功算出合格 Nonce: ${validNonce.toLocaleString()} | 總試驗: ${totalIter.toLocaleString()} 次 | 最終流速: ${finalHps.toLocaleString()} H/s`);
+                logMsg(`>>> 攜帶 PoW 憑證 [Hash: ${validHash}] 請求 Vercel 雲端引擎加密...`);
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/pow-encrypt`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            text: text,
+                            pubKeyBase64: pubKey,
+                            difficulty: diffLevel,
+                            nonce: validNonce,
+                            proofHash: validHash
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.cipherText) {
+                        document.getElementById("cipher-text-area").value = result.cipherText;
+                        logMsg(`✅ 雲端算力對弈完勝！對稱密文封裝完成。耗時: ${timeSpent.toFixed(2)} 秒`);
+                    } else {
+                        logMsg("❌ 雲端運算節點回報錯誤: " + (result.error || "回應格式異常"));
+                    }
+                } catch (err) {
+                    logMsg("❌ 網路連線或 API 端點阻斷: " + err.message);
+                } finally {
+                    isWorking = false;
+                    document.getElementById("btn-pow-encrypt").disabled = false;
+                    document.getElementById("sky-status").innerText = "連線就緒 // 雲端算力節點待命";
+                    document.getElementById("val-threads").innerText = "0 / 16";
+                    document.getElementById("val-clock").innerText = "1.80 GHz";
+                    document.getElementById("val-hashrate").innerText = "0 H/s";
+                    document.getElementById("val-temp").innerText = "42.0 °C";
+                }
+            }
+
+            mineChunk(); // 啟動探勘
         });
 
-        // 4. 本地 RSA-4096 私鑰解密還原
+        // 4. 本地 RSA-4096 私鑰破譯還原
         document.getElementById("btn-decrypt").addEventListener("click", async () => {
             const privKeyBase64 = document.getElementById("input-decrypt-privkey").value.trim();
             const rawCipher = document.getElementById("cipher-text-area").value.trim();
@@ -539,7 +603,7 @@
                 return;
             }
 
-            logMsg(">>> 讀取私鑰憑證，載入 RSA-OAEP 演算法解密矩陣...");
+            logMsg(">>> 讀取私鑰憑證，載入 RSA-OAEP 底層演算法解密矩陣...");
 
             try {
                 let cipherBase64 = rawCipher;
@@ -565,7 +629,7 @@
 
                 const decryptedText = new TextDecoder().decode(decryptedBuffer);
                 document.getElementById("output-decrypted-text").value = decryptedText;
-                logMsg("🎉 破譯成功！原始機密字串已顯真還原。");
+                logMsg("🎉 破譯成功！原始機密字串已還原顯真。");
             } catch (err) {
                 logMsg("❌ 解密失敗，私鑰憑證不匹配或密文已損毀: " + err.message);
             }

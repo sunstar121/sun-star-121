@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 v4.1 // 頂級架構密碼學對弈平台</title>
+    <title>水墨終端 v4.2 // 頂級架構密碼學對弈平台</title>
     <style>
         /* ==========================================================================
            1. 全局宣紙質感與東方美學樣式
@@ -90,7 +90,7 @@
 
     <header>
         <div class="brand">
-            <h1>水墨終端 <span class="sub-title">// v4.1 穩定除錯完全體</span></h1>
+            <h1>水墨終端 <span class="sub-title">// v4.2 零盲區全破譯版</span></h1>
         </div>
         <div class="status-badge">
             系統狀態: <span id="sky-status">連線就緒 // 雲端算力待命</span>
@@ -144,7 +144,7 @@
             <div>
                 <label>執行時序日誌：</label>
                 <div class="console-log" id="console-output">
-                    [System] 密碼學模組 v4.1 穩定除錯完全體載入完成...<br>
+                    [System] 密碼學模組 v4.2 零盲區全破譯版載入完成...<br>
                     [System] Vercel API 雲端節點連線就緒。<br>
                     [System] 等待指令操作...
                 </div>
@@ -255,8 +255,8 @@
         };
 
         /**
-         * 安全編解碼引擎 (CodecEngine)
-         * 增強型錯誤捕捉與位元檢查，確保進出 API 皆無損
+         * v4.2 終極安全編解碼引擎 (CodecEngine)
+         * 數學上完全消滅等號 (=) 在字串中間引發的 atob 崩潰
          */
         const Codec = {
             bufferToBase64(buffer) {
@@ -272,16 +272,19 @@
                     throw new Error("輸入密文不可為空！");
                 }
                 
-                // 1. 如果包含自訂前綴標籤 (例如 INK_V2.4::)，切開只取 Base64 部分
+                // 1. 剝離自訂前綴標籤 (例如 INK_V2.4::)
                 let clean = rawBase64.includes("::") ? rawBase64.split("::").pop() : rawBase64;
                 
-                // 2. 將 Base64URL 格式的安全符號 (- 和 _) 轉換回標準 Base64 (+ 和 /)
+                // 2. 將 Base64URL 格式符號轉換回標準 Base64 (+ 和 /)
                 clean = clean.replace(/-/g, '+').replace(/_/g, '/');
                 
-                // 3. 安全過濾所有非 Base64 字元 (包含隱形換行符 \n, \r, 空格)
-                clean = clean.replace(/[^A-Za-z0-9+/=]/g, '');
+                // 3. 殺光「所有」非資料字元，包括等號 (=)！絕對不留半個等號在字串中間！
+                clean = clean.replace(/[^A-Za-z0-9+/]/g, '');
                 
-                // 4. 自動檢查並補齊 = 結尾填充，確保數學長度對齊
+                if (clean.length === 0) throw new Error("字串中未檢測到有效的 Base64 編碼！");
+                if (clean.length % 4 === 1) throw new Error(`Base64 資料長度異常 (${clean.length} 位元)，請檢查複製時有無遺漏。`);
+
+                // 4. 只有在最尾端依數學規則補齊等號 (=) 填充，確保 100% 符合瀏覽器規範
                 while (clean.length % 4 !== 0) {
                     clean += '=';
                 }
@@ -292,10 +295,9 @@
                     for (let i = 0; i < binaryString.length; i++) {
                         bytes[i] = binaryString.charCodeAt(i);
                     }
-                    if (bytes.byteLength === 0) throw new Error("轉換結果無效");
                     return bytes.buffer;
                 } catch (e) {
-                    throw new Error("Base64 編碼格式損毀，請檢查輸入是否為完整的 RSA 密文或私鑰。");
+                    throw new Error(`二進位轉譯失敗 (${e.message})，密文結構已損毀。`);
                 }
             }
         };
@@ -364,7 +366,11 @@
 
                     return new TextDecoder().decode(decryptedBuffer);
                 } catch (err) {
-                    throw new Error(`RSA 破譯失敗：${err.message}`);
+                    // 如果不是 Base64 格式錯誤，那就是金鑰不匹配！
+                    if (err.message.includes("Base64") || err.message.includes("長度異常")) {
+                        throw err;
+                    }
+                    throw new Error(`私鑰與加密時使用的公鑰「不配對」，或密文被篡改導致 OAEP 驗證失敗！請確認你使用的是加密公鑰對應的專屬私鑰。`);
                 }
             }
         };

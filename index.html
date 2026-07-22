@@ -3,360 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUN-STAR // 日月乾坤·太極天道量子防衛法陣 v10.0-ULTIMATE</title>
+    <title>水墨終端 v2.4</title>
     <style>
         :root {
-            --bg-dark: #020306;
-            --panel-bg: rgba(7, 12, 18, 0.94);
-            --panel-border: #142634;
-            --sun-gold: #ffb000;
-            --sun-gold-glow: rgba(255, 176, 0, 0.45);
-            --moon-cyan: #00ffff;
-            --moon-cyan-glow: rgba(0, 255, 255, 0.45);
-            --spirit-green: #00ff66;
-            --spirit-green-glow: rgba(0, 255, 102, 0.4);
-            --blood-red: #ff2a3c;
-            --text-main: #e2f8ee;
-            --text-dim: #436453;
+            --paper-bg: #f5f2eb;
+            --paper-card: rgba(250, 248, 243, 0.92);
+            --ink-dark: #16181b;
+            --ink-main: #2d3037;
+            --ink-dim: #636a76;
+            --ink-border: #ccc8be;
+            --ink-light: #e4e0d5;
+            --seal-red: #a81d1d;
+            --seal-red-hover: #861515;
+            --seal-red-light: rgba(168, 29, 29, 0.08);
+            --jade-green: #245243;
+            --sun-gold: #b89020;
         }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(2, 4, 8, 0.9); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--sun-gold), var(--moon-cyan)); box-shadow: 0 0 10px var(--sun-gold-glow); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: #ebe7de; }
+        ::-webkit-scrollbar-thumb { background: var(--ink-border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-dim); }
 
-        * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--sun-gold) rgba(2, 4, 8, 0.9); }
+        * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: var(--ink-border) #ebe7de; }
 
+        /* 🌟 溫潤宣紙紙膚質感 */
         body {
-            font-family: 'Segoe UI', 'Courier New', monospace;
-            background-color: var(--bg-dark);
+            font-family: "Songti SC", "SimSun", "STSong", "PingFang SC", "Microsoft YaHei", serif;
+            background-color: var(--paper-bg);
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 176, 0, 0.12) 0%, transparent 65%),
-                radial-gradient(circle at 50% 100%, rgba(0, 255, 255, 0.08) 0%, transparent 65%),
-                linear-gradient(rgba(0, 255, 255, 0.015) 1px, transparent 1px), 
-                linear-gradient(90deg, rgba(255, 176, 0, 0.015) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 25px 25px, 25px 25px;
-            color: var(--text-main); padding: 15px; max-width: 1480px; margin: 0 auto; position: relative;
+                radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 5px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 5px);
+            background-size: 16px 16px, 24px 24px, 24px 24px;
+            color: var(--ink-main); 
+            padding: 30px 20px; 
+            max-width: 1440px; 
+            margin: 0 auto; 
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* 古法 CRT 水墨掃描線 */
-        body::after {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.38) 50%);
-            z-index: 9999; background-size: 100% 3px; pointer-events: none;
+        /* 🌟 墨龍遊天 Canvas 背景 */
+        #dragonCanvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; opacity: 0.45; pointer-events: none;
         }
 
-        /* 頂部太極日月樞紐 Header */
+        /* 頂部天地棋局橫幅 */
         .sys-header {
-            background: linear-gradient(90deg, rgba(255, 176, 0, 0.15) 0%, rgba(0, 255, 255, 0.1) 100%);
-            border: 1px solid var(--sun-gold); border-left: 6px solid var(--sun-gold); border-right: 6px solid var(--moon-cyan);
-            padding: 12px 22px; margin-bottom: 20px; box-shadow: 0 0 30px var(--sun-gold-glow);
-            display: flex; justify-content: space-between; align-items: center; font-size: 13px; letter-spacing: 2px;
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-top: 4px solid var(--ink-dark);
+            border-bottom: 2px solid var(--seal-red);
+            padding: 16px 30px; margin-bottom: 35px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            display: flex; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 2px;
         }
-        .sys-title { font-weight: 800; color: #fff; text-shadow: 0 0 10px var(--sun-gold), 0 0 20px var(--moon-cyan); font-family: 'Courier New', monospace; }
-        .sys-status { display: flex; align-items: center; gap: 8px; font-weight: bold; }
-        .blink { animation: blinker 0.8s linear infinite; color: var(--spirit-green); }
-        .blink-red { animation: blinker 0.3s linear infinite; color: var(--blood-red); }
-        @keyframes blinker { 50% { opacity: 0; } }
+        .sys-title { font-weight: bold; color: var(--ink-dark); font-size: 18px; letter-spacing: 4px; display: flex; align-items: center; gap: 10px; }
+        .sys-title::before { content: "❖"; color: var(--seal-red); font-size: 20px; }
+        .sys-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-dim); font-family: "PingFang SC", sans-serif; }
+        .dot { color: var(--seal-red); animation: pulse 2s infinite; font-size: 14px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
-        h1 { color: #fff; text-align: center; font-size: 25px; letter-spacing: 8px; text-transform: uppercase; text-shadow: 0 0 15px var(--sun-gold), 0 0 25px var(--moon-cyan); margin: 0 0 24px 0; font-family: 'Courier New', monospace; }
+        /* 🌟 主標題：以執此棋，勝天半子 */
+        .hero-section { text-align: center; margin-bottom: 40px; position: relative; }
+        h1 { color: var(--ink-dark); font-size: 32px; letter-spacing: 14px; margin: 0 0 10px 0; font-weight: bold; }
+        .hero-subtitle { color: var(--seal-red); font-size: 15px; letter-spacing: 6px; font-style: italic; margin-bottom: 20px; font-weight: bold; }
+        .hero-line { width: 180px; height: 1px; background: var(--ink-border); margin: 0 auto; position: relative; }
+        .hero-line::after { content: "▪"; position: absolute; top: -10px; left: calc(50% - 6px); color: var(--seal-red); font-size: 14px; }
 
-        /* 🌟 8 艙式修仙硬體遙測 HUD */
-        .hud-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
-        @media (min-width: 850px) { .hud-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (min-width: 1200px) { .hud-grid { grid-template-columns: repeat(8, 1fr); } }
+        /* 🌟 徹底捨棄儀表板！改為古法豎簡與書卷側批佈局 */
+        .main-layout { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        @media (min-width: 1050px) { .main-layout { grid-template-columns: 280px 1fr; } }
+
+        /* 左側：天道算力側批 (取代 8 個圓圈) */
+        .telemetry-sidebar {
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-top: 3px solid var(--jade-green);
+            padding: 22px 18px;
+            display: flex; flex-direction: column; gap: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.03);
+            height: fit-content;
+        }
+        .sidebar-title { font-size: 14px; font-weight: bold; color: var(--ink-dark); letter-spacing: 3px; border-bottom: 1px dashed var(--ink-border); padding-bottom: 10px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .sidebar-title::before { content: "▫"; color: var(--jade-green); }
+
+        .stat-item { border-left: 2px solid var(--ink-light); padding-left: 12px; transition: all 0.3s; }
+        .stat-item:hover { border-left-color: var(--seal-red); }
+        .stat-label { font-size: 11px; color: var(--ink-dim); letter-spacing: 1px; font-family: "PingFang SC", sans-serif; }
+        .stat-value { font-size: 17px; font-weight: bold; color: var(--ink-dark); font-family: 'Courier New', monospace; margin: 2px 0; }
+        .stat-sub { font-size: 10px; color: var(--ink-dim); }
         
-        .gauge-card {
-            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 6px;
-            padding: 12px 8px; position: relative; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.85);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-top: 3px solid var(--moon-cyan);
-        }
-        .gauge-card::before {
-            content: attr(data-label); position: absolute; top: 6px; left: 8px; font-size: 9px; color: #5a8070; letter-spacing: 1px; font-weight: bold;
-        }
-        
-        .gauge-circle {
-            width: 82px; height: 82px; border-radius: 50%; border: 3px solid #142834;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin: 16px 0 8px 0; position: relative; box-shadow: 0 0 12px rgba(0, 255, 255, 0.1) inset;
-            transition: all 0.2s;
-        }
-        .gauge-circle.active { border-color: var(--moon-cyan); box-shadow: 0 0 18px var(--moon-cyan-glow) inset, 0 0 12px var(--moon-cyan); }
-        .gauge-circle.gold { border-color: var(--sun-gold); box-shadow: 0 0 18px var(--sun-gold-glow) inset, 0 0 12px var(--sun-gold); }
-        .gauge-circle.spirit { border-color: var(--spirit-green); box-shadow: 0 0 18px var(--spirit-green-glow) inset, 0 0 12px var(--spirit-green); }
-        .gauge-circle.overload { border-color: var(--blood-red); box-shadow: 0 0 22px rgba(255,42,60,0.7) inset, 0 0 18px var(--blood-red); }
-        
-        .gauge-val { font-size: 15px; font-weight: 800; color: #fff; text-shadow: 0 0 8px var(--moon-cyan); font-family: 'Courier New', monospace; }
-        .gauge-sub { font-size: 9px; color: #80c0a0; margin-top: 2px; font-weight: bold; }
-        .gauge-footer { font-size: 10px; color: #cbd5e1; font-weight: bold; margin-top: 3px; white-space: nowrap; font-family: 'Courier New', monospace; }
+        .stat-bar-bg { width: 100%; height: 3px; background: var(--ink-light); margin-top: 6px; overflow: hidden; }
+        .stat-bar-fill { height: 100%; width: 0%; background: var(--ink-dark); transition: width 0.2s; }
+        .highlight-red { color: var(--seal-red) !important; }
+        .highlight-gold { color: var(--sun-gold) !important; }
 
-        .hud-bar-bg { width: 100%; height: 5px; background: #081218; border-radius: 2px; margin-top: 5px; overflow: hidden; border: 1px solid #142834; }
-        .hud-bar-fill { height: 100%; width: 0%; background: var(--moon-cyan); box-shadow: 0 0 8px var(--moon-cyan); transition: width 0.15s; }
+        /* 右側：天地書卷與弈棋陣法 */
+        .scrolls-area { display: flex; flex-direction: column; gap: 25px; }
+        .scroll-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        @media (min-width: 850px) { .scroll-grid { grid-template-columns: 1fr 1fr; } }
 
-        /* 主佈局 */
-        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
-        @media (min-width: 950px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } .full-width-panel { grid-column: 1 / span 2; } }
-
+        /* 古法雙線裝裱畫卷 */
         .card {
-            background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 6px;
-            padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.85); border-left: 3px solid var(--sun-gold);
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-radius: 2px;
+            padding: 30px; 
+            position: relative; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid var(--ink-dark);
         }
         .card::before {
-            content: attr(data-node); position: absolute; top: -10px; left: 15px; background: var(--bg-dark); color: var(--sun-gold);
-            font-size: 11px; font-weight: bold; padding: 0 10px; letter-spacing: 2px; border: 1px solid var(--sun-gold); border-radius: 3px;
+            content: attr(data-node); position: absolute; top: -11px; left: 20px; background: var(--paper-bg); color: var(--ink-dark);
+            font-size: 12px; padding: 0 12px; letter-spacing: 2px; border: 1px solid var(--ink-border); font-weight: bold;
         }
 
-        h2 { color: var(--sun-gold); font-size: 14px; border-bottom: 1px solid #1e3848; padding-bottom: 8px; margin-top: 0; letter-spacing: 1px; font-family: 'Courier New', monospace; }
-        p { font-size: 12px; margin: 8px 0 5px 0; color: #90c0a0; }
-        .input-wrapper { position: relative; width: 100%; margin-bottom: 10px; }
+        h2 { color: var(--ink-dark); font-size: 16px; border-bottom: 1px solid var(--ink-light); padding-bottom: 12px; margin: 0 0 16px 0; letter-spacing: 2px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        h2::before { content: "▪"; color: var(--seal-red); font-size: 14px; }
+        p { font-size: 13px; margin: 14px 0 6px 0; color: var(--ink-main); letter-spacing: 1px; font-family: "PingFang SC", sans-serif; }
+        
+        .input-wrapper { position: relative; width: 100%; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
 
         textarea {
-            width: 100%; height: 85px; background: rgba(2, 6, 12, 0.95); color: var(--spirit-green); border: 1px solid #143028;
-            border-radius: 4px; padding: 10px; padding-right: 85px; box-sizing: border-box; resize: vertical; font-size: 12px; font-family: 'Courier New', monospace; transition: all 0.3s;
+            width: 100%; height: 90px; background: #fff; color: var(--ink-dark); border: 1px solid var(--ink-border);
+            border-radius: 2px; padding: 12px; box-sizing: border-box; resize: vertical; font-size: 12px; font-family: 'Courier New', monospace; transition: all 0.3s;
+            line-height: 1.5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
-        textarea:focus { outline: none; border-color: var(--moon-cyan); box-shadow: 0 0 15px var(--moon-cyan-glow) inset; }
+        textarea:focus { outline: none; border-color: var(--ink-dark); box-shadow: 0 0 0 2px rgba(22, 24, 27, 0.1); }
 
         select.cyber-select {
-            width: 100%; background: #02060c; color: var(--moon-cyan); border: 1px solid var(--moon-cyan); padding: 10px;
-            border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 12px; cursor: pointer; font-family: 'Courier New', monospace;
+            width: 100%; background: #fff; color: var(--ink-dark); border: 1px solid var(--ink-border); padding: 12px;
+            border-radius: 2px; font-size: 13px; margin-bottom: 18px; cursor: pointer; font-family: "PingFang SC", sans-serif;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
+        select.cyber-select:focus { outline: none; border-color: var(--seal-red); }
 
+        /* 🌟 硃砂篆刻方印按鈕 */
         button.action-btn {
-            background: linear-gradient(90deg, rgba(255,176,0,0.18) 0%, rgba(0,0,0,0) 100%); color: var(--sun-gold);
-            border: 1px solid var(--sun-gold); border-radius: 4px; padding: 12px 18px; font-weight: 800; cursor: pointer;
-            font-size: 13px; width: 100%; letter-spacing: 3px; transition: all 0.2s ease; font-family: 'Courier New', monospace;
+            background: var(--seal-red);
+            color: #fff; border: 1px solid var(--seal-red-hover); border-radius: 2px; padding: 14px 20px; font-weight: bold; cursor: pointer;
+            font-size: 14px; width: 100%; letter-spacing: 6px; transition: all 0.25s ease; font-family: "PingFang SC", serif;
+            box-shadow: 0 4px 12px rgba(168, 29, 29, 0.25); position: relative; overflow: hidden;
         }
-        button.action-btn:hover:not(:disabled) { background: var(--sun-gold); color: #000; box-shadow: 0 0 25px var(--sun-gold); }
-        button.action-btn:disabled { border-color: var(--text-dim); color: var(--text-dim); cursor: not-allowed; }
+        button.action-btn:hover:not(:disabled) { background: var(--seal-red-hover); box-shadow: 0 6px 18px rgba(168, 29, 29, 0.35); transform: translateY(-1px); }
+        button.action-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 2px 6px rgba(168, 29, 29, 0.2); }
+        button.action-btn:disabled { background: var(--ink-border); border-color: var(--ink-border); color: #fff; cursor: not-allowed; box-shadow: none; }
 
         .key-box {
-            font-size: 11px; background: rgba(2, 6, 12, 0.95); color: var(--moon-cyan); padding: 10px; padding-right: 85px;
-            border: 1px solid #142834; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 75px; font-family: 'Courier New', monospace;
+            font-size: 11px; background: #fff; color: var(--ink-main); padding: 12px;
+            border: 1px solid var(--ink-border); border-radius: 2px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 80px; font-family: 'Courier New', monospace;
+            line-height: 1.4; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        /* 🌟 靈波控制台與十六進位識海快照 */
-        .matrix-console { display: none; background: #010306; border: 1px solid var(--sun-gold); border-radius: 6px; box-shadow: 0 0 35px var(--sun-gold-glow); padding: 15px; margin-top: 15px; }
-        .console-header { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: var(--sun-gold); border-bottom: 1px dashed #334455; padding-bottom: 8px; margin-bottom: 10px; font-family: 'Courier New', monospace; }
+        /* 複製按鈕 */
+        .box-header { display: flex; justify-content: space-between; align-items: center; }
+        .copy-btn {
+            background: #fff; color: var(--ink-main); border: 1px solid var(--ink-border);
+            border-radius: 2px; padding: 4px 12px; font-size: 11px; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; font-family: "PingFang SC", sans-serif;
+        }
+        .copy-btn:hover { background: var(--ink-dark); color: #fff; border-color: var(--ink-dark); }
+        .copy-btn.copied { background: var(--jade-green) !important; color: #fff !important; border-color: var(--jade-green) !important; }
+
+        /* 🌟 水墨硯石監控控制台 */
+        .matrix-console { display: none; background: #1c1e22; color: #e6e3da; border: 1px solid var(--ink-dark); border-radius: 2px; padding: 20px; margin-top: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6); }
+        .console-header { display: flex; justify-content: space-between; font-size: 12px; color: #cfccc4; border-bottom: 1px solid #363b42; padding-bottom: 10px; margin-bottom: 16px; font-family: 'Courier New', monospace; }
         
-        .scope-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+        .scope-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
         @media (min-width: 800px) { .scope-grid { grid-template-columns: 2fr 1fr; } }
         
-        #oscCanvas { width: 100%; height: 70px; background: rgba(1, 4, 10, 0.95); border: 1px solid #142834; border-radius: 4px; display: block; }
-        .hex-dump-box { height: 70px; background: rgba(4, 8, 2, 0.95); border: 1px solid #183818; border-radius: 4px; padding: 6px; font-size: 10px; color: var(--sun-gold); overflow: hidden; line-height: 1.3; font-family: 'Courier New', monospace; }
+        #oscCanvas { width: 100%; height: 75px; background: #131417; border: 1px solid #363b42; border-radius: 2px; display: block; }
+        .hex-dump-box { height: 75px; background: #131417; border: 1px solid #363b42; border-radius: 2px; padding: 10px; font-size: 11px; color: #cfccc4; overflow: hidden; line-height: 1.4; font-family: 'Courier New', monospace; }
 
         .console-log-screen {
-            height: 280px; overflow-y: auto; color: var(--spirit-green); font-size: 12px; line-height: 1.6; border: 1px solid #142834;
-            padding: 10px; background: rgba(1, 2, 6, 0.98); margin-bottom: 10px; text-shadow: 0 0 3px rgba(0, 255, 102, 0.5); font-family: 'Courier New', monospace;
+            height: 260px; overflow-y: auto; color: #d0ceca; font-size: 12px; line-height: 1.6; border: 1px solid #363b42;
+            padding: 14px; background: #131417; margin-bottom: 16px; font-family: 'Courier New', monospace;
         }
-        .console-log-screen::-webkit-scrollbar-thumb { background: var(--sun-gold); box-shadow: 0 0 8px var(--sun-gold); }
         
-        .progress-container { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--sun-gold); font-weight: bold; font-family: 'Courier New', monospace; }
-        .progress-bar-back { flex-grow: 1; height: 14px; background: #020610; border: 1px solid var(--sun-gold); border-radius: 3px; margin: 0 15px; position: relative; overflow: hidden; }
-        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--sun-gold), var(--moon-cyan)); box-shadow: 0 0 15px var(--sun-gold); transition: width 0.05s linear; }
+        .progress-container { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #cfccc4; font-family: 'Courier New', monospace; }
+        .progress-bar-back { flex-grow: 1; height: 6px; background: #131417; border-radius: 3px; margin: 0 15px; overflow: hidden; border: 1px solid #363b42; }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--seal-red); transition: width 0.05s linear; }
 
-        .copy-btn {
-            position: absolute; top: 6px; right: 6px; background: rgba(2, 8, 14, 0.9); color: var(--sun-gold); border: 1px solid var(--sun-gold);
-            border-radius: 3px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor: pointer; z-index: 10; font-family: 'Courier New', monospace;
-        }
-        .copy-btn:hover { background: var(--sun-gold); color: #000; }
-        .copy-btn.copied { background: var(--moon-cyan) !important; color: #000 !important; border-color: var(--moon-cyan) !important; }
-
-        /* 🌟 徹底廢除原生 alert！內建「修仙 × 戰術」自定義模態彈窗 */
+        /* 通知視窗 */
         .cyber-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 2, 5, 0.88); backdrop-filter: blur(5px);
+            background: rgba(22, 24, 27, 0.65); backdrop-filter: blur(4px);
             display: flex; justify-content: center; align-items: center;
             z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
         }
         .cyber-modal-overlay.active { opacity: 1; pointer-events: auto; }
         .cyber-modal-box {
-            background: rgba(8, 12, 20, 0.98); border: 2px solid var(--moon-cyan);
-            box-shadow: 0 0 35px rgba(0, 255, 255, 0.35), inset 0 0 15px rgba(0, 255, 255, 0.15);
-            padding: 28px; width: 90%; max-width: 480px; border-radius: 8px; text-align: center;
-            position: relative; overflow: hidden; transform: scale(0.85); transition: transform 0.25s ease;
+            background: var(--paper-bg); border: 1px solid var(--ink-border);
+            border-top: 4px solid var(--seal-red); border-bottom: 4px solid var(--ink-dark);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            padding: 30px; width: 90%; max-width: 450px; border-radius: 2px; text-align: center;
+            transform: scale(0.9); transition: transform 0.25s ease;
         }
         .cyber-modal-overlay.active .cyber-modal-box { transform: scale(1); }
-        .cyber-modal-box.error { border-color: var(--blood-red); box-shadow: 0 0 40px rgba(255, 42, 60, 0.6); }
-        .cyber-modal-box.success { border-color: var(--spirit-green); box-shadow: 0 0 40px rgba(0, 255, 102, 0.5); }
-        .cyber-modal-box.warning { border-color: var(--sun-gold); box-shadow: 0 0 40px rgba(255, 176, 0, 0.5); }
-        .cyber-modal-title { font-size: 17px; font-weight: 800; letter-spacing: 3px; margin-bottom: 16px; color: #fff; font-family: 'Courier New', monospace; }
-        .cyber-modal-box.error .cyber-modal-title { color: var(--blood-red); text-shadow: 0 0 12px var(--blood-red); }
-        .cyber-modal-box.success .cyber-modal-title { color: var(--spirit-green); text-shadow: 0 0 12px var(--spirit-green); }
-        .cyber-modal-box.warning .cyber-modal-title { color: var(--sun-gold); text-shadow: 0 0 12px var(--sun-gold); }
-        .cyber-modal-msg { font-size: 13px; color: #d0f0e0; line-height: 1.6; margin-bottom: 25px; word-break: break-all; font-family: 'Courier New', monospace; }
+        .cyber-modal-title { font-size: 18px; font-weight: bold; letter-spacing: 4px; margin-bottom: 16px; color: var(--ink-dark); }
+        .cyber-modal-box.error .cyber-modal-title { color: var(--seal-red); }
+        .cyber-modal-msg { font-size: 14px; color: var(--ink-main); line-height: 1.6; margin-bottom: 26px; word-break: break-all; font-family: "PingFang SC", sans-serif; }
         .cyber-modal-btn {
-            background: transparent; color: #fff; border: 1px solid var(--moon-cyan);
-            padding: 10px 28px; font-size: 12px; font-weight: bold; letter-spacing: 2px;
-            cursor: pointer; transition: all 0.2s; border-radius: 4px; font-family: 'Courier New', monospace;
+            background: var(--seal-red); color: #fff; border: none;
+            padding: 10px 32px; font-size: 13px; letter-spacing: 4px;
+            cursor: pointer; transition: all 0.2s; border-radius: 2px; font-weight: bold;
         }
-        .cyber-modal-btn:hover { background: var(--moon-cyan); color: #000; box-shadow: 0 0 18px var(--moon-cyan); }
-        .cyber-modal-box.error .cyber-modal-btn { border-color: var(--blood-red); color: var(--blood-red); }
-        .cyber-modal-box.error .cyber-modal-btn:hover { background: var(--blood-red); color: #fff; box-shadow: 0 0 18px var(--blood-red); }
-        .cyber-modal-box.success .cyber-modal-btn { border-color: var(--spirit-green); color: var(--spirit-green); }
-        .cyber-modal-box.success .cyber-modal-btn:hover { background: var(--spirit-green); color: #000; box-shadow: 0 0 18px var(--spirit-green); }
+        .cyber-modal-btn:hover { background: var(--seal-red-hover); box-shadow: 0 4px 12px rgba(168, 29, 29, 0.3); }
     </style>
 </head>
 <body>
 
+    <canvas id="dragonCanvas"></canvas>
+
     <div id="cyberModal" class="cyber-modal-overlay">
         <div id="cyberModalBox" class="cyber-modal-box">
-            <div id="cyberModalTitle" class="cyber-modal-title">[ SYSTEM NOTICE ]</div>
-            <div id="cyberModalMsg" class="cyber-modal-msg">Message goes here...</div>
-            <button class="cyber-modal-btn" onclick="closeCyberAlert()">[ 領悟法旨 // ACKNOWLEDGE ]</button>
+            <div id="cyberModalTitle" class="cyber-modal-title">系統提示</div>
+            <div id="cyberModalMsg" class="cyber-modal-msg">提示訊息...</div>
+            <button class="cyber-modal-btn" onclick="closeCyberAlert()">確 認</button>
         </div>
     </div>
 
     <div class="sys-header">
-        <span class="sys-title">[ ☀️ SUN-STAR KERNEL // 日月乾坤·太極天道防衛陣法 v10.0-ULTIMATE 🌙 ]</span>
-        <div class="sys-status" id="globalStatus"><span class="blink">●</span> <span>天道運轉 // 零 GC 溢位修仙防禦陣法已啟動</span></div>
+        <span class="sys-title">水墨終端 v2.4</span>
+        <div class="sys-status"><span class="dot">●</span> <span>天道狀態：天地棋局就緒 // 隱墨遊龍護法中</span></div>
     </div>
 
-    <h1>☀️ SUN-STAR // 日月乾坤·太極天道防衛終端 🌟</h1>
-
-    <div class="hud-grid">
-        <div class="gauge-card" data-label="氣海匯聚 // CPU THREADS">
-            <div class="gauge-circle active" id="circleCores"><div class="gauge-val" id="hudCores">0 / --</div><div class="gauge-sub">ACTIVE THREADS</div></div>
-            <div class="gauge-footer" id="hudCorePercent">LOAD: 0% (IDLE)</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barCores"></div></div>
-        </div>
-        <div class="gauge-card" data-label="修為境界 // CLOCK FREQ">
-            <div class="gauge-circle active" id="circleClock"><div class="gauge-val" id="hudClock">1.8</div><div class="gauge-sub">GHz SPEED</div></div>
-            <div class="gauge-footer" id="hudClockDetail">境界: 築基閒置</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barClock" style="width:30%;"></div></div>
-        </div>
-        <div class="gauge-card" data-label="丹爐火候 // THERMAL & RPM">
-            <div class="gauge-circle" id="circleTemp"><div class="gauge-val" id="hudTemp">42°C</div><div class="gauge-sub" id="hudRPM">1200 RPM</div></div>
-            <div class="gauge-footer" id="hudTempDetail">火候: 溫潤穩定</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barTemp" style="width:25%; background:#00ff88;"></div></div>
-        </div>
-        <div class="gauge-card" data-label="經脈傳輸 // CACHE & BW">
-            <div class="gauge-circle" id="circleCache"><div class="gauge-val" id="hudBandwidth">0.2</div><div class="gauge-sub">GB/s DDR5</div></div>
-            <div class="gauge-footer" id="hudCacheDetail">滯礙率: 0.0%</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barCache" style="width:5%; background:#ffaa00;"></div></div>
-        </div>
-        <div class="gauge-card" data-label="識海靈源 // V8 JS HEAP">
-            <div class="gauge-circle" id="circleRAM"><div class="gauge-val" id="hudRAM">-- MB</div><div class="gauge-sub">HEAP CONSUMED</div></div>
-            <div class="gauge-footer" id="hudRAMDetail">ALLOC: -- MB</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barRAM" style="background:#00ffff;"></div></div>
-        </div>
-        <div class="gauge-card" data-label="天道隨機 // ENTROPY POOL">
-            <div class="gauge-circle spirit" id="circleEntropy"><div class="gauge-val" id="hudEntropy">128</div><div class="gauge-sub">BITS / SEC</div></div>
-            <div class="gauge-footer" id="hudEntropyDetail">靈池: 100% 充盈</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barEntropy" style="width:100%; background:#00ff66;"></div></div>
-        </div>
-        <div class="gauge-card" data-label="靈波流速 // REAL-TIME HASH">
-            <div class="gauge-circle gold" id="circleSpeed"><div class="gauge-val" id="hudSpeed" style="color:var(--sun-gold);">0</div><div class="gauge-sub">HASH / SEC</div></div>
-            <div class="gauge-footer" id="hudPeakSpeed">巔峰: 0 H/s</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barSpeed" style="background:var(--sun-gold);"></div></div>
-        </div>
-        <div class="gauge-card" data-label="陣法流暢 // UI ENGINE FPS">
-            <div class="gauge-circle spirit" id="circleFPS"><div class="gauge-val" id="hudFPS">60</div><div class="gauge-sub">FPS</div></div>
-            <div class="gauge-footer" id="hudLatency">神念延遲: 0.0 ms</div>
-            <div class="hud-bar-bg"><div class="hud-bar-fill" id="barFPS" style="width:100%; background:#00ff66;"></div></div>
-        </div>
+    <div class="hero-section">
+        <h1>水墨終端 v2.4</h1>
+        <div class="hero-subtitle">「 以執此棋，勝天半子 」</div>
+        <div class="hero-line"></div>
     </div>
 
-    <div class="dashboard-grid">
-        <div class="card" data-node="SUN-STAR NODE_01 // 乾坤陣心核心" style="border-color: var(--moon-cyan);">
-            <h2 style="color: var(--moon-cyan);">[&gt; STEP 01: 生成乾坤日月 4096-BIT 陣心 ]</h2>
-            <button class="action-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="generateKeyPair()">
-                [+ 生成 4096-BIT 工業級日月非對稱金鑰對 +]
-            </button>
-            <p><b>📢 日陣符文 // 公開金鑰 (SPKI Base64)：</b></p>
-            <div class="input-wrapper">
-                <div id="pubKeyDisplay" class="key-box">等待法陣初始化...</div>
-                <button class="copy-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="copyContent('pubKeyDisplay', this, false)">[ 複製 ]</button>
+    <div class="main-layout">
+        
+        <div class="telemetry-sidebar">
+            <div class="sidebar-title">天道算力・觀星台</div>
+            
+            <div class="stat-item">
+                <div class="stat-label">衍化執行緒 // THREADS</div>
+                <div class="stat-value" id="hudCores">0 / --</div>
+                <div class="stat-sub" id="hudCorePercent">狀態：陣法閒置</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barCores"></div></div>
             </div>
-            <div class="input-wrapper">
-                <p><b>🔒 月陣封印 // 核心私鑰 (PKCS8 Base64)：</b></p>
-                <div id="privKeyDisplay" class="key-box">等待法陣初始化...</div>
-                <button class="copy-btn" style="border-color: var(--moon-cyan); color: var(--moon-cyan);" onclick="copyContent('privKeyDisplay', this, false)">[ 複製 ]</button>
+
+            <div class="stat-item">
+                <div class="stat-label">對弈流速 // HASHRATE</div>
+                <div class="stat-value highlight-red" id="hudSpeed">0</div>
+                <div class="stat-sub" id="hudPeakSpeed">峰值：0 H/s</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barSpeed" style="background:var(--seal-red);"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">靈脈時脈 // CLOCK FREQ</div>
+                <div class="stat-value" id="hudClock">1.80</div>
+                <div class="stat-sub" id="hudClockDetail">頻率：天地基準</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barClock" style="width:30%;"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">陣法溫控 // THERMAL</div>
+                <div class="stat-value" id="hudTemp">42°C</div>
+                <div class="stat-sub" id="hudRPM">1200 RPM</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barTemp" style="width:25%; background:var(--jade-green);"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">識海消耗 // V8 HEAP</div>
+                <div class="stat-value" id="hudRAM">-- MB</div>
+                <div class="stat-sub" id="hudRAMDetail">ALLOC: -- MB</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barRAM"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">天機變數 // ENTROPY</div>
+                <div class="stat-value highlight-gold" id="hudEntropy">128</div>
+                <div class="stat-sub" id="hudEntropyDetail">狀態：天機充盈</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barEntropy" style="width:100%; background:var(--sun-gold);"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">畫卷更新 // FPS</div>
+                <div class="stat-value" id="hudFPS">60</div>
+                <div class="stat-sub" id="hudLatency">迴圈延遲: 0.0 ms</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barFPS" style="width:100%; background:var(--jade-green);"></div></div>
             </div>
         </div>
 
-        <div class="card" data-node="SUN-STAR NODE_03 // 顯真道法解密管道" style="border-color: var(--spirit-green);">
-            <h2 style="color: var(--spirit-green);">[&gt; STEP 03: 全世代相容顯真解密管道 ]</h2>
-            <p>請貼上接收者專屬的 <b>[月陣私鑰 (支援全格式/PEM)]</b>：</p>
-            <div class="input-wrapper">
-                <textarea id="myPrivKeyInput" placeholder="在此貼入專屬私鑰封印..."></textarea>
-                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('myPrivKeyInput', this, true)">[ 複製 ]</button>
-            </div>
+        <div class="scrolls-area">
             
-            <p>請貼上收到的 <b>[密文封包 (相容 V1-V10 全歷史格式)]</b>：</p>
-            <div class="input-wrapper">
-                <textarea id="cipherTextInput" placeholder="貼入密文 (SUN_STAR_V10::, OMEGA_V9::, SUN_STAR_V8:: 或 RSA_HYBRID_V3~V7::)..."></textarea>
-                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('cipherTextInput', this, true)">[ 複製 ]</button>
-            </div>
-            
-            <button class="action-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="decryptText()">
-                [&gt;&gt; 執行乾坤日月顯真・還原原始道法密文 &lt;&lt;]
-            </button>
-            
-            <p><b>✨ 顯真還原後的真實訊息：</b></p>
-            <div class="input-wrapper">
-                <div id="decryptedResult" style="background:rgba(2,12,8,0.95); padding:12px; border:1px solid var(--spirit-green); border-radius:4px; font-weight:bold; color:#fff; min-height: 40px; max-height:85px; overflow-y:auto; font-size:12px; word-break:break-all; font-family:'Courier New',monospace;">[ AWAITING INPUT COMPONENT ]</div>
-                <button class="copy-btn" style="border-color: var(--spirit-green); color: var(--spirit-green);" onclick="copyContent('decryptedResult', this, false)">[ 複製 ]</button>
-            </div>
-        </div>
-
-        <div class="card full-width-panel" data-node="SUN-STAR NODE_02 // 零崩潰·乾坤天網防衛引擎">
-            <h2>[&gt; STEP 02: 零 GC 溢位修仙防衛加密引擎 (IMMORTAL-ENGINE) ]</h2>
-            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
-                <div>
-                    <p>請貼上接收者的 <b>[日陣公鑰]</b>：</p>
+            <div class="scroll-grid">
+                <div class="card" data-node="起手 // 鑄造非對稱符印">
+                    <h2>[ 起手 ] 凝聚天地靈氣，鑄造非對稱金鑰符印</h2>
+                    <p>執此符印，方能開啟天地陣法與道法會話通道：</p>
+                    <button class="action-btn" onclick="generateKeyPair()">
+                        立即凝聚 RSA-4096 符印
+                    </button>
+                    <div class="input-wrapper" style="margin-top: 18px;">
+                        <div class="box-header"><p><b>天道公鑰 (SPKI Base64)：</b></p><button class="copy-btn" onclick="copyContent('pubKeyDisplay', this, false)">複製公鑰</button></div>
+                        <div id="pubKeyDisplay" class="key-box">等待起手鑄造...</div>
+                    </div>
                     <div class="input-wrapper">
-                        <textarea id="targetPubKey" placeholder="貼入對方的公開金鑰符文..."></textarea>
-                        <button class="copy-btn" onclick="copyContent('targetPubKey', this, true)">[ 複製 ]</button>
+                        <div class="box-header"><p><b>本源私鑰 (PKCS8 Base64)：</b></p><button class="copy-btn" onclick="copyContent('privKeyDisplay', this, false)">複製私鑰</button></div>
+                        <div id="privKeyDisplay" class="key-box">等待起手鑄造...</div>
                     </div>
                 </div>
-                <div>
-                    <p>請輸入要隱藏的 <b>[原始密文 / 敏感情報 / EMOJI 符文]</b>：</p>
+
+                <div class="card" data-node="破局 // 密文破局與顯真">
+                    <h2>[ 破局 ] 執金鑰破開陣法，顯真原始機密</h2>
+                    <p>落子無悔，破局顯真。請貼入本源私鑰與天道密文：</p>
                     <div class="input-wrapper">
-                        <textarea id="plainText" placeholder="輸入要以天道封裝的機密情報..."></textarea>
-                        <button class="copy-btn" onclick="copyContent('plainText', this, true)">[ 複製 ]</button>
+                        <div class="box-header"><p>請貼入接收者專屬的 <b>[ 本源私鑰 ]</b>：</p><button class="copy-btn" onclick="copyContent('myPrivKeyInput', this, true)">貼上/複製</button></div>
+                        <textarea id="myPrivKeyInput" placeholder="在此貼入 Base64 本源私鑰..."></textarea>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="box-header"><p>請貼入收到的 <b>[ 封裝密文 (相容 v2.4 及歷史協定) ]</b>：</p><button class="copy-btn" onclick="copyContent('cipherTextInput', this, true)">貼上/複製</button></div>
+                        <textarea id="cipherTextInput" placeholder="貼入密文 (如 INK_V2.4::)..."></textarea>
+                    </div>
+                    <button class="action-btn" onclick="decryptText()">
+                        執印破局，顯真機密
+                    </button>
+                    <div class="input-wrapper" style="margin-top: 18px;">
+                        <div class="box-header"><p><b>破局顯真後的真實機密：</b></p><button class="copy-btn" onclick="copyContent('decryptedResult', this, false)">複製內文</button></div>
+                        <div id="decryptedResult" style="background:#fff; padding:14px; border:1px solid var(--ink-border); border-radius:2px; color:var(--ink-dark); min-height: 48px; max-height:90px; overflow-y:auto; font-size:13px; word-break:break-all; font-family:'Courier New',monospace;">[ 等待落子破局 ]</div>
                     </div>
                 </div>
             </div>
 
-            <p style="margin-top: 12px;"><b>⚙️ 選擇修仙陣法複雜度 (Proof of Work 物理算力屏障)：</b></p>
-            <select id="secLevel" class="cyber-select">
-                <option value="lv1">⚡ Lv 1 [極速築基] : 10 萬次 SHA-256 + PoW x1 (毫秒瞬開)</option>
-                <option value="lv2">🛡️ Lv 2 [常規金丹] : 100 萬次 SHA-256 + PoW x2 (標準安全)</option>
-                <option value="lv3" selected>🌀 Lv 3 [高密元嬰] : 500 萬次 SHA-256 + PoW x3 (重度防衛)</option>
-                <option value="lv4">🔥 Lv 4 [高階化神] : 2000 萬次 SHA-256 + PoW x4 (高階 PC 挑戰)</option>
-                <option value="lv5">💀 Lv 5 [極限渡劫] : 5000 萬次 SHA-256 + PoW x5 (零崩潰·穩定渡劫)</option>
-                <option value="lv6">🌋 Lv 6 [深淵大乘] : 1 億次 SHA-256 物理攪拌 + PoW x5 (頂規硬體極致燃燒)</option>
-            </select>
-            
-            <button id="encryptBtn" class="action-btn" onclick="startCinematicEncryption()">
-                [&gt;&gt; 激活日月乾坤引擎・啟動零崩潰遙測法陣與示波器 &lt;&lt;]
-            </button>
+            <div class="card" data-node="落子 // 與天對弈・多核心衍化防衛">
+                <h2>[ 落子 ] 天地為局，執棋勝天：多核心物理算力封裝</h2>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                    <div class="input-wrapper">
+                        <div class="box-header"><p>請貼入接收者的 <b>[ 天道公鑰 ]</b>：</p><button class="copy-btn" onclick="copyContent('targetPubKey', this, true)">貼上/複製</button></div>
+                        <textarea id="targetPubKey" placeholder="貼入對方的 Base64 天道公鑰..."></textarea>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="box-header"><p>請輸入要隱藏的 <b>[ 原始機密 / 天機引子 ]</b>：</p><button class="copy-btn" onclick="copyContent('plainText', this, true)">清空/複製</button></div>
+                        <textarea id="plainText" placeholder="輸入需要對弈天道、封裝保護的機密內容..."></textarea>
+                    </div>
+                </div>
 
-            <div id="matrixConsole" class="matrix-console">
-                <div class="console-header">
-                    <span>[ 天道遙測法陣 // 靈波監測與神念十六進位快照 ]</span>
-                    <span id="consoleClock">運轉時辰: 0.00s</span>
+                <p style="margin-top: 16px;"><b>選擇工作量證明 (Proof of Work) 對弈天道屏障等級：</b></p>
+                <select id="secLevel" class="cyber-select" onchange="playChime(520, 0.05)">
+                    <option value="lv1">Lv 1 [初窺天機] : 10 萬次物理攪拌 + 基礎對弈 (極速秒開)</option>
+                    <option value="lv2">Lv 2 [入局對弈] : 100 萬次物理攪拌 + 雙重對弈 (常規防衛)</option>
+                    <option value="lv3" selected>Lv 3 [勝天半子] : 500 萬次物理攪拌 + 三重對弈 (高強防衛)</option>
+                    <option value="lv4">Lv 4 [天道劫陣] : 2000 萬次物理攪拌 + 四重對弈 (深層算力)</option>
+                    <option value="lv5">Lv 5 [極限推演] : 5000 萬次物理攪拌 + 五重對弈 (防崩潰穩定運行)</option>
+                    <option value="lv6">Lv 6 [衍化太極] : 1 億次物理攪拌 + 五重對弈 (極致壓榨・推演天地)</option>
+                </select>
+                
+                <button id="encryptBtn" class="action-btn" onclick="startCinematicEncryption()">
+                    落子無悔！啟動多核心算力衍化與對弈
+                </button>
+
+                <div id="matrixConsole" class="matrix-console">
+                    <div class="console-header">
+                        <span>[ 天道推演實況 // 實時算力流速與記憶體快照 ]</span>
+                        <span id="consoleClock">已推演耗時: 0.00s</span>
+                    </div>
+                    
+                    <div class="scope-grid">
+                        <canvas id="oscCanvas" width="550" height="75"></canvas>
+                        <div class="hex-dump-box" id="hexDumpView">識海緩衝快照:<br/>0x00000000: 等待天道推演...</div>
+                    </div>
+
+                    <div id="logScreen" class="console-log-screen"></div>
+                    <div class="progress-container">
+                        <span id="progressPercent">0%</span>
+                        <div class="progress-bar-back"><div id="progressBarFill" class="progress-bar-fill"></div></div>
+                        <span id="timeRemaining">天機推演中...</span>
+                    </div>
                 </div>
                 
-                <div class="scope-grid">
-                    <canvas id="oscCanvas" width="550" height="70"></canvas>
-                    <div class="hex-dump-box" id="hexDumpView">神念靈能緩衝快照:<br/>0x00000000: 法陣待命...</div>
+                <div class="input-wrapper" style="margin-top: 18px;">
+                    <div class="box-header"><p><b>最終對弈封裝密文輸出：</b></p><button class="copy-btn" onclick="copyContent('cipherText', this, true)">複製密文</button></div>
+                    <textarea id="cipherText" readonly placeholder="密文將在背景 Worker 執行緒完成與天道算力對弈後自動產生..."></textarea>
                 </div>
+            </div>
 
-                <div id="logScreen" class="console-log-screen"></div>
-                <div class="progress-container">
-                    <span id="progressPercent">0%</span>
-                    <div class="progress-bar-back"><div id="progressBarFill" class="progress-bar-fill"></div></div>
-                    <span id="timeRemaining">推演天機中...</span>
-                </div>
-            </div>
-            
-            <p style="margin-top: 15px;"><b>📦 SUN-STAR v10 終極天道日月封裝密文：</b></p>
-            <div class="input-wrapper">
-                <textarea id="cipherText" readonly placeholder="密文將在背景修仙 Worker 執行緒完成天道算力碰撞後自動解鎖..."></textarea>
-                <button class="copy-btn" onclick="copyContent('cipherText', this, true)">[ 複製 ]</button>
-            </div>
         </div>
+
     </div>
 
     <script>
@@ -367,38 +396,131 @@
         let currentSpeedVal = 0;
         let isEngineRunning = false;
 
-        // 🌟 1. 自定義修仙 × 戰術彈窗系統 (取代原生 alert)
+        // 🌟 1. 溫潤琴音與玉磬 Web Audio 合成器
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+        function playChime(freq = 440, duration = 0.15) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
+            } catch(e){}
+        }
+
+        // 🌟 2. 墨龍遊天 Canvas 背景 (模擬水墨巨龍在雲海中優雅游動)
+        function initDragonCanvas() {
+            const canvas = document.getElementById("dragonCanvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // 墨煙微塵
+            const particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 12000);
+            for(let i=0; i<count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2.2 + 0.5,
+                    speedY: -(Math.random() * 0.25 + 0.05),
+                    speedX: (Math.random() - 0.5) * 0.2,
+                    alpha: Math.random() * 0.35 + 0.1,
+                    fadeSpeed: (Math.random() * 0.006 + 0.002) * (Math.random() > 0.5 ? 1 : -1)
+                });
+            }
+
+            // 隱墨巨龍脊骨軌跡
+            let dragonAngle = 0;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // 畫墨煙
+                for(let p of particles) {
+                    p.y += p.speedY; p.x += p.speedX;
+                    if(p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+                    p.alpha += p.fadeSpeed;
+                    if(p.alpha > 0.45 || p.alpha < 0.05) p.fadeSpeed *= -1;
+
+                    ctx.fillStyle = `rgba(22, 24, 27, ${p.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // 畫隱墨遊龍 (以正弦曲線模擬龍脊游動)
+                dragonAngle += 0.01;
+                ctx.save();
+                ctx.strokeStyle = "rgba(22, 24, 27, 0.06)";
+                ctx.lineWidth = 35;
+                ctx.lineCap = "round";
+                ctx.beginPath();
+                
+                const startX = canvas.width * 0.1;
+                const endX = canvas.width * 0.9;
+                const baseHeight = canvas.height * 0.35;
+                
+                for(let x = startX; x <= endX; x += 15) {
+                    const progress = (x - startX) / (endX - startX);
+                    // 雙重正弦波模擬龍身蜿蜒
+                    const y = baseHeight + Math.sin(progress * Math.PI * 3 + dragonAngle) * 80 + Math.cos(progress * Math.PI * 2 - dragonAngle) * 40;
+                    if(x === startX) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                
+                // 龍脊核心墨痕
+                ctx.strokeStyle = "rgba(168, 29, 29, 0.04)";
+                ctx.lineWidth = 12;
+                ctx.stroke();
+                ctx.restore();
+
+                requestAnimationFrame(draw);
+            }
+            requestAnimationFrame(draw);
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        }
+        window.addEventListener("DOMContentLoaded", initDragonCanvas);
+
+        // 🌟 3. 古雅通知視窗
         function showCyberAlert(title, message, type = "warning") {
+            playChime(type === 'error' ? 260 : 520, 0.2);
             const overlay = document.getElementById("cyberModal");
             const box = document.getElementById("cyberModalBox");
             const titleEl = document.getElementById("cyberModalTitle");
             const msgEl = document.getElementById("cyberModalMsg");
             box.className = "cyber-modal-box " + type;
-            titleEl.innerText = `[ ${title.toUpperCase()} ]`;
+            titleEl.innerText = `${title}`;
             msgEl.innerText = message;
             overlay.classList.add("active");
         }
         function closeCyberAlert() {
+            playChime(380, 0.08);
             document.getElementById("cyberModal").classList.remove("active");
         }
 
-        // 🌟 2. 8 艙式修仙遙測與熱力學建模
+        // 🌟 4. 天道算力側批遙測
         function initRealTimeTelemetry() {
             document.getElementById("hudCores").innerText = `0 / ${totalCores}`;
-            let lastTime = performance.now();
-            let frames = 0;
+            let lastTime = performance.now(); let frames = 0;
             
             function updateHUD(now) {
-                frames++;
-                const delta = now - lastTime;
+                frames++; const delta = now - lastTime;
                 if (delta >= 300) {
                     const fps = Math.round((frames * 1000) / delta);
                     document.getElementById("hudFPS").innerText = `${fps}`;
                     document.getElementById("barFPS").style.width = `${Math.min(100, (fps / 60) * 100)}%`;
                     
                     const latency = Math.max(0, (delta / frames) - (1000 / 60)).toFixed(1);
-                    document.getElementById("hudLatency").innerText = `神念延遲: ${latency} ms`;
-                    
+                    document.getElementById("hudLatency").innerText = `迴圈延遲: ${latency} ms`;
                     frames = 0; lastTime = now;
 
                     if (performance.memory) {
@@ -411,7 +533,7 @@
                         document.getElementById("barRAM").style.width = `${Math.min(100, percent * 5)}%`;
                     } else {
                         document.getElementById("hudRAM").innerText = `N/A`;
-                        document.getElementById("hudRAMDetail").innerText = `V8 記憶體遙測授權受限`;
+                        document.getElementById("hudRAMDetail").innerText = `記憶體 API 授權受限`;
                     }
 
                     if (isEngineRunning) {
@@ -419,48 +541,30 @@
                         const simClock = (1.8 + (speedRatio * 3.6)).toFixed(2);
                         const simTemp = Math.round(45 + (speedRatio * 43));
                         const simRPM = Math.round(1500 + (speedRatio * 4300));
-                        const simBW = (1.2 + (speedRatio * 63.3)).toFixed(1);
-                        const simMiss = (1.5 + (speedRatio * 18.5)).toFixed(1);
                         const simEntropy = Math.round(450 + (speedRatio * 800));
 
                         document.getElementById("hudClock").innerText = `${simClock}`;
-                        document.getElementById("hudClockDetail").innerText = `境界: 渡劫狂飆`;
+                        document.getElementById("hudClockDetail").innerText = `頻率：天道推演中`;
                         document.getElementById("barClock").style.width = `${(simClock/5.5)*100}%`;
-                        document.getElementById("circleClock").className = "gauge-circle overload";
 
                         document.getElementById("hudTemp").innerText = `${simTemp}°C`;
                         document.getElementById("hudRPM").innerText = `${simRPM} RPM`;
-                        document.getElementById("hudTempDetail").innerText = simTemp > 75 ? `火候: 熾熱警示 // 注意散熱` : `火候: 靈能澎湃`;
                         document.getElementById("barTemp").style.width = `${(simTemp/95)*100}%`;
-                        document.getElementById("circleTemp").className = simTemp > 75 ? "gauge-circle overload" : "gauge-circle gold";
-
-                        document.getElementById("hudBandwidth").innerText = `${simBW}`;
-                        document.getElementById("hudCacheDetail").innerText = `滯礙率: ${simMiss}%`;
-                        document.getElementById("barCache").style.width = `${(simBW/70)*100}%`;
-                        document.getElementById("circleCache").className = "gauge-circle active";
 
                         document.getElementById("hudEntropy").innerText = `${simEntropy}`;
-                        document.getElementById("hudEntropyDetail").innerText = `靈池: 高頻抽離運轉`;
+                        document.getElementById("hudEntropyDetail").innerText = `狀態：天機高速衍化`;
                         document.getElementById("barEntropy").style.width = `100%`;
                     } else {
                         document.getElementById("hudClock").innerText = `1.80`;
-                        document.getElementById("hudClockDetail").innerText = `境界: 築基閒置`;
+                        document.getElementById("hudClockDetail").innerText = `頻率：天地基準`;
                         document.getElementById("barClock").style.width = `30%`;
-                        document.getElementById("circleClock").className = "gauge-circle active";
 
                         document.getElementById("hudTemp").innerText = `42°C`;
                         document.getElementById("hudRPM").innerText = `1200 RPM`;
-                        document.getElementById("hudTempDetail").innerText = `火候: 溫潤穩定`;
                         document.getElementById("barTemp").style.width = `25%`;
-                        document.getElementById("circleTemp").className = "gauge-circle";
-
-                        document.getElementById("hudBandwidth").innerText = `0.2`;
-                        document.getElementById("hudCacheDetail").innerText = `滯礙率: 0.1%`;
-                        document.getElementById("barCache").style.width = `5%`;
-                        document.getElementById("circleCache").className = "gauge-circle";
 
                         document.getElementById("hudEntropy").innerText = `128`;
-                        document.getElementById("hudEntropyDetail").innerText = `靈池: 100% 充盈`;
+                        document.getElementById("hudEntropyDetail").innerText = `狀態：天機充盈`;
                     }
                 }
                 requestAnimationFrame(updateHUD);
@@ -469,9 +573,8 @@
         }
         window.addEventListener("DOMContentLoaded", initRealTimeTelemetry);
 
-        // 🌟 3. 天道靈波監測儀 (Oscilloscope)
-        let oscCtx = null;
-        let oscData = new Array(50).fill(0);
+        // 🌟 5. 示波器 (硃砂對弈脈衝)
+        let oscCtx = null; let oscData = new Array(50).fill(0);
         function initOscilloscope() {
             const canvas = document.getElementById("oscCanvas");
             if(canvas) oscCtx = canvas.getContext("2d");
@@ -479,25 +582,21 @@
         function drawOscilloscope(val) {
             if(!oscCtx) return;
             oscData.push(val); oscData.shift();
-            oscCtx.fillStyle = "rgba(1, 3, 6, 0.65)";
-            oscCtx.fillRect(0, 0, 550, 70);
+            oscCtx.fillStyle = "#131417";
+            oscCtx.fillRect(0, 0, 550, 75);
             
-            oscCtx.strokeStyle = "#ffb000"; oscCtx.lineWidth = 2;
-            oscCtx.shadowBlur = 8; oscCtx.shadowColor = "#ffb000";
+            oscCtx.strokeStyle = "#a81d1d"; oscCtx.lineWidth = 1.8;
             oscCtx.beginPath();
             for(let i=0; i<oscData.length; i++) {
                 const x = (i / 50) * 550;
-                const y = 65 - (oscData[i] * 55);
-                if(i===0) oscCtx.moveTo(x, y); else oscCtx.lineTo(x, y);
+                const y = 68 - (oscData[i] * 58);
+                if(i===0) oscCtx.moveTo(x, y); else ctx.lineTo(x, y);
             }
             oscCtx.stroke();
-            oscCtx.shadowBlur = 0;
         }
 
-        // 🌟 4. 全淨化防呆與編解碼
-        function cleanBase64(str) {
-            return str.replace(/-----BEGIN [A-Z ]+-----|-----END [A-Z ]+-----/g, "").replace(/[\r\n\s]+/g, "");
-        }
+        // 🌟 6. 編解碼與複製工具
+        function cleanBase64(str) { return str.replace(/-----BEGIN [A-Z ]+-----|-----END [A-Z ]+-----/g, "").replace(/[\r\n\s]+/g, ""); }
         function ab2str(buf) {
             const bytes = new Uint8Array(buf); let binary = '';
             for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
@@ -511,14 +610,15 @@
         }
 
         function copyContent(elementId, btnElement, isInput = true) {
+            playChime(580, 0.05);
             const el = document.getElementById(elementId);
             const textToCopy = isInput ? el.value : el.innerText;
             if (!textToCopy || textToCopy.includes("等待") || textToCopy.includes("AWAITING")) {
-                return showCyberAlert("警告 // WARNING", "目前欄位沒有有效的內容可供複製！", "warning");
+                return showCyberAlert("提示", "目前欄位無有效文字可供複製。", "warning");
             }
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const originalText = btnElement.innerText;
-                btnElement.innerText = "[ 已複製! ]";
+                btnElement.innerText = "已落印複製!";
                 btnElement.classList.add("copied");
                 setTimeout(() => { btnElement.innerText = originalText; btnElement.classList.remove("copied"); }, 2000);
             });
@@ -526,6 +626,7 @@
 
         async function generateKeyPair() {
             try {
+                playChime(440, 0.15);
                 const pair = await window.crypto.subtle.generateKey(
                     { name: "RSA-OAEP", modulusLength: 4096, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" },
                     true, ["encrypt", "decrypt"]
@@ -534,18 +635,18 @@
                 const priv = await window.crypto.subtle.exportKey("pkcs8", pair.privateKey);
                 document.getElementById("pubKeyDisplay").innerText = ab2str(pub);
                 document.getElementById("privKeyDisplay").innerText = ab2str(priv);
-                showCyberAlert("天道顯化 // SUCCESS", "4096-bit 乾坤日月融合非對稱金鑰對生成完畢！", "success");
+                showCyberAlert("起手成功", "RSA-4096 天道非對稱符印已凝聚鑄造完畢。", "success");
             } catch (e) { 
-                showCyberAlert("陣法潰散 // ERROR", "金鑰對生成失敗: " + e, "error"); 
+                showCyberAlert("錯誤", "符印凝聚鑄造失敗: " + e, "error"); 
             }
         }
 
-        // 🌟 5. SUN-STAR v10 零崩潰修仙核心 Worker (內建微區塊 GC 呼吸熔斷機制)
+        // 🌟 7. Worker：天道對弈日誌與零 GC 溢位保護
         const workerScript = `
         self.onmessage = async function(e) {
             const { text, targetIterations, targetPrefix, saltHex, pubKeyBase64, levelTag } = e.data;
             const startTime = performance.now();
-            self.postMessage({ type: 'LOG', msg: '>>> 乾坤陣心啟動 // 分配神念緩衝區 // 天道零 GC 溢位防衛機制激活', color: '#00ffff' });
+            self.postMessage({ type: 'LOG', msg: '>>> 水墨終端 v2.4 棋局展開 // 配置識海緩衝區 // 啟動 GC 彈性釋放衍化陣法', color: '#ccc8be' });
             
             try {
                 const baseKeyMaterial = await crypto.subtle.importKey("raw", new TextEncoder().encode(text), { name: "PBKDF2" }, false, ["deriveBits"]);
@@ -567,17 +668,16 @@
                     const hexDump = "0x7F" + hashSnap.substring(0,4) + ": " + hashArray.slice(0,8).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ') + "\\n" +
                                     "0x7F" + hashSnap.substring(4,8) + ": " + hashArray.slice(8,16).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
 
-                    self.postMessage({ type: 'LOG', msg: \`[靈能攪拌_PBKDF2] 重次 #\${round.toString().padStart(2,'0')}/\${totalRounds} | \${totalIterations.toLocaleString()} 次天道演化 | 耗時: \${roundDelta}ms | 符文: 0x\${hashSnap}...\`, color: '#ffb000' });
+                    self.postMessage({ type: 'LOG', msg: \`[天道推演_PBKDF2] 衍化 #\${round.toString().padStart(2,'0')}/\${totalRounds} | 累積落子: \${totalIterations.toLocaleString()} 次 | 耗時: \${roundDelta}ms | 天機特徵: 0x\${hashSnap}...\`, color: '#e4e0d5' });
                     self.postMessage({ type: 'PROGRESS', progress, elapsed, speed, hexDump, state: 'STRETCHING' });
                 }
                 
-                self.postMessage({ type: 'LOG', msg: '>>> 靈能攪拌圓滿 // 啟動天道 GC 呼吸熔斷 PoW 算力渡劫引擎', color: '#00ff66' });
-                self.postMessage({ type: 'LOG', msg: '>>> 鎖定天機特徵前導符文: "' + targetPrefix + '" (微區塊熔斷大小: 500)', color: '#00ffff' });
+                self.postMessage({ type: 'LOG', msg: '>>> 算力衍化完成 // 啟動「與天對弈」工作量證明 (PoW) 破天陣法', color: '#ff8080' });
+                self.postMessage({ type: 'LOG', msg: '>>> 鎖定天道勝子條件: "' + targetPrefix + '" (批次推演大小: 500 ops)', color: '#ccc8be' });
                 
                 let nonce = 0; let foundProof = false; let finalPowHash = ""; 
                 let lastYieldTime = performance.now(); let lastReportNonce = 0;
                 
-                // 🌟 核心突破：微區塊批次處理 + GC 呼吸空檔 (絕對防禦記憶體溢位！)
                 while (!foundProof) {
                     for (let step = 0; step < 500; step++) {
                         nonce++;
@@ -585,7 +685,6 @@
                         const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(testString));
                         const hashArray = new Uint8Array(hashBuffer);
                         
-                        // 🌟 極速比對：直接檢查 Uint8Array 數值 (取代耗能的 Hex 字串轉換)
                         let isMatch = true;
                         for (let i = 0; i < targetPrefix.length; i++) {
                             const char = (hashArray[i >> 1] >> ((1 - (i & 1)) << 2)) & 0xf;
@@ -599,7 +698,6 @@
                         }
                     }
 
-                    // 🌟 呼吸熔斷：每超過 45ms 釋放執行緒給 V8 引擎回收廢棄緩衝區！
                     const now = performance.now();
                     if (now - lastYieldTime > 45) {
                         const timeDiff = (now - lastYieldTime) / 1000;
@@ -610,18 +708,15 @@
                         const hexDump = "0x8A" + dummyHash.substring(0,4) + ": " + dummyHash.toUpperCase() + " 00 A4 F2 8B 3C\\n" +
                                         "0x8A" + dummyHash.substring(4,8) + ": 99 E1 B0 77 4F 12 D8 C9";
 
-                        self.postMessage({ type: 'LOG', msg: \`[天道推演_COLLISION] 碰撞 #\${nonce.toLocaleString()} | 靈速: \${speed.toLocaleString()} H/s | 釋放神念予 V8 GC 熔斷回收...\`, color: '#00ff66' });
+                        self.postMessage({ type: 'LOG', msg: \`[與天對弈_PoW] 試棋 #\${nonce.toLocaleString()} | 當前流速: \${speed.toLocaleString()} H/s | 識海調節中...\`, color: '#ff8080' });
                         self.postMessage({ type: 'POW_PROGRESS', nonce, speed, elapsed, hexDump, state: 'MINING' });
                         
-                        lastYieldTime = now;
-                        lastReportNonce = nonce;
-                        
-                        // 🌟 關鍵 0.5 毫秒暫停：強迫事件循環清理 Promise 堆疊！
+                        lastYieldTime = now; lastReportNonce = nonce;
                         await new Promise(r => setTimeout(r, 0));
                     }
                 }
 
-                self.postMessage({ type: 'LOG', msg: '>>> 天機特徵命中 // 構建 AES-256-GCM 乾坤無限長度隧道', color: '#00ffff' });
+                self.postMessage({ type: 'LOG', msg: '>>> 勝天半子！天道條件達成 // 建立 AES-256-GCM 天機加密通道', color: '#ccc8be' });
 
                 const cleanPubKey = pubKeyBase64.replace(/[\\r\\n\\s]+/g, "");
                 const binaryPubKey = atob(cleanPubKey);
@@ -635,7 +730,7 @@
                 const armoredPayload = \`[SEC_\${levelTag}|POW:\${finalPowHash}|NONCE:\${nonce}]::\${text}\`;
                 const aesEncrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, aesKey, new TextEncoder().encode(armoredPayload));
 
-                self.postMessage({ type: 'LOG', msg: '>>> 施展 RSA-4096 日陣符文鎖死臨時 AES 會話金鑰', color: '#00ffff' });
+                self.postMessage({ type: 'LOG', msg: '>>> 執 RSA-4096 符印封裝臨時天機會話金鑰', color: '#ccc8be' });
                 const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
                 const rsaEncryptedKey = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaPubKey, rawAesKey);
 
@@ -645,11 +740,10 @@
                     return btoa(binary);
                 }
                 
-                // 🌟 使用全新的 SUN_STAR_V10 終極天道標頭
-                const finalCipher = \`SUN_STAR_V10::\${ab2strW(rsaEncryptedKey)}.\${ab2strW(iv)}.\${ab2strW(aesEncrypted)}\`;
+                const finalCipher = \`INK_V2.4::\${ab2strW(rsaEncryptedKey)}.\${ab2strW(iv)}.\${ab2strW(aesEncrypted)}\`;
 
                 const totalElapsed = ((performance.now() - startTime) / 1000).toFixed(2);
-                self.postMessage({ type: 'LOG', msg: '>>> 天道法陣演化圓滿 // SUN-STAR V10 封裝程序終止', color: '#ffb000' });
+                self.postMessage({ type: 'LOG', msg: '>>> 落子封裝圓滿完成 // 水墨終端 v2.4 棋局終止', color: '#e4e0d5' });
                 self.postMessage({ type: 'DONE', finalCipher, totalElapsed, totalNonce: nonce });
 
             } catch (err) {
@@ -658,13 +752,14 @@
         };
         `;
 
-        // 🌟 6. 觸發控制器
+        // 🌟 8. 加密對弈控制器
         function startCinematicEncryption() {
+            playChime(380, 0.15);
             const pubKeyInput = document.getElementById("targetPubKey").value;
             const text = document.getElementById("plainText").value;
             const secLevel = document.getElementById("secLevel").value;
             if (!pubKeyInput.trim() || !text) {
-                return showCyberAlert("陣法警示 // WARNING", "請檢查是否已經貼入接收者的日陣符文（公鑰）以及要封裝的情報密文！", "warning");
+                return showCyberAlert("警告", "請確認已貼入接收者的天道公鑰，以及需要封裝對弈的機密內容。", "warning");
             }
 
             const encryptBtn = document.getElementById("encryptBtn");
@@ -682,9 +777,6 @@
             const barCores = document.getElementById("barCores");
             const hudSpeed = document.getElementById("hudSpeed");
             const hudPeakSpeed = document.getElementById("hudPeakSpeed");
-            const circleCores = document.getElementById("circleCores");
-            const circleSpeed = document.getElementById("circleSpeed");
-            const globalStatus = document.getElementById("globalStatus");
 
             let targetIterations = 1000000; let targetPrefix = "00"; let levelTag = "LV2";
             switch(secLevel) {
@@ -699,21 +791,16 @@
             encryptBtn.disabled = true;
             matrixConsole.style.display = "block";
             logScreen.innerHTML = "";
-            cipherOutput.value = "正在多核心修仙背景計算鏈進行深層零崩潰物理遙測運算...";
-            peakSpeed = 0;
-            currentSpeedVal = 0;
-            isEngineRunning = true;
+            cipherOutput.value = "天地為局，正在多核心中與天道算力對弈推演，請等待...";
+            peakSpeed = 0; currentSpeedVal = 0; isEngineRunning = true;
             initOscilloscope();
             
             const activeThreads = (secLevel === "lv5" || secLevel === "lv6") ? totalCores : Math.max(1, Math.floor(totalCores / 2));
             const coreLoadPct = Math.round((activeThreads / totalCores) * 100);
             
             hudCores.innerText = `${activeThreads} / ${totalCores}`;
-            hudCorePercent.innerText = `LOAD: ${coreLoadPct}% (ACTIVE)`;
+            hudCorePercent.innerText = `狀態：對弈中 (${coreLoadPct}%)`;
             barCores.style.width = `${coreLoadPct}%`;
-            circleCores.className = "gauge-circle overload";
-            circleSpeed.className = "gauge-circle overload";
-            globalStatus.innerHTML = `<span class="blink-red">●</span> <span>天道運轉 // 氣海狂飆中 (LOAD: ${coreLoadPct}%)</span>`;
 
             function getTimestamp() {
                 const d = new Date(); return `[${d.toTimeString().split(' ')[0]}.${String(d.getMilliseconds()).padStart(3, '0')}]`;
@@ -726,7 +813,7 @@
 
             const rawSalt = window.crypto.getRandomValues(new Uint8Array(16));
             const saltHex = Array.from(rawSalt).map(b => b.toString(16).padStart(2, '0')).join('');
-            addLog(`>>> 乾坤陣心初始化 // 靈鹽: 0x${saltHex.toUpperCase()} | 境界: ${levelTag} | 氣海執行緒: ${activeThreads}`, "#ffb000");
+            addLog(`>>> 棋局開啟 // 隨機天道鹽值: 0x${saltHex.toUpperCase()} | 對弈屏障: ${levelTag} | 衍化執行緒: ${activeThreads}`, "#e4e0d5");
 
             if (cryptoWorker) cryptoWorker.terminate();
             const blob = new Blob([workerScript], { type: 'application/javascript' });
@@ -740,50 +827,45 @@
                     barFill.style.width = `${data.progress}%`;
                     percentText.innerText = `${data.progress.toFixed(0)}%`;
                     timeText.innerText = `${data.elapsed}s`;
-                    consoleClock.innerText = `運轉時辰: ${data.elapsed}s`;
+                    consoleClock.innerText = `已推演耗時: ${data.elapsed}s`;
                     currentSpeedVal = data.speed;
-                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `巔峰: ${peakSpeed.toLocaleString()} H/s`; }
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `峰值: ${peakSpeed.toLocaleString()} H/s`; }
                     hudSpeed.innerText = `${data.speed.toLocaleString()}`;
-                    hexDumpView.innerHTML = `神念靈能緩衝快照:<br/>${data.hexDump}`;
+                    hexDumpView.innerHTML = `識海緩衝快照:<br/>${data.hexDump}`;
                     drawOscilloscope(0.4 + Math.random()*0.4);
                 } else if (data.type === 'POW_PROGRESS') {
                     currentSpeedVal = data.speed;
-                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `巔峰: ${peakSpeed.toLocaleString()} H/s`; }
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `峰值: ${peakSpeed.toLocaleString()} H/s`; }
                     hudSpeed.innerText = `${data.speed.toLocaleString()}`;
                     timeText.innerText = `${data.elapsed}s`;
-                    consoleClock.innerText = `運轉時辰: ${data.elapsed}s`;
-                    hexDumpView.innerHTML = `天機特徵推演快照:<br/>${data.hexDump}`;
+                    consoleClock.innerText = `已推演耗時: ${data.elapsed}s`;
+                    hexDumpView.innerHTML = `與天對弈快照:<br/>${data.hexDump}`;
                     drawOscilloscope(0.7 + Math.random()*0.3);
                 } else if (data.type === 'POW_SUCCESS') {
-                    addLog(`>>> 天機特徵命中 // 渡劫次數: #${data.nonce.toLocaleString()} | 真言: 0x${data.finalPowHash}`, "#00ff66");
+                    addLog(`>>> 勝天半子！天道對弈條件達成 // 試棋次數: #${data.nonce.toLocaleString()} | 天機特徵碼: 0x${data.finalPowHash}`, "#ff8080");
                     drawOscilloscope(1.0);
                 } else if (data.type === 'DONE') {
                     barFill.style.width = "100%";
                     percentText.innerText = "100%";
                     timeText.innerText = `${data.totalElapsed}s`;
-                    consoleClock.innerText = `運轉時辰: ${data.totalElapsed}s`;
+                    consoleClock.innerText = `已推演耗時: ${data.totalElapsed}s`;
                     
-                    isEngineRunning = false;
-                    currentSpeedVal = 0;
+                    isEngineRunning = false; currentSpeedVal = 0;
                     hudCores.innerText = `0 / ${totalCores}`;
-                    hudCorePercent.innerText = `LOAD: 0% (IDLE)`;
+                    hudCorePercent.innerText = `狀態：陣法閒置`;
                     barCores.style.width = `0%`;
-                    circleCores.className = "gauge-circle active";
-                    circleSpeed.className = "gauge-circle gold";
                     hudSpeed.innerText = "0";
-                    hexDumpView.innerHTML = `神念靈能緩衝快照:<br/>0x00000000: 法陣待命...`;
+                    hexDumpView.innerHTML = `識海緩衝快照:<br/>0x00000000: 等待天道推演...`;
                     
-                    globalStatus.innerHTML = `<span class="blink">●</span> <span>天道運轉 // 乾坤日月防衛陣法圓滿待命</span>`;
-                    addLog(`>>> 乾坤天網封裝大成 // 總耗用時辰: ${data.totalElapsed}s`, "#ffb000");
+                    addLog(`>>> 落子封裝執行成功 // 總對弈耗時: ${data.totalElapsed}s`, "#e4e0d5");
                     cipherOutput.value = data.finalCipher;
                     encryptBtn.disabled = false;
                     cryptoWorker.terminate();
-                    showCyberAlert("天網封裝圓滿 // SUCCESS", `防禦構建完畢！共耗時 ${data.totalElapsed} 秒，總計演化 #${data.totalNonce.toLocaleString()} 次物理算力！`, "success");
+                    showCyberAlert("落子勝天", `天地棋局對弈封裝完畢！共推演耗時 ${data.totalElapsed} 秒，試棋總數 #${data.totalNonce.toLocaleString()}。`, "success");
                 } else if (data.type === 'ERROR') {
-                    showCyberAlert("天劫反噬 // FATAL ERROR", "算力引擎渡劫失敗，發生錯誤: " + data.error, "error");
-                    addLog(">>> WORKER ERROR: " + data.error, "#ff2a3c");
-                    isEngineRunning = false;
-                    encryptBtn.disabled = false;
+                    showCyberAlert("發生異常", "後台推演陣法發生錯誤: " + data.error, "error");
+                    addLog(">>> WORKER ERROR: " + data.error, "#ff8080");
+                    isEngineRunning = false; encryptBtn.disabled = false;
                     cryptoWorker.terminate();
                 }
             };
@@ -791,22 +873,23 @@
             cryptoWorker.postMessage({ text, targetIterations, targetPrefix, saltHex, pubKeyBase64: cleanBase64(pubKeyInput), levelTag });
         }
 
-        // 🌟 7. V1~V10 全歷史世代向下相容顯真解密引擎
+        // 🌟 9. 專業解密 (相容 INK_V2.4 及歷史全系列)
         async function decryptText() {
             try {
+                playChime(440, 0.1);
                 const privKeyInput = document.getElementById("myPrivKeyInput").value;
                 const cipherTextRaw = document.getElementById("cipherTextInput").value.trim();
                 if (!privKeyInput.trim() || !cipherTextRaw) {
-                    return showCyberAlert("解密警示 // WARNING", "請確認已貼入接收者的專屬月陣私鑰封印與待顯真的密文封包！", "warning");
+                    return showCyberAlert("提示", "請確認已貼入接收者的本源私鑰，以及待破局的密文封包。", "warning");
                 }
 
-                if (!cipherTextRaw.startsWith("SUN_STAR_V10::") && !cipherTextRaw.startsWith("OMEGA_V9::") && !cipherTextRaw.startsWith("SUN_STAR_V8::") && !cipherTextRaw.startsWith("RSA_HYBRID_V7::") && !cipherTextRaw.startsWith("RSA_HYBRID_V6::") && !cipherTextRaw.startsWith("RSA_HYBRID_V5::") && !cipherTextRaw.startsWith("RSA_HYBRID_V4::") && !cipherTextRaw.startsWith("RSA_HYBRID_V3::")) {
-                    throw new Error("道法不相容：找不到 SUN-STAR, OMEGA 或 MATRIX-RSA 系列的有效標頭！");
+                if (!cipherTextRaw.startsWith("INK_V2.4::") && !cipherTextRaw.startsWith("SUN_STAR_V14::") && !cipherTextRaw.startsWith("SUN_STAR_V13::") && !cipherTextRaw.startsWith("SUN_STAR_V12::") && !cipherTextRaw.startsWith("SUN_STAR_V11::") && !cipherTextRaw.startsWith("SUN_STAR_V10::") && !cipherTextRaw.startsWith("OMEGA_V9::") && !cipherTextRaw.startsWith("SUN_STAR_V8::") && !cipherTextRaw.startsWith("RSA_HYBRID_V7::") && !cipherTextRaw.startsWith("RSA_HYBRID_V6::") && !cipherTextRaw.startsWith("RSA_HYBRID_V5::") && !cipherTextRaw.startsWith("RSA_HYBRID_V4::") && !cipherTextRaw.startsWith("RSA_HYBRID_V3::")) {
+                    throw new Error("格式錯誤：找不到相容的 INK, SUN-STAR 或 RSA-HYBRID 系列標頭。");
                 }
 
-                const strippedCipher = cipherTextRaw.replace(/(SUN_STAR_V10|OMEGA_V9|SUN_STAR_V8|RSA_HYBRID_V[3-7])::/, "");
+                const strippedCipher = cipherTextRaw.replace(/(INK_V2\.4|SUN_STAR_V14|SUN_STAR_V13|SUN_STAR_V12|SUN_STAR_V11|SUN_STAR_V10|OMEGA_V9|SUN_STAR_V8|RSA_HYBRID_V[3-7])::/, "");
                 const parts = strippedCipher.split(".");
-                if (parts.length !== 3) throw new Error("密文結構損毀：無法拆解 (金鑰.向量.密文) 三段式結構！");
+                if (parts.length !== 3) throw new Error("封包結構損毀：無法解析三段式加密結構。");
 
                 const [encKeyBase64, ivBase64, aesCipherBase64] = parts;
 
@@ -822,9 +905,9 @@
                 const decryptedBuffer = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, aesKey, aesCipher);
 
                 document.getElementById("decryptedResult").innerText = new TextDecoder().decode(decryptedBuffer);
-                showCyberAlert("顯真道法大成 // SUCCESS", "乾坤日月解密成功！原始情報與防禦驗證特徵已 100% 顯真還原。", "success");
+                showCyberAlert("執印破局", "天地陣法驗證完畢，原始天機機密已成功顯真還原。", "success");
             } catch (e) { 
-                showCyberAlert("顯真失敗 // ACCESS DENIED", "密文還原失敗！可能原因：非對應的私鑰封印，或密文在傳遞過程中受損。\n\n詳細錯誤: " + e.message, "error"); 
+                showCyberAlert("破局失敗", "無法破局還原密文。原因可能是：非對應的本源私鑰、密文傳遞受損或被篡改。\n\n錯誤詳情: " + e.message, "error"); 
             }
         }
     </script>

@@ -3,377 +3,1027 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>天道衍化陣 // 曠世水墨終端</title>
+    <title>水墨終端 v2.4 // 萬法歸宗修仙雙線裝裱版</title>
     <style>
+        /* ==========================================================================
+           🌟 曠世修仙水墨視覺樣式 (傳統雙線裝裱 × 現代毛玻璃質感)
+           ========================================================================== */
         :root {
             --paper-bg: #eae5d9;
+            --paper-card: rgba(246, 242, 234, 0.88);
             --ink-dark: #121315;
             --ink-main: #2a2d32;
             --ink-dim: #5d636b;
-            --jade-light: rgba(235, 230, 218, 0.75);
+            --ink-border: #c4beaf;
+            --ink-light: #dfd8c8;
             --seal-red: #9e1b1b;
-            --seal-red-glow: rgba(158, 27, 27, 0.35);
+            --seal-red-hover: #7e1212;
+            --seal-red-glow: rgba(158, 27, 27, 0.3);
             --jade-green: #1b4435;
-            --gold-accent: #b8860b;
+            --sun-gold: #b8860b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--paper-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--ink-border); border-radius: 4px; border: 2px solid var(--paper-bg); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-dim); }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--ink-border) var(--paper-bg); }
+
         body {
-            font-family: "Songti SC", "SimSun", "STSong", "Microsoft YaHei", serif;
+            font-family: "Songti SC", "SimSun", "STSong", "PingFang SC", "Microsoft YaHei", serif;
             background-color: var(--paper-bg);
             color: var(--ink-main);
+            padding: 24px 20px 60px;
+            max-width: 1520px;
+            margin: 0 auto;
+            position: relative;
             overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            line-height: 1.6;
         }
 
-        /* 🌟 頂級互動背景：天地靈氣與重度滯墨 */
-        #daoCanvas {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
+        /* 🌟 背景 Canvas：山水畫 + 水墨神龍 + 滯墨物理 + 靈氣粒子 */
+        #bgCanvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none;
         }
 
-        /* 頂部天際線：天道遙測狀態 */
-        .header-realm {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-            border-bottom: 1px solid rgba(18, 19, 21, 0.08);
-            background: linear-gradient(to bottom, rgba(234, 229, 217, 0.9), transparent);
-            backdrop-filter: blur(4px);
-        }
-        .realm-title {
-            font-size: 20px; font-weight: bold; letter-spacing: 6px; color: var(--ink-dark);
-            display: flex; align-items: center; gap: 12px;
-        }
-        .realm-title::before {
-            content: "❖"; color: var(--seal-red); font-size: 24px;
-            text-shadow: 0 0 10px var(--seal-red-glow);
-        }
-        .realm-stats {
-            font-family: 'Courier New', monospace; font-size: 13px; letter-spacing: 2px;
-            color: var(--ink-dim); display: flex; gap: 24px;
-        }
-        .stat-highlight { color: var(--seal-red); font-weight: bold; }
-
-        /* 🌟 核心排版：懸浮道卷與玉簡陣法 */
-        .realm-container {
-            position: relative;
-            z-index: 5;
-            width: 90%;
-            max-width: 1300px;
-            margin-top: 80px;
-            padding: 40px 0;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-        @media (min-width: 1024px) {
-            .realm-container { grid-template-columns: 360px 1fr; align-items: start; }
-        }
-
-        /* 左側：天地靈脈觀星台 */
-        .astral-tower {
-            background: var(--jade-light);
-            border: 1px solid rgba(18, 19, 21, 0.15);
-            padding: 30px;
-            position: sticky;
-            top: 100px;
+        /* 頂部天地棋局橫幅 */
+        .sys-header {
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-top: 4px solid var(--ink-dark);
+            border-bottom: 2px solid var(--seal-red);
+            padding: 16px 28px; margin-bottom: 30px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: flex; justify-content: space-between; align-items: center; 
+            font-size: 14px; letter-spacing: 2px;
             backdrop-filter: blur(12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
-            border-left: 4px solid var(--jade-green);
+            border-radius: 2px;
         }
-        .tower-header {
-            font-size: 16px; font-weight: bold; letter-spacing: 4px; color: var(--ink-dark);
-            margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px dashed rgba(18, 19, 21, 0.2);
-            display: flex; justify-content: space-between;
-        }
-        
-        .vein-node { margin-bottom: 20px; }
-        .vein-label { font-size: 12px; color: var(--ink-dim); letter-spacing: 1px; margin-bottom: 4px; }
-        .vein-val { font-size: 22px; font-family: 'Courier New', monospace; font-weight: bold; color: var(--ink-dark); }
-        .vein-bar { width: 100%; height: 3px; background: rgba(0,0,0,0.05); margin-top: 6px; overflow: hidden; }
-        .vein-fill { height: 100%; background: var(--ink-dark); width: 60%; transition: width 0.3s ease; }
+        .sys-title { font-weight: bold; color: var(--ink-dark); font-size: 18px; letter-spacing: 4px; display: flex; align-items: center; gap: 10px; }
+        .sys-title::before { content: "❖"; color: var(--seal-red); font-size: 20px; text-shadow: 0 0 8px var(--seal-red-glow); }
+        .sys-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-dim); font-family: "PingFang SC", sans-serif; }
+        .dot { color: var(--seal-red); animation: pulse 2s infinite; font-size: 14px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
-        /* 右側：修仙主陣 (懸浮古法道卷) */
-        .scroll-matrix {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
+        /* 主視覺 */
+        .hero-section { text-align: center; margin-bottom: 35px; position: relative; pointer-events: none; }
+        h1 { color: var(--ink-dark); font-size: 36px; letter-spacing: 16px; margin: 0 0 8px 0; font-weight: bold; text-shadow: 0 0 20px rgba(255,255,255,0.9); }
+        .hero-subtitle { color: var(--seal-red); font-size: 15px; letter-spacing: 6px; font-style: italic; margin-bottom: 16px; font-weight: bold; }
+        .hero-line { width: 220px; height: 1px; background: var(--ink-border); margin: 0 auto; position: relative; }
+        .hero-line::after { content: "▪"; position: absolute; top: -10px; left: calc(50% - 6px); color: var(--seal-red); font-size: 14px; }
 
-        .dao-scroll {
-            background: var(--jade-light);
-            border: 1px solid rgba(18, 19, 21, 0.15);
-            padding: 40px;
-            position: relative;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-        }
-        .dao-scroll:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-            border-color: rgba(18, 19, 21, 0.3);
-        }
-
-        /* 古風裝裱角標 */
-        .dao-scroll::after {
-            content: ""; position: absolute; top: 6px; right: 6px; bottom: 6px; left: 6px;
-            border: 1px solid rgba(18, 19, 21, 0.06);
-            pointer-events: none;
-        }
-
-        .scroll-tag {
-            position: absolute; top: -12px; left: 30px;
-            background: var(--ink-dark); color: #fff;
-            font-size: 12px; letter-spacing: 3px; padding: 4px 16px;
-            font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            font-size: 20px; letter-spacing: 4px; color: var(--ink-dark);
-            margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
-        }
-        h2::before { content: "▪"; color: var(--seal-red); font-size: 16px; }
-        
-        p { font-size: 14px; color: var(--ink-dim); line-height: 1.8; letter-spacing: 1px; margin-bottom: 24px; }
-
-        /* 墨感輸入框 */
-        .ink-input {
-            width: 100%; background: rgba(255,255,255,0.6); border: 1px solid rgba(18, 19, 21, 0.2);
-            padding: 16px; font-size: 14px; font-family: 'Courier New', monospace;
-            color: var(--ink-dark); margin-bottom: 20px; resize: vertical; min-height: 100px;
-            transition: all 0.3s;
-        }
-        .ink-input:focus {
-            outline: none; background: rgba(255,255,255,0.9); border-color: var(--ink-dark);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        /* 硃砂篆刻大招按鈕 */
-        .cinnabar-btn {
-            background: var(--seal-red); color: #fff;
-            border: none; padding: 18px 36px; font-size: 15px; letter-spacing: 8px;
-            font-weight: bold; cursor: pointer; transition: all 0.3s ease;
-            position: relative; overflow: hidden; width: 100%;
-            box-shadow: 0 10px 25px var(--seal-red-glow);
-        }
-        .cinnabar-btn:hover {
-            background: #851414; transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(158, 27, 27, 0.5);
-        }
-        .cinnabar-btn:active { transform: translateY(1px); }
-
-        /* 豎排詩句裝飾 (修仙極致氛圍) */
+        /* 豎排詩句裝飾 */
         .vertical-poetry {
-            position: fixed; right: 40px; top: 50%; transform: translateY(-50%);
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
             writing-mode: vertical-rl; text-orientation: upright;
-            font-size: 16px; letter-spacing: 8px; color: rgba(18, 19, 21, 0.15);
-            font-weight: bold; pointer-events: none; z-index: 1;
-            user-select: none;
+            font-size: 15px; letter-spacing: 10px; color: rgba(18, 19, 21, 0.18);
+            font-weight: bold; pointer-events: none; z-index: 1; user-select: none;
         }
+
+        /* 核心佈局 */
+        .main-layout { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+        @media (min-width: 1100px) { .main-layout { grid-template-columns: 310px 1fr; } }
+
+        /* 左側：天道算力觀星台 */
+        .telemetry-sidebar {
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-top: 3px solid var(--jade-green);
+            padding: 22px 20px;
+            display: flex; flex-direction: column; gap: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border-radius: 2px;
+            backdrop-filter: blur(12px);
+            position: sticky; top: 24px;
+        }
+        .sidebar-title { font-size: 14px; font-weight: bold; color: var(--ink-dark); letter-spacing: 3px; border-bottom: 1px dashed var(--ink-border); padding-bottom: 12px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .sidebar-title::before { content: "▫"; color: var(--jade-green); font-size: 16px; }
+
+        .stat-item { border-left: 2px solid var(--ink-light); padding-left: 14px; transition: all 0.3s; }
+        .stat-item:hover { border-left-color: var(--seal-red); }
+        .stat-label { font-size: 11px; color: var(--ink-dim); letter-spacing: 1px; font-family: "PingFang SC", sans-serif; }
+        .stat-value { font-size: 18px; font-weight: bold; color: var(--ink-dark); font-family: 'Courier New', monospace; margin: 2px 0; }
+        .stat-sub { font-size: 11px; color: var(--ink-dim); }
+        
+        .stat-bar-bg { width: 100%; height: 4px; background: var(--ink-light); margin-top: 8px; overflow: hidden; border-radius: 2px; }
+        .stat-bar-fill { height: 100%; width: 0%; background: var(--ink-dark); transition: width 0.2s ease-out; }
+        .highlight-red { color: var(--seal-red) !important; }
+        .highlight-gold { color: var(--sun-gold) !important; }
+
+        /* 右側：天地書卷與弈棋陣法 */
+        .scrolls-area { display: flex; flex-direction: column; gap: 24px; }
+        .scroll-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 900px) { .scroll-grid { grid-template-columns: 1fr 1fr; } }
+
+        /* 古法雙線裝裱畫卷卡片 */
+        .card {
+            background: var(--paper-card);
+            border: 1px solid var(--ink-border);
+            border-radius: 2px;
+            padding: 32px 28px 28px; 
+            position: relative; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid var(--ink-dark);
+            backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,0,0,0.07); }
+        .card::before {
+            content: attr(data-node); position: absolute; top: -11px; left: 24px; background: var(--paper-bg); color: var(--ink-dark);
+            font-size: 12px; padding: 2px 14px; letter-spacing: 2px; border: 1px solid var(--ink-border); font-weight: bold; border-radius: 2px;
+        }
+
+        h2 { color: var(--ink-dark); font-size: 16px; border-bottom: 1px solid var(--ink-light); padding-bottom: 12px; margin: 0 0 16px 0; letter-spacing: 2px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        h2::before { content: "▪"; color: var(--seal-red); font-size: 14px; }
+        p { font-size: 13px; margin: 12px 0 8px 0; color: var(--ink-main); letter-spacing: 1px; font-family: "PingFang SC", sans-serif; }
+        
+        .input-wrapper { position: relative; width: 100%; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+
+        textarea {
+            width: 100%; height: 96px; background: rgba(255,255,255,0.85); color: var(--ink-dark); border: 1px solid var(--ink-border);
+            border-radius: 2px; padding: 12px; box-sizing: border-box; resize: vertical; font-size: 12px; font-family: 'Courier New', monospace; transition: all 0.25s;
+            line-height: 1.5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        textarea:focus { outline: none; border-color: var(--ink-dark); background: #fff; box-shadow: 0 0 0 2px rgba(22, 24, 27, 0.08); }
+
+        select.cyber-select {
+            width: 100%; background: rgba(255,255,255,0.85); color: var(--ink-dark); border: 1px solid var(--ink-border); padding: 12px 14px;
+            border-radius: 2px; font-size: 13px; margin-bottom: 18px; cursor: pointer; font-family: "PingFang SC", sans-serif;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); transition: all 0.25s;
+        }
+        select.cyber-select:focus { outline: none; border-color: var(--seal-red); background: #fff; }
+
+        /* 硃砂篆刻按鈕 */
+        button.action-btn {
+            background: var(--seal-red);
+            color: #fff; border: 1px solid var(--seal-red-hover); border-radius: 2px; padding: 15px 20px; font-weight: bold; cursor: pointer;
+            font-size: 14px; width: 100%; letter-spacing: 6px; transition: all 0.25s ease; font-family: "Songti SC", "SimSun", serif;
+            box-shadow: 0 6px 16px var(--seal-red-glow); position: relative; overflow: hidden; text-align: center;
+        }
+        button.action-btn:hover:not(:disabled) { background: var(--seal-red-hover); box-shadow: 0 8px 20px rgba(158, 27, 27, 0.4); transform: translateY(-1px); }
+        button.action-btn:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 2px 8px var(--seal-red-glow); }
+        button.action-btn:disabled { background: var(--ink-border); border-color: var(--ink-border); color: #fff; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        .key-box {
+            font-size: 11px; background: rgba(255,255,255,0.85); color: var(--ink-main); padding: 12px;
+            border: 1px solid var(--ink-border); border-radius: 2px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 85px; font-family: 'Courier New', monospace;
+            line-height: 1.4; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* 複製按鈕 */
+        .box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+        .box-header p { margin: 0; }
+        .copy-btn {
+            background: #fff; color: var(--ink-main); border: 1px solid var(--ink-border);
+            border-radius: 2px; padding: 4px 12px; font-size: 11px; cursor: pointer; transition: all 0.2s; letter-spacing: 1px; font-family: "PingFang SC", sans-serif;
+        }
+        .copy-btn:hover { background: var(--ink-dark); color: #fff; border-color: var(--ink-dark); }
+        .copy-btn.copied { background: var(--jade-green) !important; color: #fff !important; border-color: var(--jade-green) !important; }
+
+        /* 水墨硯石監控控制台 */
+        .matrix-console { display: none; background: #181a1f; color: #e6e3da; border: 1px solid var(--ink-dark); border-radius: 2px; padding: 22px; margin-top: 24px; box-shadow: inset 0 0 25px rgba(0,0,0,0.7); }
+        .console-header { display: flex; justify-content: space-between; font-size: 12px; color: #c5c1b8; border-bottom: 1px solid #2e3239; padding-bottom: 12px; margin-bottom: 18px; font-family: 'Courier New', monospace; }
+        
+        .scope-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 18px; }
+        @media (min-width: 800px) { .scope-grid { grid-template-columns: 7fr 3fr; } }
+        
+        #oscCanvas { width: 100%; height: 80px; background: #111215; border: 1px solid #2e3239; border-radius: 2px; display: block; }
+        .hex-dump-box { height: 80px; background: #111215; border: 1px solid #2e3239; border-radius: 2px; padding: 10px 12px; font-size: 11px; color: #c5c1b8; overflow: hidden; line-height: 1.5; font-family: 'Courier New', monospace; }
+
+        .console-log-screen {
+            height: 240px; overflow-y: auto; color: #d0ceca; font-size: 12px; line-height: 1.6; border: 1px solid #2e3239;
+            padding: 14px; background: #111215; margin-bottom: 18px; font-family: 'Courier New', monospace; border-left: 3px solid var(--seal-red);
+        }
+        
+        .progress-container { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #c5c1b8; font-family: 'Courier New', monospace; }
+        .progress-bar-back { flex-grow: 1; height: 6px; background: #111215; border-radius: 3px; margin: 0 16px; overflow: hidden; border: 1px solid #2e3239; }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--seal-red); transition: width 0.05s linear; }
+
+        /* 通知視窗 */
+        .cyber-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(22, 24, 27, 0.65); backdrop-filter: blur(6px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        .cyber-modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .cyber-modal-box {
+            background: var(--paper-bg); border: 1px solid var(--ink-border);
+            border-top: 4px solid var(--seal-red); border-bottom: 4px solid var(--ink-dark);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+            padding: 32px; width: 90%; max-width: 460px; border-radius: 2px; text-align: center;
+            transform: scale(0.92); transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        .cyber-modal-overlay.active .cyber-modal-box { transform: scale(1); }
+        .cyber-modal-title { font-size: 18px; font-weight: bold; letter-spacing: 4px; margin-bottom: 16px; color: var(--ink-dark); }
+        .cyber-modal-box.error .cyber-modal-title { color: var(--seal-red); }
+        .cyber-modal-msg { font-size: 14px; color: var(--ink-main); line-height: 1.6; margin-bottom: 28px; word-break: break-all; font-family: "PingFang SC", sans-serif; }
+        .cyber-modal-btn {
+            background: var(--seal-red); color: #fff; border: none;
+            padding: 11px 36px; font-size: 13px; letter-spacing: 4px;
+            cursor: pointer; transition: all 0.2s; border-radius: 2px; font-weight: bold;
+            box-shadow: 0 4px 12px var(--seal-red-glow);
+        }
+        .cyber-modal-btn:hover { background: var(--seal-red-hover); box-shadow: 0 6px 16px rgba(158, 27, 27, 0.4); transform: translateY(-1px); }
     </style>
 </head>
 <body>
 
-    <canvas id="daoCanvas"></canvas>
-
+    <canvas id="bgCanvas"></canvas>
     <div class="vertical-poetry">天地為局化滄海・執墨勝天半子棋</div>
 
-    <header class="header-realm">
-        <div class="realm-title">天道終端 // 萬法歸宗</div>
-        <div class="realm-stats">
-            <span>靈氣濃度: <span class="stat-highlight" id="chiVal">98.4%</span></span>
-            <span>對弈流速: <span class="stat-highlight">極速 / 零延遲</span></span>
-            <span>天機陣眼: <span style="color:var(--jade-green); font-weight:bold;">已與雲端同聯</span></span>
+    <div id="cyberModal" class="cyber-modal-overlay">
+        <div id="cyberModalBox" class="cyber-modal-box">
+            <div id="cyberModalTitle" class="cyber-modal-title">系統提示</div>
+            <div id="cyberModalMsg" class="cyber-modal-msg">提示訊息...</div>
+            <button class="cyber-modal-btn" onclick="closeCyberAlert()">確 認</button>
         </div>
-    </header>
+    </div>
 
-    <main class="realm-container">
+    <div class="sys-header">
+        <span class="sys-title">水墨終端 v2.4 // 萬法歸宗</span>
+        <div class="sys-status"><span class="dot">●</span> <span>天道狀態：天地山水棋局就緒 // 狂草神龍與重墨滯筆驅動中</span></div>
+    </div>
+
+    <div class="hero-section">
+        <h1>水墨終端 v2.4</h1>
+        <div class="hero-subtitle">「 以執此棋，勝天半子 」</div>
+        <div class="hero-line"></div>
+    </div>
+
+    <div class="main-layout">
         
-        <aside class="astral-tower">
-            <div class="tower-header"><span>靈脈遙測</span><span>[ 乾坤 ]</span></div>
+        <div class="telemetry-sidebar">
+            <div class="sidebar-title">天道算力・觀星台</div>
             
-            <div class="vein-node">
-                <div class="vein-label">識海衍化執行緒 (THREADS)</div>
-                <div class="vein-val">12 / 16 <span style="font-size:12px; font-weight:normal; color:var(--ink-dim);">核</span></div>
-                <div class="vein-bar"><div class="vein-fill" style="width: 75%;"></div></div>
+            <div class="stat-item">
+                <div class="stat-label">衍化執行緒 // THREADS</div>
+                <div class="stat-value" id="hudCores">0 / --</div>
+                <div class="stat-sub" id="hudCorePercent">狀態：陣法閒置</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barCores"></div></div>
             </div>
 
-            <div class="vein-node">
-                <div class="vein-label">陣法溫控與靈壓 (THERMAL)</div>
-                <div class="vein-val">38.2 <span style="font-size:12px; font-weight:normal; color:var(--ink-dim);">°C // 靈壓穩定</span></div>
-                <div class="vein-bar"><div class="vein-fill" style="width: 40%; background: var(--jade-green);"></div></div>
+            <div class="stat-item">
+                <div class="stat-label">對弈流速 // HASHRATE</div>
+                <div class="stat-value highlight-red" id="hudSpeed">0</div>
+                <div class="stat-sub" id="hudPeakSpeed">峰值：0 H/s</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barSpeed" style="background:var(--seal-red);"></div></div>
             </div>
 
-            <div class="vein-node">
-                <div class="vein-label">天機變數熵值 (ENTROPY)</div>
-                <div class="vein-val" style="color: var(--gold-accent);">512 <span style="font-size:12px; font-weight:normal; color:var(--ink-dim);">Bit</span></div>
-                <div class="vein-bar"><div class="vein-fill" style="width: 100%; background: var(--gold-accent);"></div></div>
+            <div class="stat-item">
+                <div class="stat-label">靈脈時脈 // CLOCK FREQ</div>
+                <div class="stat-value" id="hudClock">1.80</div>
+                <div class="stat-sub" id="hudClockDetail">頻率：天地基準</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barClock" style="width:30%;"></div></div>
             </div>
+
+            <div class="stat-item">
+                <div class="stat-label">陣法溫控 // THERMAL</div>
+                <div class="stat-value" id="hudTemp">42°C</div>
+                <div class="stat-sub" id="hudRPM">1200 RPM</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barTemp" style="width:25%; background:var(--jade-green);"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">識海消耗 // V8 HEAP</div>
+                <div class="stat-value" id="hudRAM">-- MB</div>
+                <div class="stat-sub" id="hudRAMDetail">ALLOC: -- MB</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barRAM"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">天機變數 // ENTROPY</div>
+                <div class="stat-value highlight-gold" id="hudEntropy">128</div>
+                <div class="stat-sub" id="hudEntropyDetail">狀態：天機充盈</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barEntropy" style="width:100%; background:var(--sun-gold);"></div></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-label">畫卷更新 // FPS</div>
+                <div class="stat-value" id="hudFPS">60</div>
+                <div class="stat-sub" id="hudLatency">迴圈延遲: 0.0 ms</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" id="barFPS" style="width:100%; background:var(--jade-green);"></div></div>
+            </div>
+        </div>
+
+        <div class="scrolls-area">
             
-            <div style="margin-top: 30px; font-size: 12px; color: var(--ink-dim); line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 15px;">
-                * 提醒：移動滑鼠可牽引天地靈氣，體驗滯墨禦劍之法。落筆越急，飛白越顯；駐筆停歇，濃墨自暈。
-            </div>
-        </aside>
+            <div class="scroll-grid">
+                <div class="card" data-node="起手 // 鑄造非對稱符印">
+                    <div>
+                        <h2>[ 起手 ] 凝聚天地靈氣，鑄造非對稱金鑰符印</h2>
+                        <p>執此符印，方能開啟天地陣法與道法會話通道：</p>
+                        <button class="action-btn" onclick="generateKeyPair()">
+                            立即凝聚 RSA-4096 符印
+                        </button>
+                    </div>
+                    <div>
+                        <div class="input-wrapper" style="margin-top: 20px;">
+                            <div class="box-header"><p><b>天道公鑰 (SPKI Base64)：</b></p><button class="copy-btn" onclick="copyContent('pubKeyDisplay', this, false)">複製公鑰</button></div>
+                            <div id="pubKeyDisplay" class="key-box">等待起手鑄造...</div>
+                        </div>
+                        <div class="input-wrapper" style="margin-bottom: 0;">
+                            <div class="box-header"><p><b>本源私鑰 (PKCS8 Base64)：</b></p><button class="copy-btn" onclick="copyContent('privKeyDisplay', this, false)">複製私鑰</button></div>
+                            <div id="privKeyDisplay" class="key-box">等待起手鑄造...</div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="scroll-matrix">
-            
-            <div class="dao-scroll">
-                <div class="scroll-tag">起手 // 凝聚金鑰</div>
-                <h2>引天地靈氣，鑄造非對稱符印</h2>
-                <p>以雲端無窮算力為依託，凝聚 RSA-4096 天道金鑰。執此印者，可封裝萬法、隱匿天機。</p>
-                <button class="cinnabar-btn" onclick="triggerImmortalAction('符印凝聚成功，已烙印至識海！')">立即凝聚天道符印</button>
+                <div class="card" data-node="破局 // 密文破局與顯真">
+                    <div>
+                        <h2>[ 破局 ] 執金鑰破開陣法，顯真原始機密</h2>
+                        <p>落子無悔，破局顯真。請貼入本源私鑰與天道密文：</p>
+                        <div class="input-wrapper">
+                            <div class="box-header"><p>請貼入接收者專屬的 <b>[ 本源私鑰 ]</b>：</p><button class="copy-btn" onclick="copyContent('myPrivKeyInput', this, true)">貼上/複製</button></div>
+                            <textarea id="myPrivKeyInput" placeholder="在此貼入 Base64 本源私鑰..."></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <div class="box-header"><p>請貼入收到的 <b>[ 封裝密文 (相容 v2.4 及歷史協定) ]</b>：</p><button class="copy-btn" onclick="copyContent('cipherTextInput', this, true)">貼上/複製</button></div>
+                            <textarea id="cipherTextInput" placeholder="貼入密文 (如 INK_V2.4::)..."></textarea>
+                        </div>
+                        <button class="action-btn" onclick="decryptText()">
+                            執印破局，顯真機密
+                        </button>
+                    </div>
+                    <div class="input-wrapper" style="margin-top: 20px; margin-bottom: 0;">
+                        <div class="box-header"><p><b>破局顯真後的真實機密：</b></p><button class="copy-btn" onclick="copyContent('decryptedResult', this, false)">複製內文</button></div>
+                        <div id="decryptedResult" style="background:#fff; padding:14px; border:1px solid var(--ink-border); border-radius:2px; color:var(--ink-dark); min-height: 52px; max-height:96px; overflow-y:auto; font-size:13px; word-break:break-all; font-family:'Courier New',monospace;">[ 等待落子破局 ]</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="dao-scroll">
-                <div class="scroll-tag">落子 // 萬法對弈</div>
-                <h2>執墨化劍，與天對弈封裝</h2>
-                <p>將原始機密注入天道陣法，系統將啟動多核心物理攪拌，與天地規則對弈，生成無法勘破的飛白密文。</p>
-                <textarea class="ink-input" placeholder="在此注入欲封裝隱匿的天機引子 / 原始機密..."></textarea>
-                <button class="cinnabar-btn" style="background:var(--ink-dark); box-shadow: 0 10px 25px rgba(0,0,0,0.2);" onclick="triggerImmortalAction('萬法對弈啟動！雲端算力封裝中...')">落子無悔 // 啟動推演</button>
+            <div class="card" data-node="落子 // 與天對弈・多核心衍化防衛">
+                <h2>[ 落子 ] 天地為局，執棋勝天：多核心物理算力封裝</h2>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                    <div class="input-wrapper" style="margin-bottom: 0;">
+                        <div class="box-header"><p>請貼入接收者的 <b>[ 天道公鑰 ]</b>：</p><button class="copy-btn" onclick="copyContent('targetPubKey', this, true)">貼上/複製</button></div>
+                        <textarea id="targetPubKey" placeholder="貼入對方的 Base64 天道公鑰..."></textarea>
+                    </div>
+                    <div class="input-wrapper" style="margin-bottom: 0;">
+                        <div class="box-header"><p>請輸入要隱藏的 <b>[ 原始機密 / 天機引子 ]</b>：</p><button class="copy-btn" onclick="copyContent('plainText', this, true)">清空/複製</button></div>
+                        <textarea id="plainText" placeholder="輸入需要對弈天道、封裝保護的機密內容..."></textarea>
+                    </div>
+                </div>
+
+                <p style="margin-top: 18px;"><b>選擇工作量證明 (Proof of Work) 對弈天道屏障等級：</b></p>
+                <select id="secLevel" class="cyber-select" onchange="playChime(520, 0.05)">
+                    <option value="lv1">Lv 1 [初窺天機] : 10 萬次物理攪拌 + 基礎對弈 (極速秒開)</option>
+                    <option value="lv2">Lv 2 [入局對弈] : 100 萬次物理攪拌 + 雙重對弈 (常規防衛)</option>
+                    <option value="lv3" selected>Lv 3 [勝天半子] : 500 萬次物理攪拌 + 三重對弈 (高強防衛)</option>
+                    <option value="lv4">Lv 4 [天道劫陣] : 2000 萬次物理攪拌 + 四重對弈 (深層算力)</option>
+                    <option value="lv5">Lv 5 [極限推演] : 5000 萬次物理攪拌 + 五重對弈 (防崩潰穩定運行)</option>
+                    <option value="lv6">Lv 6 [衍化太極] : 1 億次物理攪拌 + 五重對弈 (極致壓榨・推演天地)</option>
+                </select>
+                
+                <button id="encryptBtn" class="action-btn" onclick="startCinematicEncryption()">
+                    落子無悔！啟動多核心算力衍化與對弈
+                </button>
+
+                <div id="matrixConsole" class="matrix-console">
+                    <div class="console-header">
+                        <span>[ 天道推演實況 // 實時算力流速與記憶體快照 ]</span>
+                        <span id="consoleClock">已推演耗時: 0.00s</span>
+                    </div>
+                    
+                    <div class="scope-grid">
+                        <canvas id="oscCanvas" width="550" height="80"></canvas>
+                        <div class="hex-dump-box" id="hexDumpView">識海緩衝快照:<br/>0x00000000: 等待天道推演...</div>
+                    </div>
+
+                    <div id="logScreen" class="console-log-screen"></div>
+                    <div class="progress-container">
+                        <span id="progressPercent">0%</span>
+                        <div class="progress-bar-back"><div id="progressBarFill" class="progress-bar-fill"></div></div>
+                        <span id="timeRemaining">天機推演中...</span>
+                    </div>
+                </div>
+                
+                <div class="input-wrapper" style="margin-top: 20px; margin-bottom: 0;">
+                    <div class="box-header"><p><b>最終對弈封裝密文輸出：</b></p><button class="copy-btn" onclick="copyContent('cipherText', this, true)">複製密文</button></div>
+                    <textarea id="cipherText" readonly placeholder="密文將在背景 Worker 執行緒完成與天道算力對弈後自動產生..."></textarea>
+                </div>
             </div>
 
         </div>
 
-    </main>
+    </div>
 
     <script>
-        // 🌟 曠世互動水墨引擎：重度滯墨 + 飛白 + 靈氣微塵
-        const canvas = document.getElementById('daoCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        let currentKeyPair = null;
+        let cryptoWorker = null;
+        let totalCores = navigator.hardwareConcurrency || 8;
+        let peakSpeed = 0;
+        let currentSpeedVal = 0;
+        let isEngineRunning = false;
 
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
+        // 🌟 1. 溫潤琴音與玉磬 Web Audio 合成器
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+        function playChime(freq = 440, duration = 0.15) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
+            } catch(e){}
+        }
 
-        // 滑鼠真實位置
-        let mouseX = width / 2, mouseY = height / 2;
-        // 筆頭物理滯後位置 (重度拖墨)
-        let brushX = width / 2, brushY = height / 2;
-        // 筆頭第二層滯後 (用於計算毛筆彎曲與暈染)
-        let trailX = width / 2, trailY = height / 2;
+        // 🌟 2. 水墨修仙山水畫 + 水墨神龍 + 滯墨物理 Canvas 引擎
+        function initMasterCanvas() {
+            const canvas = document.getElementById("bgCanvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+            let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+            let brushX = mouseX, brushY = mouseY;
+            let trailX = mouseX, trailY = mouseY;
 
-        // 墨痕畫布歷史紀錄
-        const inkStrokes = [];
-        // 天地靈氣微塵
-        const chiParticles = Array.from({ length: 60 }, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 2 + 0.5,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: -Math.random() * 0.8 - 0.2,
-            alpha: Math.random() * 0.4 + 0.1
-        }));
-
-        function renderDao() {
-            ctx.clearRect(0, 0, width, height);
-
-            // 1. 渲染天地靈氣 (向上飄升)
-            ctx.fillStyle = "rgba(27, 68, 53, 0.3)";
-            chiParticles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.y < 0) { p.y = height; p.x = Math.random() * width; }
-                
-                // 滑鼠靠近時靈氣被推開 (聚靈互動)
-                const dist = Math.hypot(mouseX - p.x, mouseY - p.y);
-                if(dist < 150) {
-                    p.x += (p.x - mouseX) * 0.02;
-                    p.y += (p.y - mouseY) * 0.02;
-                }
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
             });
 
-            // 2. 核心物理運算：極致滯墨 Lerp (重墨拖拽感)
-            // 筆頭以 0.06 的極緩速度追趕滑鼠 (千斤重墨)
-            brushX += (mouseX - brushX) * 0.06;
-            brushY += (mouseY - brushY) * 0.06;
-            
-            // 尾巴以更慢的速度追趕筆頭
-            trailX += (brushX - trailX) * 0.04;
-            trailY += (brushY - trailY) * 0.04;
+            // 靈氣粒子
+            const chiParticles = Array.from({ length: 70 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2.2 + 0.5,
+                speedY: -(Math.random() * 0.3 + 0.1),
+                speedX: (Math.random() - 0.5) * 0.2,
+                alpha: Math.random() * 0.35 + 0.1
+            }));
 
-            // 計算筆頭移動速度
-            const speed = Math.hypot(brushX - trailX, brushY - trailY);
-            
-            // 速度越快 -> 筆劃越細且出現飛白；速度越慢 -> 濃墨聚積變粗
-            const strokeWidth = Math.max(3, Math.min(45, 38 - speed * 1.2));
-            const alpha = Math.max(0.15, Math.min(0.8, 0.85 - speed * 0.02));
+            // 墨痕陣列
+            const inkStrokes = [];
+            let dragonTime = 0;
 
-            // 只有在滑鼠有明顯移動時才產生新墨跡
-            if (speed > 0.5) {
-                inkStrokes.push({
-                    x: brushX, y: brushY,
-                    tx: trailX, ty: trailY,
-                    width: strokeWidth,
-                    alpha: alpha,
-                    life: 1.0,
-                    // 隨機飛白毛刺
-                    roughness: (Math.random() - 0.5) * (speed * 0.5)
-                });
-            }
-
-            // 3. 渲染並消散墨痕
-            for (let i = inkStrokes.length - 1; i >= 0; i--) {
-                const stroke = inkStrokes[i];
-                stroke.life -= 0.008; // 墨跡隨著天地靈氣隨風消散
-                stroke.width += 0.1;  // 墨在紙上自然向外暈染變粗
-
-                if (stroke.life <= 0) {
-                    inkStrokes.splice(i, 1);
-                    continue;
-                }
-
+            // 水墨山水畫 Procedural Mountains 繪製
+            function drawMountainRange(layerIndex, baseHeight, amplitude, colorStart, colorEnd) {
                 ctx.save();
                 ctx.beginPath();
-                ctx.moveTo(stroke.tx + stroke.roughness, stroke.ty + stroke.roughness);
-                ctx.lineTo(stroke.x, stroke.y);
-                ctx.lineCap = "round";
-                ctx.lineWidth = stroke.width;
-                ctx.strokeStyle = `rgba(18, 19, 21, ${stroke.alpha * stroke.life})`;
-                ctx.stroke();
+                ctx.moveTo(0, canvas.height);
+                for (let x = 0; x <= canvas.width; x += 15) {
+                    const sine1 = Math.sin(x * 0.003 + layerIndex * 1.5) * amplitude;
+                    const sine2 = Math.sin(x * 0.01 + layerIndex) * (amplitude * 0.4);
+                    const y = canvas.height - baseHeight + sine1 + sine2;
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.closePath();
+
+                const grad = ctx.createLinearGradient(0, canvas.height - baseHeight - amplitude, 0, canvas.height);
+                grad.addColorStop(0, colorStart);
+                grad.addColorStop(1, colorEnd);
+                ctx.fillStyle = grad;
+                ctx.fill();
                 ctx.restore();
             }
 
-            requestAnimationFrame(renderDao);
+            // 水墨神龍翱翔繪製
+            function drawDragon(time) {
+                ctx.save();
+                const centerX = canvas.width * 0.5 + Math.sin(time * 0.2) * 120;
+                const centerY = canvas.height * 0.32 + Math.cos(time * 0.15) * 45;
+                ctx.translate(centerX, centerY);
+
+                ctx.beginPath();
+                const segmentCount = 35;
+                for (let i = 0; i < segmentCount; i++) {
+                    const segX = (i - segmentCount / 2) * 16;
+                    const segY = Math.sin(time * 1.5 + i * 0.22) * 28;
+                    if (i === 0) ctx.moveTo(segX, segY); else ctx.lineTo(segX, segY);
+                }
+                ctx.strokeStyle = "rgba(18, 19, 21, 0.09)";
+                ctx.lineWidth = 36;
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+                ctx.stroke();
+
+                // 龍脊濃墨
+                ctx.strokeStyle = "rgba(18, 19, 21, 0.05)";
+                ctx.lineWidth = 16;
+                ctx.stroke();
+
+                // 龍眼硃砂點睛
+                const headX = (segmentCount / 2 - 2) * 16;
+                const headY = Math.sin(time * 1.5 + (segmentCount - 2) * 0.22) * 28;
+                ctx.fillStyle = "rgba(158, 27, 27, 0.45)";
+                ctx.beginPath();
+                ctx.arc(headX, headY - 4, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            function renderFrame() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 1. 遠山水墨山水畫
+                drawMountainRange(1, 240, 70, "rgba(22, 24, 27, 0.03)", "rgba(234, 229, 217, 0.95)");
+                drawMountainRange(2, 160, 50, "rgba(22, 24, 27, 0.06)", "rgba(234, 229, 217, 0.9)");
+                drawMountainRange(3, 80, 35, "rgba(22, 24, 27, 0.09)", "rgba(234, 229, 217, 0.8)");
+
+                // 2. 水墨神龍
+                dragonTime += 0.015;
+                drawDragon(dragonTime);
+
+                // 3. 天地靈氣微塵 (具備避開筆尖互動)
+                ctx.fillStyle = "rgba(27, 68, 53, 0.35)";
+                chiParticles.forEach(p => {
+                    p.y += p.speedY; p.x += p.speedX;
+                    if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+                    
+                    const dist = Math.hypot(mouseX - p.x, mouseY - p.y);
+                    if (dist < 140) {
+                        p.x += (p.x - mouseX) * 0.02;
+                        p.y += (p.y - mouseY) * 0.02;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // 4. 重度滯墨 Lerp 物理 (千斤重墨 + 飛白)
+                brushX += (mouseX - brushX) * 0.055;
+                brushY += (mouseY - brushY) * 0.055;
+                trailX += (brushX - trailX) * 0.035;
+                trailY += (brushY - trailY) * 0.035;
+
+                const speed = Math.hypot(brushX - trailX, brushY - trailY);
+                const strokeWidth = Math.max(3, Math.min(42, 36 - speed * 1.1));
+                const alpha = Math.max(0.12, Math.min(0.75, 0.8 - speed * 0.02));
+
+                if (speed > 0.4) {
+                    inkStrokes.push({
+                        x: brushX, y: brushY,
+                        tx: trailX, ty: trailY,
+                        width: strokeWidth,
+                        alpha: alpha,
+                        life: 1.0,
+                        roughness: (Math.random() - 0.5) * (speed * 0.4)
+                    });
+                }
+
+                // 渲染與淡出墨跡
+                for (let i = inkStrokes.length - 1; i >= 0; i--) {
+                    const st = inkStrokes[i];
+                    st.life -= 0.009;
+                    st.width += 0.08; // 自然墨流暈染
+
+                    if (st.life <= 0) {
+                        inkStrokes.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(st.tx + st.roughness, st.ty + st.roughness);
+                    ctx.lineTo(st.x, st.y);
+                    ctx.lineCap = "round";
+                    ctx.lineWidth = st.width;
+                    ctx.strokeStyle = `rgba(18, 19, 21, ${st.alpha * st.life})`;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                requestAnimationFrame(renderFrame);
+            }
+
+            requestAnimationFrame(renderFrame);
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        }
+        window.addEventListener("DOMContentLoaded", initMasterCanvas);
+
+        // 🌟 3. 古雅通知視窗
+        function showCyberAlert(title, message, type = "warning") {
+            playChime(type === 'error' ? 260 : 520, 0.2);
+            const overlay = document.getElementById("cyberModal");
+            const box = document.getElementById("cyberModalBox");
+            const titleEl = document.getElementById("cyberModalTitle");
+            const msgEl = document.getElementById("cyberModalMsg");
+            box.className = "cyber-modal-box " + type;
+            titleEl.innerText = `${title}`;
+            msgEl.innerText = message;
+            overlay.classList.add("active");
+        }
+        function closeCyberAlert() {
+            playChime(380, 0.08);
+            document.getElementById("cyberModal").classList.remove("active");
         }
 
-        renderDao();
+        // 🌟 4. 天道算力側批遙測
+        function initRealTimeTelemetry() {
+            document.getElementById("hudCores").innerText = `0 / ${totalCores}`;
+            let lastTime = performance.now(); let frames = 0;
+            
+            function updateHUD(now) {
+                frames++; const delta = now - lastTime;
+                if (delta >= 300) {
+                    const fps = Math.round((frames * 1000) / delta);
+                    document.getElementById("hudFPS").innerText = `${fps}`;
+                    document.getElementById("barFPS").style.width = `${Math.min(100, (fps / 60) * 100)}%`;
+                    
+                    const latency = Math.max(0, (delta / frames) - (1000 / 60)).toFixed(1);
+                    document.getElementById("hudLatency").innerText = `迴圈延遲: ${latency} ms`;
+                    frames = 0; lastTime = now;
 
-        // 模擬互動反饋
-        function triggerImmortalAction(msg) {
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "❖ " + msg;
-            btn.style.background = "#1b4435";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = "";
-            }, 2000);
+                    if (performance.memory) {
+                        const usedMB = (performance.memory.usedJSHeapSize / 1048576).toFixed(1);
+                        const totalMB = (performance.memory.totalJSHeapSize / 1048576).toFixed(1);
+                        const limitMB = (performance.memory.jsHeapSizeLimit / 1048576).toFixed(0);
+                        const percent = ((performance.memory.usedJSHeapSize / performance.memory.jsHeapSizeLimit) * 100).toFixed(1);
+                        document.getElementById("hudRAM").innerText = `${usedMB} MB`;
+                        document.getElementById("hudRAMDetail").innerText = `ALLOC: ${totalMB} / MAX: ${limitMB} MB (${percent}%)`;
+                        document.getElementById("barRAM").style.width = `${Math.min(100, percent * 5)}%`;
+                    } else {
+                        document.getElementById("hudRAM").innerText = `N/A`;
+                        document.getElementById("hudRAMDetail").innerText = `記憶體 API 授權受限`;
+                    }
+
+                    if (isEngineRunning) {
+                        const speedRatio = Math.min(1, currentSpeedVal / 3000000);
+                        const simClock = (1.8 + (speedRatio * 3.6)).toFixed(2);
+                        const simTemp = Math.round(45 + (speedRatio * 43));
+                        const simRPM = Math.round(1500 + (speedRatio * 4300));
+                        const simEntropy = Math.round(450 + (speedRatio * 800));
+
+                        document.getElementById("hudClock").innerText = `${simClock}`;
+                        document.getElementById("hudClockDetail").innerText = `頻率：天道推演中`;
+                        document.getElementById("barClock").style.width = `${(simClock/5.5)*100}%`;
+
+                        document.getElementById("hudTemp").innerText = `${simTemp}°C`;
+                        document.getElementById("hudRPM").innerText = `${simRPM} RPM`;
+                        document.getElementById("barTemp").style.width = `${(simTemp/95)*100}%`;
+
+                        document.getElementById("hudEntropy").innerText = `${simEntropy}`;
+                        document.getElementById("hudEntropyDetail").innerText = `狀態：天機高速衍化`;
+                        document.getElementById("barEntropy").style.width = `100%`;
+                    } else {
+                        document.getElementById("hudClock").innerText = `1.80`;
+                        document.getElementById("hudClockDetail").innerText = `頻率：天地基準`;
+                        document.getElementById("barClock").style.width = `30%`;
+
+                        document.getElementById("hudTemp").innerText = `42°C`;
+                        document.getElementById("hudRPM").innerText = `1200 RPM`;
+                        document.getElementById("barTemp").style.width = `25%`;
+
+                        document.getElementById("hudEntropy").innerText = `128`;
+                        document.getElementById("hudEntropyDetail").innerText = `狀態：天機充盈`;
+                        document.getElementById("barEntropy").style.width = `100%`;
+                    }
+                }
+                requestAnimationFrame(updateHUD);
+            }
+            requestAnimationFrame(updateHUD);
+        }
+        window.addEventListener("DOMContentLoaded", initRealTimeTelemetry);
+
+        // 🌟 5. 示波器
+        let oscCtx = null; let oscData = new Array(50).fill(0);
+        function initOscilloscope() {
+            const canvas = document.getElementById("oscCanvas");
+            if(canvas) oscCtx = canvas.getContext("2d");
+        }
+        function drawOscilloscope(val) {
+            if(!oscCtx) return;
+            oscData.push(val); oscData.shift();
+            oscCtx.fillStyle = "#111215";
+            oscCtx.fillRect(0, 0, 550, 80);
+            
+            oscCtx.strokeStyle = "#9e1b1b"; oscCtx.lineWidth = 1.8;
+            oscCtx.beginPath();
+            for(let i=0; i<oscData.length; i++) {
+                const x = (i / 50) * 550;
+                const y = 72 - (oscData[i] * 62);
+                if(i===0) oscCtx.moveTo(x, y); else oscCtx.lineTo(x, y);
+            }
+            oscCtx.stroke();
+        }
+
+        // 🌟 6. 編解碼與複製工具
+        function cleanBase64(str) { return str.replace(/-----BEGIN [A-Z ]+-----|-----END [A-Z ]+-----/g, "").replace(/[\r\n\s]+/g, ""); }
+        function ab2str(buf) {
+            const bytes = new Uint8Array(buf); let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+            return btoa(binary);
+        }
+        function str2ab(str) {
+            const cleanStr = cleanBase64(str);
+            const binary_string = atob(cleanStr); const bytes = new Uint8Array(binary_string.length);
+            for (let i = 0; i < binary_string.length; i++) bytes[i] = binary_string.charCodeAt(i);
+            return bytes.buffer;
+        }
+
+        function copyContent(elementId, btnElement, isInput = true) {
+            playChime(580, 0.05);
+            const el = document.getElementById(elementId);
+            const textToCopy = isInput ? el.value : el.innerText;
+            if (!textToCopy || textToCopy.includes("等待") || textToCopy.includes("AWAITING")) {
+                return showCyberAlert("提示", "目前欄位無有效文字可供複製。", "warning");
+            }
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "已落印複製!";
+                btnElement.classList.add("copied");
+                setTimeout(() => { btnElement.innerText = originalText; btnElement.classList.remove("copied"); }, 2000);
+            });
+        }
+
+        async function generateKeyPair() {
+            try {
+                playChime(440, 0.15);
+                const pair = await window.crypto.subtle.generateKey(
+                    { name: "RSA-OAEP", modulusLength: 4096, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" },
+                    true, ["encrypt", "decrypt"]
+                );
+                const pub = await window.crypto.subtle.exportKey("spki", pair.publicKey);
+                const priv = await window.crypto.subtle.exportKey("pkcs8", pair.privateKey);
+                document.getElementById("pubKeyDisplay").innerText = ab2str(pub);
+                document.getElementById("privKeyDisplay").innerText = ab2str(priv);
+                showCyberAlert("起手成功", "RSA-4096 天道非對稱符印已凝聚鑄造完畢。", "success");
+            } catch (e) { 
+                showCyberAlert("錯誤", "符印凝聚鑄造失敗: " + e, "error"); 
+            }
+        }
+
+        // 🌟 7. Worker 引擎 (本地多核心推演與 PoW 試棋)
+        const workerScript = `
+        self.onmessage = async function(e) {
+            const { text, targetIterations, targetPrefix, saltHex, pubKeyBase64, levelTag } = e.data;
+            const startTime = performance.now();
+            self.postMessage({ type: 'LOG', msg: '>>> 水墨終端 v2.4 棋局展開 // 配置識海緩衝區 // 啟動 GC 彈性釋放衍化陣法', color: '#c8c3b6' });
+            
+            try {
+                const baseKeyMaterial = await crypto.subtle.importKey("raw", new TextEncoder().encode(text), { name: "PBKDF2" }, false, ["deriveBits"]);
+                const rawSalt = new Uint8Array(saltHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+                const totalRounds = 30; const chunkIterations = Math.floor(targetIterations / totalRounds); let totalIterations = 0;
+                
+                for (let round = 1; round <= totalRounds; round++) {
+                    totalIterations += chunkIterations;
+                    const roundStart = performance.now();
+                    const derivedBits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: rawSalt, iterations: totalIterations, hash: "SHA-256" }, baseKeyMaterial, 256);
+                    const roundDelta = (performance.now() - roundStart).toFixed(0);
+                    const hashArray = Array.from(new Uint8Array(derivedBits));
+                    const hashSnap = hashArray.slice(0, 8).map(b => b.toString(16).padStart(2,'0')).join('');
+                    
+                    const progress = (round / (totalRounds + 5)) * 100;
+                    const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                    const speed = Math.floor(totalIterations / (performance.now() - startTime) * 1000);
+                    
+                    const hexDump = "0x7F" + hashSnap.substring(0,4) + ": " + hashArray.slice(0,8).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ') + "\\n" +
+                                    "0x7F" + hashSnap.substring(4,8) + ": " + hashArray.slice(8,16).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+
+                    self.postMessage({ type: 'LOG', msg: \`[天道推演_PBKDF2] 衍化 #\${round.toString().padStart(2,'0')}/\${totalRounds} | 累積落子: \${totalIterations.toLocaleString()} 次 | 耗時: \${roundDelta}ms | 天機特徵: 0x\${hashSnap}...\`, color: '#e6e1d6' });
+                    self.postMessage({ type: 'PROGRESS', progress, elapsed, speed, hexDump, state: 'STRETCHING' });
+                }
+                
+                self.postMessage({ type: 'LOG', msg: '>>> 算力衍化完成 // 啟動「與天對弈」工作量證明 (PoW) 破天陣法', color: '#ff8080' });
+                self.postMessage({ type: 'LOG', msg: '>>> 鎖定天道勝子條件: "' + targetPrefix + '" (批次推演大小: 500 ops)', color: '#c8c3b6' });
+                
+                let nonce = 0; let foundProof = false; let finalPowHash = ""; 
+                let lastYieldTime = performance.now(); let lastReportNonce = 0;
+                
+                while (!foundProof) {
+                    for (let step = 0; step < 500; step++) {
+                        nonce++;
+                        const testString = saltHex + "_" + nonce + "_" + text;
+                        const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(testString));
+                        const hashArray = new Uint8Array(hashBuffer);
+                        
+                        let isMatch = true;
+                        for (let i = 0; i < targetPrefix.length; i++) {
+                            const char = (hashArray[i >> 1] >> ((1 - (i & 1)) << 2)) & 0xf;
+                            if (char.toString(16) !== targetPrefix[i]) { isMatch = false; break; }
+                        }
+
+                        if (isMatch) {
+                            foundProof = true;
+                            finalPowHash = Array.from(hashArray).map(b => b.toString(16).padStart(2, '0')).join('');
+                            break;
+                        }
+                    }
+
+                    const now = performance.now();
+                    if (now - lastYieldTime > 45) {
+                        const timeDiff = (now - lastYieldTime) / 1000;
+                        const speed = Math.floor((nonce - lastReportNonce) / timeDiff);
+                        const elapsed = ((now - startTime) / 1000).toFixed(2);
+                        
+                        const dummyHash = (nonce * 2654435761).toString(16).padStart(8, '0');
+                        const hexDump = "0x8A" + dummyHash.substring(0,4) + ": " + dummyHash.toUpperCase() + " 00 A4 F2 8B 3C\\n" +
+                                        "0x8A" + dummyHash.substring(4,8) + ": 99 E1 B0 77 4F 12 D8 C9";
+
+                        self.postMessage({ type: 'LOG', msg: \`[與天對弈_PoW] 試棋 #\${nonce.toLocaleString()} | 當前流速: \${speed.toLocaleString()} H/s | 識海調節中...\`, color: '#ff8080' });
+                        self.postMessage({ type: 'POW_PROGRESS', nonce, speed, elapsed, hexDump, state: 'MINING' });
+                        
+                        lastYieldTime = now; lastReportNonce = nonce;
+                        await new Promise(r => setTimeout(r, 0));
+                    }
+                }
+
+                self.postMessage({ type: 'LOG', msg: '>>> 勝天半子！天道條件達成 // 建立 AES-256-GCM 天機加密通道', color: '#c8c3b6' });
+
+                const cleanPubKey = pubKeyBase64.replace(/[\\r\\n\\s]+/g, "");
+                const binaryPubKey = atob(cleanPubKey);
+                const pubKeyBytes = new Uint8Array(binaryPubKey.length);
+                for (let i = 0; i < binaryPubKey.length; i++) pubKeyBytes[i] = binaryPubKey.charCodeAt(i);
+                const rsaPubKey = await crypto.subtle.importKey("spki", pubKeyBytes.buffer, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
+
+                const aesKey = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt"]);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+
+                const armoredPayload = \`[SEC_\${levelTag}|POW:\${finalPowHash}|NONCE:\${nonce}]::\${text}\`;
+                const aesEncrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, aesKey, new TextEncoder().encode(armoredPayload));
+
+                self.postMessage({ type: 'LOG', msg: '>>> 執 RSA-4096 符印封裝臨時天機會話金鑰', color: '#c8c3b6' });
+                const rawAesKey = await crypto.subtle.exportKey("raw", aesKey);
+                const rsaEncryptedKey = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaPubKey, rawAesKey);
+
+                function ab2strW(buf) {
+                    const bytes = new Uint8Array(buf); let binary = '';
+                    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+                    return btoa(binary);
+                }
+                
+                const finalCipher = \`INK_V2.4::\${ab2strW(rsaEncryptedKey)}.\${ab2strW(iv)}.\${ab2strW(aesEncrypted)}\`;
+
+                const totalElapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+                self.postMessage({ type: 'LOG', msg: '>>> 落子封裝圓滿完成 // 水墨終端 v2.4 棋局終止', color: '#e6e1d6' });
+                self.postMessage({ type: 'DONE', finalCipher, totalElapsed, totalNonce: nonce });
+
+            } catch (err) {
+                self.postMessage({ type: 'ERROR', error: err.message || String(err) });
+            }
+        };
+        `;
+
+        // 🌟 8. 加密控制器 (完全於使用者本地執行)
+        function startCinematicEncryption() {
+            playChime(380, 0.15);
+            const pubKeyInput = document.getElementById("targetPubKey").value;
+            const text = document.getElementById("plainText").value;
+            const secLevel = document.getElementById("secLevel").value;
+            if (!pubKeyInput.trim() || !text) {
+                return showCyberAlert("警告", "請確認已貼入接收者的天道公鑰，以及需要封裝對弈的機密內容。", "warning");
+            }
+
+            const encryptBtn = document.getElementById("encryptBtn");
+            const matrixConsole = document.getElementById("matrixConsole");
+            const logScreen = document.getElementById("logScreen");
+            const barFill = document.getElementById("progressBarFill");
+            const percentText = document.getElementById("progressPercent");
+            const timeText = document.getElementById("timeRemaining");
+            const cipherOutput = document.getElementById("cipherText");
+            const consoleClock = document.getElementById("consoleClock");
+            const hexDumpView = document.getElementById("hexDumpView");
+            
+            const hudCores = document.getElementById("hudCores");
+            const hudCorePercent = document.getElementById("hudCorePercent");
+            const barCores = document.getElementById("barCores");
+            const hudSpeed = document.getElementById("hudSpeed");
+            const hudPeakSpeed = document.getElementById("hudPeakSpeed");
+
+            let targetIterations = 1000000; let targetPrefix = "00"; let levelTag = "LV2";
+            switch(secLevel) {
+                case "lv1": targetIterations = 100000; targetPrefix = "0"; levelTag = "LV1_SANDBOX"; break;
+                case "lv2": targetIterations = 1000000; targetPrefix = "00"; levelTag = "LV2_STANDARD"; break;
+                case "lv3": targetIterations = 5000000; targetPrefix = "000"; levelTag = "LV3_ARMOR"; break;
+                case "lv4": targetIterations = 20000000; targetPrefix = "0000"; levelTag = "LV4_FORTRESS"; break;
+                case "lv5": targetIterations = 50000000; targetPrefix = "00000"; levelTag = "LV5_FORBIDDEN"; break;
+                case "lv6": targetIterations = 100000000; targetPrefix = "00000"; levelTag = "LV6_ABYSS"; break;
+            }
+
+            encryptBtn.disabled = true;
+            matrixConsole.style.display = "block";
+            logScreen.innerHTML = "";
+            cipherOutput.value = "天地為局，正在本地多核心中與天道算力對弈推演，請等待...";
+            peakSpeed = 0; currentSpeedVal = 0; isEngineRunning = true;
+            initOscilloscope();
+            
+            const activeThreads = (secLevel === "lv5" || secLevel === "lv6") ? totalCores : Math.max(1, Math.floor(totalCores / 2));
+            const coreLoadPct = Math.round((activeThreads / totalCores) * 100);
+            
+            hudCores.innerText = `${activeThreads} / ${totalCores}`;
+            hudCorePercent.innerText = `狀態：對弈中 (${coreLoadPct}%)`;
+            barCores.style.width = `${coreLoadPct}%`;
+
+            function getTimestamp() {
+                const d = new Date(); return `[${d.toTimeString().split(' ')[0]}.${String(d.getMilliseconds()).padStart(3, '0')}]`;
+            }
+            function addLog(msg, color = "") {
+                const spanStr = color ? `<span style="color:${color}">${msg}</span>` : msg;
+                logScreen.innerHTML += `${getTimestamp()} ${spanStr}<br/>`;
+                logScreen.scrollTop = logScreen.scrollHeight;
+            }
+
+            const rawSalt = window.crypto.getRandomValues(new Uint8Array(16));
+            const saltHex = Array.from(rawSalt).map(b => b.toString(16).padStart(2, '0')).join('');
+            addLog(`>>> 棋局開啟 // 隨機天道鹽值: 0x${saltHex.toUpperCase()} | 對弈屏障: ${levelTag} | 衍化執行緒: ${activeThreads}`, "#e6e1d6");
+
+            if (cryptoWorker) cryptoWorker.terminate();
+            const blob = new Blob([workerScript], { type: 'application/javascript' });
+            cryptoWorker = new Worker(URL.createObjectURL(blob));
+
+            cryptoWorker.onmessage = function(e) {
+                const data = e.data;
+                if (data.type === 'LOG') {
+                    addLog(data.msg, data.color);
+                } else if (data.type === 'PROGRESS') {
+                    barFill.style.width = `${data.progress}%`;
+                    percentText.innerText = `${data.progress.toFixed(0)}%`;
+                    timeText.innerText = `${data.elapsed}s`;
+                    consoleClock.innerText = `已推演耗時: ${data.elapsed}s`;
+                    currentSpeedVal = data.speed;
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `峰值: ${peakSpeed.toLocaleString()} H/s`; }
+                    hudSpeed.innerText = `${data.speed.toLocaleString()}`;
+                    hexDumpView.innerHTML = `識海緩衝快照:<br/>${data.hexDump}`;
+                    drawOscilloscope(0.4 + Math.random()*0.4);
+                } else if (data.type === 'POW_PROGRESS') {
+                    currentSpeedVal = data.speed;
+                    if(data.speed > peakSpeed) { peakSpeed = data.speed; hudPeakSpeed.innerText = `峰值: ${peakSpeed.toLocaleString()} H/s`; }
+                    hudSpeed.innerText = `${data.speed.toLocaleString()}`;
+                    timeText.innerText = `${data.elapsed}s`;
+                    consoleClock.innerText = `已推演耗時: ${data.elapsed}s`;
+                    hexDumpView.innerHTML = `與天對弈快照:<br/>${data.hexDump}`;
+                    drawOscilloscope(0.7 + Math.random()*0.3);
+                } else if (data.type === 'DONE') {
+                    barFill.style.width = "100%";
+                    percentText.innerText = "100%";
+                    timeText.innerText = `${data.totalElapsed}s`;
+                    consoleClock.innerText = `已推演耗時: ${data.totalElapsed}s`;
+                    
+                    isEngineRunning = false; currentSpeedVal = 0;
+                    hudCores.innerText = `0 / ${totalCores}`;
+                    hudCorePercent.innerText = `狀態：陣法閒置`;
+                    barCores.style.width = `0%`;
+                    hudSpeed.innerText = "0";
+                    hexDumpView.innerHTML = `識海緩衝快照:<br/>0x00000000: 等待天道推演...`;
+                    
+                    addLog(`>>> 落子封裝執行成功 // 總對弈耗時: ${data.totalElapsed}s`, "#e6e1d6");
+                    cipherOutput.value = data.finalCipher;
+                    encryptBtn.disabled = false;
+                    cryptoWorker.terminate();
+                    showCyberAlert("落子勝天", `天地棋局對弈封裝完畢！共推演耗時 ${data.totalElapsed} 秒，試棋總數 #${data.totalNonce.toLocaleString()}。`, "success");
+                } else if (data.type === 'ERROR') {
+                    showCyberAlert("發生異常", "後台推演陣法發生錯誤: " + data.error, "error");
+                    addLog(">>> WORKER ERROR: " + data.error, "#ff8080");
+                    isEngineRunning = false; encryptBtn.disabled = false;
+                    cryptoWorker.terminate();
+                }
+            };
+
+            cryptoWorker.postMessage({ text, targetIterations, targetPrefix, saltHex, pubKeyBase64: cleanBase64(pubKeyInput), levelTag });
+        }
+
+        // 🌟 9. 專業解密 (相容 INK_V2.4 及歷史全系列)
+        async function decryptText() {
+            try {
+                playChime(440, 0.1);
+                const privKeyInput = document.getElementById("myPrivKeyInput").value;
+                const cipherTextRaw = document.getElementById("cipherTextInput").value.trim();
+                if (!privKeyInput.trim() || !cipherTextRaw) {
+                    return showCyberAlert("提示", "請確認已貼入接收者的本源私鑰，以及待破局的密文封包。", "warning");
+                }
+
+                if (!cipherTextRaw.startsWith("INK_V2.4::") && !cipherTextRaw.startsWith("SUN_STAR_V14::") && !cipherTextRaw.startsWith("SUN_STAR_V13::") && !cipherTextRaw.startsWith("SUN_STAR_V12::") && !cipherTextRaw.startsWith("SUN_STAR_V11::") && !cipherTextRaw.startsWith("SUN_STAR_V10::") && !cipherTextRaw.startsWith("OMEGA_V9::") && !cipherTextRaw.startsWith("SUN_STAR_V8::") && !cipherTextRaw.startsWith("RSA_HYBRID_V7::") && !cipherTextRaw.startsWith("RSA_HYBRID_V6::") && !cipherTextRaw.startsWith("RSA_HYBRID_V5::") && !cipherTextRaw.startsWith("RSA_HYBRID_V4::") && !cipherTextRaw.startsWith("RSA_HYBRID_V3::")) {
+                    throw new Error("格式錯誤：找不到相容的 INK, SUN-STAR 或 RSA-HYBRID 系列標頭。");
+                }
+
+                const strippedCipher = cipherTextRaw.replace(/(INK_V2\.4|SUN_STAR_V14|SUN_STAR_V13|SUN_STAR_V12|SUN_STAR_V11|SUN_STAR_V10|OMEGA_V9|SUN_STAR_V8|RSA_HYBRID_V[3-7])::/, "");
+                const parts = strippedCipher.split(".");
+                if (parts.length !== 3) throw new Error("封包結構損毀：無法解析三段式加密結構。");
+
+                const [encKeyBase64, ivBase64, aesCipherBase64] = parts;
+
+                const privKeyBuffer = str2ab(privKeyInput);
+                const rsaEncryptedKey = str2ab(encKeyBase64);
+                const iv = new Uint8Array(str2ab(ivBase64));
+                const aesCipher = str2ab(aesCipherBase64);
+
+                const privKey = await window.crypto.subtle.importKey("pkcs8", privKeyBuffer, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["decrypt"]);
+                const rawAesKey = await window.crypto.subtle.decrypt({ name: "RSA-OAEP" }, privKey, rsaEncryptedKey);
+
+                const aesKey = await window.crypto.subtle.importKey("raw", rawAesKey, { name: "AES-GCM" }, false, ["decrypt"]);
+                const decryptedBuffer = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, aesKey, aesCipher);
+
+                document.getElementById("decryptedResult").innerText = new TextDecoder().decode(decryptedBuffer);
+                showCyberAlert("執印破局", "天地陣法驗證完畢，原始天機機密已成功顯真還原。", "success");
+            } catch (e) { 
+                showCyberAlert("破局失敗", "無法破局還原密文。原因可能是：非對應的本源私鑰、密文傳遞受損或被篡改。\n\n錯誤詳情: " + e.message, "error"); 
+            }
         }
     </script>
 </body>

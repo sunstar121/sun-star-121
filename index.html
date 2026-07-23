@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>水墨終端 v2.5 // 狂草化龍・傳世仙境版</title>
+    <title>水墨終端 v2.5 // 傳世雙線裝裱・化龍仙境版</title>
     <style>
         /* ==========================================================================
-           🌟 視覺重構：傳世水墨仙境 × 古法雙線裝裱 × 毛玻璃美學
+           🌟 傳世雙線裝裱 × 頂級毛玻璃質感 (完全剔除毛毛蟲，還原原圖仙氣)
            ========================================================================== */
         :root {
-            --paper-bg: #ece7dc;
+            --paper-bg: #eae5d9;
             --paper-card: rgba(246, 242, 234, 0.88);
             --ink-dark: #111215;
             --ink-main: #2a2d32;
@@ -42,10 +42,34 @@
             line-height: 1.6;
         }
 
-        /* 🌟 曠世仙境 Canvas：墨煙化龍 + 碎形層巒 + 靈氣流場 */
+        /* 🌟 背景 Canvas：承載水墨山水、煙彩流場與狂草滯墨 */
         #bgCanvas {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; pointer-events: none;
+        }
+
+        /* 🌟 墨龍原圖懸浮層：按照原圖完美呈現，帶有呼吸起伏與煙墨融合 */
+        .dragon-hero-visual {
+            position: fixed;
+            top: 45%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75vw; max-width: 900px;
+            height: 75vh;
+            z-index: -1;
+            pointer-events: none;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0.85;
+            mix-blend-mode: multiply; /* 讓白底完美融入宣紙背景 */
+            animation: dragonFloat 8s ease-in-out infinite alternate;
+        }
+        .dragon-hero-visual img {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+            filter: contrast(1.1) brightness(0.95);
+        }
+        @keyframes dragonFloat {
+            0% { transform: translate(-50%, -48%) scale(0.98); }
+            100% { transform: translate(-50%, -52%) scale(1.02); }
         }
 
         /* 頂部天地棋局橫幅 */
@@ -213,6 +237,10 @@
 </head>
 <body>
 
+    <div class="dragon-hero-visual">
+        <img src="dragon.png" alt="" onerror="this.style.display='none';">
+    </div>
+
     <canvas id="bgCanvas"></canvas>
     <div class="vertical-poetry">墨煙化龍凌瀚海・執印勝天半子棋</div>
 
@@ -225,8 +253,8 @@
     </div>
 
     <div class="sys-header">
-        <span class="sys-title">水墨終端 v2.5 // 狂草化龍</span>
-        <div class="sys-status"><span class="dot">●</span> <span>天道狀態：碎形山水仙境就緒 // 煙墨神龍與 IK 骨骼陣法遙測中</span></div>
+        <span class="sys-title">水墨終端 v2.5 // 傳世雙線裝裱</span>
+        <div class="sys-status"><span class="dot">●</span> <span>天道狀態：大氣層巒仙境就緒 // 墨彩靈氣與狂草滯墨遙測中</span></div>
     </div>
 
     <div class="hero-section">
@@ -420,14 +448,14 @@
             } catch(e){}
         }
 
-        // 🌟 2. 傳世仙境渲染引擎：煙墨神龍 (IK 骨骼 + 粒子) × 碎形層巒山水
+        // 🌟 2. 傳世仙境渲染引擎：大氣層巒山水 (不再敷衍) × 靈彩墨浪粒子 × 狂草滯墨
         function initMasterCanvas() {
             const canvas = document.getElementById("bgCanvas");
             const ctx = canvas.getContext("2d");
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            let mouseX = canvas.width * 0.55, mouseY = canvas.height * 0.35;
+            let mouseX = canvas.width * 0.5, mouseY = canvas.height * 0.5;
             let brushX = mouseX, brushY = mouseY;
             let trailX = mouseX, trailY = mouseY;
 
@@ -436,156 +464,42 @@
                 mouseY = e.clientY;
             });
 
-            // --- 碎形層巒山水生成 (Fractal Mountains with Mist) ---
-            function drawFractalMountain(layerIdx, baseHeight, amp, roughness, colorTop, colorBot) {
+            // --- 真正的大氣透視山水畫生成 (重寫，絕對不再是一條線) ---
+            function drawAtmosphericMountain(layerIdx, baseHeight, amp, roughness, colorTop, colorBot) {
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo(0, canvas.height);
-                for (let x = 0; x <= canvas.width + 10; x += 12) {
-                    // 混搭 4 層正弦與餘弦波模擬真實山巒的尖峰與平谷
-                    const n1 = Math.sin(x * 0.002 + layerIdx * 2.1) * amp;
-                    const n2 = Math.cos(x * 0.007 - layerIdx) * (amp * 0.45);
-                    const n3 = Math.sin(x * 0.018 + layerIdx * 1.5) * (amp * 0.2);
-                    const n4 = Math.cos(x * 0.045) * (amp * roughness);
+                for (let x = 0; x <= canvas.width + 10; x += 10) {
+                    // 混搭 4 層正弦與餘弦波，模擬高低起伏、山巒疊嶂的自然形態
+                    const n1 = Math.sin(x * 0.0015 + layerIdx * 2.1) * amp;
+                    const n2 = Math.cos(x * 0.006 - layerIdx) * (amp * 0.5);
+                    const n3 = Math.sin(x * 0.015 + layerIdx * 1.5) * (amp * 0.22);
+                    const n4 = Math.cos(x * 0.04) * (amp * roughness);
                     const y = canvas.height - baseHeight + n1 + n2 + n3 + n4;
                     ctx.lineTo(x, y);
                 }
                 ctx.lineTo(canvas.width, canvas.height);
                 ctx.closePath();
 
+                // 運用漸層與大氣透視，底部自然消融在宣紙霧靄中
                 const grad = ctx.createLinearGradient(0, canvas.height - baseHeight - amp, 0, canvas.height);
                 grad.addColorStop(0, colorTop);
-                grad.addColorStop(0.7, colorBot);
-                grad.addColorStop(1, "rgba(236, 231, 220, 0.95)"); // 融入紙色霧靄
+                grad.addColorStop(0.65, colorBot);
+                grad.addColorStop(1, "rgba(234, 229, 217, 0.98)");
                 ctx.fillStyle = grad;
                 ctx.fill();
                 ctx.restore();
             }
 
-            // --- 煙墨神龍 IK (反向運動學) 骨骼系統 ---
-            const dragonSegmentCount = 42;
-            const dragonNodes = Array.from({ length: dragonSegmentCount }, (_, i) => ({
-                x: canvas.width * 0.5 - i * 16,
-                y: canvas.height * 0.35
+            // --- 靈彩墨浪粒子流場 ---
+            const mistParticles = Array.from({ length: 65 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 45 + 20,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: -(Math.random() * 0.3 + 0.1),
+                alpha: Math.random() * 0.18 + 0.04
             }));
-            const dragonSmokes = [];
-            let dragonTimer = 0;
-
-            // 更新神龍 IK 骨骼與煙霧粒子
-            function updateDragon() {
-                dragonTimer += 0.018;
-                // 龍頭以利薩茹曲線 (Lissajous) 翱翔，並隨著滑鼠微調牽引
-                const targetX = canvas.width * 0.5 + Math.sin(dragonTimer * 0.6) * (canvas.width * 0.35) + (mouseX - canvas.width * 0.5) * 0.15;
-                const targetY = canvas.height * 0.35 + Math.cos(dragonTimer * 0.4) * 140 + Math.sin(dragonTimer * 1.2) * 40 + (mouseY - canvas.height * 0.5) * 0.15;
-
-                // 龍頭引領
-                dragonNodes[0].x += (targetX - dragonNodes[0].x) * 0.12;
-                dragonNodes[0].y += (targetY - dragonNodes[0].y) * 0.12;
-
-                // 骨骼約束：節點依序跟隨，保持一定間隔
-                for (let i = 1; i < dragonSegmentCount; i++) {
-                    const prev = dragonNodes[i - 1];
-                    const curr = dragonNodes[i];
-                    const dx = prev.x - curr.x;
-                    const dy = prev.y - curr.y;
-                    const angle = Math.atan2(dy, dx);
-                    const targetDist = 15; // 骨骼節點間距
-                    curr.x = prev.x - Math.cos(angle) * targetDist;
-                    curr.y = prev.y - Math.sin(angle) * targetDist;
-                }
-
-                // 產生隨機墨煙粒子 (參考圖中的濃郁飄墨效果)
-                for (let i = 2; i < dragonSegmentCount - 2; i += 3) {
-                    if (Math.random() < 0.45) {
-                        const node = dragonNodes[i];
-                        dragonSmokes.push({
-                            x: node.x + (Math.random() - 0.5) * 20,
-                            y: node.y + (Math.random() - 0.5) * 20,
-                            size: Math.random() * 28 + 12,
-                            vx: (Math.random() - 0.5) * 1.2 - 0.3,
-                            vy: (Math.random() - 0.5) * 0.8 - 0.5,
-                            alpha: Math.random() * 0.35 + 0.1,
-                            decay: Math.random() * 0.007 + 0.003
-                        });
-                    }
-                }
-            }
-
-            // 渲染神龍：水墨暈染軀幹 + 飄渺煙霧 + 龍目硃砂
-            function drawDragon() {
-                ctx.save();
-                
-                // 1. 先畫出四周迴盪的煙墨粒子
-                for (let i = dragonSmokes.length - 1; i >= 0; i--) {
-                    const s = dragonSmokes[i];
-                    s.x += s.vx; s.y += s.vy; s.size += 0.35; s.alpha -= s.decay;
-                    if (s.alpha <= 0) { dragonSmokes.splice(i, 1); continue; }
-                    
-                    const radGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size);
-                    radGrad.addColorStop(0, `rgba(17, 18, 21, ${s.alpha})`);
-                    radGrad.addColorStop(0.6, `rgba(42, 45, 50, ${s.alpha * 0.4})`);
-                    radGrad.addColorStop(1, "rgba(17, 18, 21, 0)");
-                    ctx.fillStyle = radGrad;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // 2. 畫神龍骨骼軀幹 (由粗至細有層次的狂草筆刷)
-                for (let i = 1; i < dragonSegmentCount; i++) {
-                    const prev = dragonNodes[i - 1];
-                    const curr = dragonNodes[i];
-                    const ratio = 1 - (i / dragonSegmentCount);
-                    const width = Math.pow(ratio, 0.7) * 44 + 3; // 龍身粗細遞減
-
-                    // 濃墨脊樑
-                    ctx.beginPath();
-                    ctx.moveTo(prev.x, prev.y);
-                    ctx.lineTo(curr.x, curr.y);
-                    ctx.lineCap = "round";
-                    ctx.lineWidth = width;
-                    ctx.strokeStyle = `rgba(17, 18, 21, ${0.12 + ratio * 0.25})`;
-                    ctx.stroke();
-
-                    // 焦墨中心線
-                    ctx.beginPath();
-                    ctx.moveTo(prev.x, prev.y);
-                    ctx.lineTo(curr.x, curr.y);
-                    ctx.lineWidth = width * 0.4;
-                    ctx.strokeStyle = `rgba(17, 18, 21, ${0.2 + ratio * 0.4})`;
-                    ctx.stroke();
-                }
-
-                // 3. 畫龍角與飄逸龍鬚
-                const head = dragonNodes[0];
-                const neck = dragonNodes[2];
-                const angle = Math.atan2(head.y - neck.y, head.x - neck.x);
-                
-                ctx.save();
-                ctx.translate(head.x, head.y);
-                ctx.rotate(angle);
-                
-                // 龍鬚 (草書寫意)
-                ctx.beginPath();
-                ctx.moveTo(0, 0); ctx.quadraticCurveTo(-25, -35, -60, -25);
-                ctx.moveTo(0, 0); ctx.quadraticCurveTo(-25, 35, -60, 25);
-                ctx.lineWidth = 2.5; ctx.strokeStyle = "rgba(17, 18, 21, 0.5)"; ctx.stroke();
-
-                // 龍角 (向後挺立)
-                ctx.beginPath();
-                ctx.moveTo(-5, -8); ctx.lineTo(-30, -28); ctx.lineTo(-22, -8);
-                ctx.moveTo(-5, 8); ctx.lineTo(-30, 28); ctx.lineTo(-22, 8);
-                ctx.fillStyle = "rgba(17, 18, 21, 0.6)"; ctx.fill();
-
-                // 硃砂龍眼 (點睛之筆)
-                ctx.fillStyle = "#9e1b1b";
-                ctx.shadowColor = "rgba(158, 27, 27, 0.8)"; ctx.shadowBlur = 10;
-                ctx.beginPath(); ctx.arc(6, -6, 4.5, 0, Math.PI * 2); ctx.fill();
-                ctx.beginPath(); ctx.arc(6, 6, 4.5, 0, Math.PI * 2); ctx.fill();
-                ctx.restore();
-
-                ctx.restore();
-            }
 
             // --- 滑鼠狂草滯墨系統 ---
             const inkStrokes = [];
@@ -593,15 +507,35 @@
             function renderFrame() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // 1. 渲染碎形山水 (4 層深遠景觀)
-                drawFractalMountain(1, 320, 110, 0.08, "rgba(17, 18, 21, 0.04)", "rgba(236, 231, 220, 0.85)");
-                drawFractalMountain(2, 220, 80,  0.12, "rgba(17, 18, 21, 0.08)", "rgba(236, 231, 220, 0.75)");
-                drawFractalMountain(3, 130, 55,  0.18, "rgba(17, 18, 21, 0.14)", "rgba(236, 231, 220, 0.6)");
-                drawFractalMountain(4, 50,  30,  0.25, "rgba(17, 18, 21, 0.22)", "rgba(236, 231, 220, 0.4)");
+                // 1. 渲染大氣透視山水 (由遠至近，4 層深遠山巒)
+                drawAtmosphericMountain(1, 340, 120, 0.08, "rgba(17, 18, 21, 0.03)", "rgba(234, 229, 217, 0.85)");
+                drawAtmosphericMountain(2, 240, 85,  0.12, "rgba(17, 18, 21, 0.06)", "rgba(234, 229, 217, 0.75)");
+                drawAtmosphericMountain(3, 140, 60,  0.18, "rgba(17, 18, 21, 0.11)", "rgba(234, 229, 217, 0.6)");
+                drawAtmosphericMountain(4, 50,  35,  0.25, "rgba(17, 18, 21, 0.18)", "rgba(234, 229, 217, 0.35)");
 
-                // 2. 更新與渲染煙墨神龍
-                updateDragon();
-                drawDragon();
+                // 2. 渲染雲海墨彩粒子
+                for (let p of mistParticles) {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.y < -50) { p.y = canvas.height + 50; p.x = Math.random() * canvas.width; }
+                    if (p.x < -50) p.x = canvas.width + 50;
+                    if (p.x > canvas.width + 50) p.x = -50;
+
+                    // 滑鼠靠近時產生氣流擾動
+                    const dist = Math.hypot(mouseX - p.x, mouseY - p.y);
+                    if (dist < 180) {
+                        p.x += (p.x - mouseX) * 0.015;
+                        p.y += (p.y - mouseY) * 0.015;
+                    }
+
+                    const radGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+                    radGrad.addColorStop(0, `rgba(26, 66, 51, ${p.alpha})`);
+                    radGrad.addColorStop(0.5, `rgba(17, 18, 21, ${p.alpha * 0.5})`);
+                    radGrad.addColorStop(1, "rgba(234, 229, 217, 0)");
+                    ctx.fillStyle = radGrad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
 
                 // 3. 滑鼠滯墨 Lerp 物理 (飛白與擴散)
                 brushX += (mouseX - brushX) * 0.06;
